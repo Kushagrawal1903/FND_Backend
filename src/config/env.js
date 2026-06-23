@@ -18,6 +18,14 @@ const envVarsSchema = joi.object()
     JWT_EXPIRES_IN: joi.string().default('7d').description('JWT Expiry duration'),
     GOOGLE_FACT_CHECK_API_KEY: joi.string().required().description('Google Fact Check Tools API Key'),
     DNS_SERVERS: joi.string().default('1.1.1.1,1.0.0.1,8.8.8.8,8.8.4.4').description('Custom DNS servers list'),
+    
+    // LLM Config
+    LLM_PROVIDER: joi.string().valid('gemini', 'groq').default('gemini').description('Primary LLM provider'),
+    LLM_FALLBACK_PROVIDER: joi.string().valid('gemini', 'groq').optional().description('Fallback LLM provider'),
+    GEMINI_API_KEY: joi.string().optional().description('Gemini API Key'),
+    GROQ_API_KEY: joi.string().optional().description('Groq API Key'),
+    LLM_TIMEOUT: joi.number().default(30000).description('LLM timeout in ms'),
+    LLM_MAX_RETRIES: joi.number().default(2).description('Max LLM retries'),
   })
   .unknown();
 
@@ -41,4 +49,12 @@ export const config = {
     factCheckApiKey: envVars.GOOGLE_FACT_CHECK_API_KEY,
   },
   dnsServers: envVars.DNS_SERVERS ? envVars.DNS_SERVERS.split(',').map(ip => ip.trim()) : ['1.1.1.1', '1.0.0.1', '8.8.8.8', '8.8.4.4'],
+  llm: {
+    provider: envVars.LLM_PROVIDER,
+    fallbackProvider: envVars.LLM_FALLBACK_PROVIDER,
+    geminiApiKey: envVars.GEMINI_API_KEY,
+    groqApiKey: envVars.GROQ_API_KEY,
+    timeout: envVars.LLM_TIMEOUT,
+    maxRetries: envVars.LLM_MAX_RETRIES,
+  }
 };

@@ -5,6 +5,8 @@ import credibilityService from './credibility.service.js';
 import explanationService from './explanation.service.js';
 import FactCheck from '../models/factCheck.model.js';
 import { VERDICTS } from '../config/constants.js';
+import llmService from './llm/llm.service.js';
+import { NotFoundError } from '../utils/errors.js';
 
 /**
  * Service to orchestrate the Fake News Verification Flow
@@ -24,10 +26,42 @@ class NewsService {
     const googleClaims = await googleFactCheckService.searchClaims(refinedClaim);
 
     // 3. Compute credibility rating and confidence score
-    const { verdict, confidence, sources } = credibilityService.calculateCredibility(googleClaims);
+    let { verdict, confidence, sources } = credibilityService.calculateCredibility(googleClaims);
 
     // 4. Generate natural-language explanation
-    const explanation = explanationService.generateExplanation(verdict, confidence, sources, refinedClaim);
+    let explanation;
+    if (verdict === VERDICTS.UNVERIFIED || !sources || sources.length === 0) {
+      try {
+        console.log(`[NEWS SERVICE] Claim not verified via Google Fact Check. Falling back to LLM analysis...`);
+        const llmResult = await llmService.analyzeNews(refinedClaim);
+        
+        let llmVerdict = String(llmResult.verdict).toLowerCase();
+        let mappedVerdict = VERDICTS.UNVERIFIED;
+        if (llmVerdict === 'real' || llmVerdict === 'true') {
+          mappedVerdict = VERDICTS.TRUE;
+        } else if (llmVerdict === 'fake' || llmVerdict === 'false') {
+          mappedVerdict = VERDICTS.FALSE;
+        } else if (llmVerdict === 'mixture') {
+          mappedVerdict = VERDICTS.MIXTURE;
+        }
+
+        verdict = mappedVerdict;
+        confidence = llmResult.confidence || 50;
+        sources = [
+          {
+            publisher: `AI Engine (${llmResult.provider})`,
+            url: 'https://truthlens.verify.info/ai-report',
+            verdict: mappedVerdict
+          }
+        ];
+        explanation = llmResult.summary || `AI Analysis determined this claim to be ${mappedVerdict} with ${confidence}% confidence.`;
+      } catch (llmError) {
+        console.error(`[NEWS SERVICE] LLM fallback analysis failed: ${llmError.message}`);
+        explanation = explanationService.generateExplanation(verdict, confidence, sources, refinedClaim);
+      }
+    } else {
+      explanation = explanationService.generateExplanation(verdict, confidence, sources, refinedClaim);
+    }
 
     // 5. Save the results to MongoDB
     const factCheck = await FactCheck.create({
@@ -106,6 +140,19 @@ class NewsService {
       extractedTitle: claimToVerify,
       verification: factCheck,
     };
+  }
+
+  /**
+   * Retrieve a specific fact-check record by ID
+   * @param {string} id - The MongoDB ObjectId of the FactCheck
+   * @returns {Promise<Object>} The FactCheck record
+   */
+  async getFactCheckById(id) {
+    const factCheck = await FactCheck.findById(id);
+    if (!factCheck) {
+      throw new NotFoundError('Fact-check record not found');
+    }
+    return factCheck;
   }
 }
 

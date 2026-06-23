@@ -12,5 +12,6 @@ router.use(verificationLimiter);
 router.post('/check', newsController.check);
 router.post('/analyze', newsController.analyze);
 router.post('/url-check', newsController.urlCheck);
+router.get('/check/:id', newsController.getFactCheck);
 
 export default router;

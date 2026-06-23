@@ -12,6 +12,9 @@ import adminRoutes from './routes/admin.routes.js';
 import reportsRoutes from './routes/reports.routes.js';
 import usersRoutes from './routes/users.routes.js';
 
+// Module route imports
+import newsAnalysisRoutes from './modules/news-analysis/routes/newsAnalysis.routes.js';
+
 const app = express();
 
 // Set security HTTP headers
@@ -51,6 +54,9 @@ app.use('/api/news', newsRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/users', usersRoutes);
+
+// Mount new modules
+app.use('/api/v1/news-analysis', newsAnalysisRoutes);
 
 // Handle undefined routes
 app.all('*', (req, res, next) => {

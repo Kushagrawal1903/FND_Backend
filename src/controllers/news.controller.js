@@ -33,6 +33,23 @@ class NewsController {
   }
 
   /**
+   * Get a specific fact-check by ID
+   */
+  async getFactCheck(req, res, next) {
+    try {
+      const { id } = req.params;
+      const factCheck = await newsService.getFactCheckById(id);
+
+      res.status(200).json({
+        status: 'success',
+        data: factCheck,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
    * Deep analysis of a text block (including keyword and word count analysis)
    */
   async analyze(req, res, next) {
