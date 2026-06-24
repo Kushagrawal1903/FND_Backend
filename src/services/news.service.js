@@ -4,6 +4,7 @@ import googleFactCheckService from './googleFactCheck.service.js';
 import credibilityService from './credibility.service.js';
 import explanationService from './explanation.service.js';
 import FactCheck from '../models/factCheck.model.js';
+import { sendTelegramMessage } from "./telegram.service.js";
 import { VERDICTS } from '../config/constants.js';
 
 /**
@@ -22,6 +23,8 @@ class NewsService {
 
     // 2. Query Google Fact Check API
     const googleClaims = await googleFactCheckService.searchClaims(refinedClaim);
+    console.log("CLAIM:", refinedClaim);
+console.log("GOOGLE CLAIMS:", JSON.stringify(googleClaims, null, 2));
 
     // 3. Compute credibility rating and confidence score
     const { verdict, confidence, sources } = credibilityService.calculateCredibility(googleClaims);
@@ -38,6 +41,18 @@ class NewsService {
       explanation,
       sources,
     });
+    await sendTelegramMessage(`
+🔍 New Verification
+
+Claim: ${refinedClaim}
+
+Verdict: ${verdict}
+
+Confidence: ${confidence}%
+
+Explanation:
+${explanation}
+`);
 
     return factCheck;
   }

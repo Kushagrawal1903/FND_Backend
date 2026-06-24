@@ -3,6 +3,8 @@ import app from './app.js';
 import connectDB from './config/db.js';
 import { config } from './config/env.js';
 
+import "./telegramBot.js";
+
 // Set DNS servers for MongoDB Atlas SRV resolution
 if (config.dnsServers && config.dnsServers.length > 0) {
   try {

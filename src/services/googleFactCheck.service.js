@@ -33,7 +33,21 @@ class GoogleFactCheckService {
       });
 
       // Google Fact Check API returns { claims: [...] } or an empty object if no matches
-      return response.data.claims || [];
+     const claims = response.data.claims || [];
+
+const filteredClaims = claims.filter((claim) => {
+  if (!claim.text) return false;
+
+  const claimText = claim.text.toLowerCase();
+  const searchText = query.toLowerCase();
+
+  return (
+    claimText.includes(searchText) ||
+    searchText.includes(claimText)
+  );
+});
+
+return filteredClaims;
     } catch (error) {
       console.error('Google Fact Check API request failed:', error.message);
       // Fallback to simulation to maintain service availability

@@ -57,4 +57,5 @@ factCheckSchema.index({ verdict: 1 });
 
 const FactCheck = mongoose.model('FactCheck', factCheckSchema);
 
+
 export default FactCheck;

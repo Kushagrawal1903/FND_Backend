@@ -1,7 +1,7 @@
 import newsService from '../services/news.service.js';
 import { checkSchema, analyzeSchema, urlCheckSchema } from '../validations/news.validation.js';
 import { BadRequestError } from '../utils/errors.js';
-
+import { agentExecutor } from '../agent/truthLensAgent.js';
 /**
  * Controller for News Claim Verification Endpoints
  */
@@ -80,7 +80,33 @@ class NewsController {
     } catch (error) {
       next(error);
     }
+    
+  }
+  /**
+ * AI Agent powered analysis
+ */
+async agentAnalyze(req, res, next) {
+  try {
+    const { claim } = req.body;
+
+    if (!claim) {
+      throw new BadRequestError('Claim is required');
+    }
+
+    const result = await agentExecutor.invoke({
+      input: claim,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: result,
+    });
+
+  } catch (error) {
+    next(error);
   }
 }
+}
+
 
 export default new NewsController();
