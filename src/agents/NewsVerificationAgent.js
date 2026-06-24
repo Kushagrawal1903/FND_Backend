@@ -377,6 +377,42 @@ Your response:`;
           verdict: `Credibility Score: ${ev.result.score}/100`,
         });
       }
+
+      // 3. Extract from WebSearchTool runs
+      if (ev.toolName === 'WebSearchTool' && ev.result?.results) {
+        ev.result.results.forEach(item => {
+          if (item.url) {
+            const key = `WebSearch-${item.url}`;
+            let publisherName = item.title;
+            if (!publisherName) {
+              try {
+                publisherName = new URL(item.url).hostname;
+              } catch (e) {
+                publisherName = 'Web Link';
+              }
+            }
+            sourcesMap.set(key, {
+              name: publisherName,
+              url: item.url,
+              verdict: `Web Match (Score: ${item.score ? Math.round(item.score * 100) : 'N/A'}%)`,
+            });
+          }
+        });
+      }
+
+      // 4. Extract from NewsSearchTool runs
+      if (ev.toolName === 'NewsSearchTool' && ev.result?.results) {
+        ev.result.results.forEach(item => {
+          if (item.url) {
+            const key = `NewsSearch-${item.url}`;
+            sourcesMap.set(key, {
+              name: item.publisher || item.title || 'News Link',
+              url: item.url,
+              verdict: `News Match`,
+            });
+          }
+        });
+      }
     });
 
     return Array.from(sourcesMap.values());

@@ -18,6 +18,7 @@ const envVarsSchema = joi.object()
     JWT_EXPIRES_IN: joi.string().default('7d').description('JWT Expiry duration'),
     GOOGLE_FACT_CHECK_API_KEY: joi.string().required().description('Google Fact Check Tools API Key'),
     DNS_SERVERS: joi.string().default('1.1.1.1,1.0.0.1,8.8.8.8,8.8.4.4').description('Custom DNS servers list'),
+    TAVILY_API_KEY: joi.string().required().description('Tavily Search API Key'),
     
     // LLM Config
     LLM_PROVIDER: joi.string().valid('gemini', 'groq').default('gemini').description('Primary LLM provider'),
@@ -48,6 +49,9 @@ export const config = {
   },
   google: {
     factCheckApiKey: envVars.GOOGLE_FACT_CHECK_API_KEY,
+  },
+  tavily: {
+    apiKey: envVars.TAVILY_API_KEY,
   },
   dnsServers: envVars.DNS_SERVERS ? envVars.DNS_SERVERS.split(',').map(ip => ip.trim()) : ['1.1.1.1', '1.0.0.1', '8.8.8.8', '8.8.4.4'],
   llm: {

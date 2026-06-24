@@ -1,17 +1,4 @@
-/**
- * WebSearchTool
- * 
- * Placeholder abstraction for performing general web searches about a claim.
- * 
- * WHY THIS EXISTS:
- * No external web search API is currently integrated. This tool provides a
- * structured placeholder so the agent framework is complete and the tool can
- * be expanded later (e.g., with SerpAPI, Brave Search, Google Custom Search)
- * without changing any agent code.
- * 
- * FUTURE EXTENSION:
- * Replace the execute() body with actual API calls. The interface stays the same.
- */
+import axios from 'axios';
 
 class WebSearchTool {
   constructor() {
@@ -20,21 +7,60 @@ class WebSearchTool {
   }
 
   /**
-   * Execute the web search tool
+   * Execute the web search tool using Tavily API
    * @param {string} input - The search query
-   * @returns {Promise<{results: Array, totalResults: number, note: string}>}
+   * @returns {Promise<{results: Array, totalResults: number, searchQuery: string, error?: string}>}
    */
   async execute(input) {
     console.log(`[WEB SEARCH TOOL] Searching for: "${input}"`);
-    console.log(`[WEB SEARCH TOOL] Note: This is a placeholder implementation.`);
 
-    // Placeholder response — structured so the agent can reason over it
-    return {
-      results: [],
-      totalResults: 0,
-      note: 'WebSearchTool is a placeholder. No external web search API is currently configured. To enable real web search, integrate an API (e.g., SerpAPI, Brave Search, Google Custom Search) and update this tool.',
-      searchQuery: input,
-    };
+    // Read API key from process.env.TAVILY_API_KEY
+    const apiKey = process.env.TAVILY_API_KEY;
+
+    if (!apiKey) {
+      const errorMsg = 'Tavily API key is not configured';
+      console.error(`[WEB SEARCH TOOL] Error: ${errorMsg}`);
+      return {
+        results: [],
+        totalResults: 0,
+        error: errorMsg,
+        searchQuery: input
+      };
+    }
+
+    try {
+      const response = await axios.post('https://api.tavily.com/search', {
+        api_key: apiKey,
+        query: input,
+        search_depth: 'advanced',
+        max_results: 5
+      });
+
+      const tavilyResults = response.data?.results || [];
+      const results = tavilyResults.map(item => ({
+        title: item.title || '',
+        url: item.url || '',
+        snippet: item.content || '',
+        score: item.score || 0
+      }));
+
+      console.log(`[WEB SEARCH TOOL] Results found: ${results.length}`);
+
+      return {
+        results,
+        totalResults: results.length,
+        searchQuery: input
+      };
+    } catch (error) {
+      const errorMsg = error.response?.data?.error || error.message;
+      console.error(`[WEB SEARCH TOOL] Error: ${errorMsg}`);
+      return {
+        results: [],
+        totalResults: 0,
+        error: errorMsg,
+        searchQuery: input
+      };
+    }
   }
 }
 
