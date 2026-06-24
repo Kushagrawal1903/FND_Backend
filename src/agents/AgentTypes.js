@@ -106,6 +106,16 @@ export const MAX_TOOL_FAILURES = 3;
  */
 
 /**
+ * @typedef {Object} VerificationPerformance
+ * @property {number} factCheckMs - Time spent in FactCheckTool
+ * @property {number} newsSearchMs - Time spent in NewsSearchTool
+ * @property {number} webSearchMs - Time spent in WebSearchTool
+ * @property {number} credibilityMs - Time spent in SourceCredibilityTool
+ * @property {number} llmAnalysisMs - Time spent in LLM Analysis (reasoning/planning/extraction)
+ * @property {number} totalMs - Total verification execution time
+ */
+
+/**
  * @typedef {Object} VerificationResult
  * @property {string} verdict - One of AGENT_VERDICTS values
  * @property {number} confidence - 0-100 confidence score
@@ -113,6 +123,7 @@ export const MAX_TOOL_FAILURES = 3;
  * @property {string[]} reasoning - Array of reasoning points supporting the verdict
  * @property {Evidence[]} evidence - All evidence collected during the reasoning loop
  * @property {Source[]} sources - All sources referenced in the verdict
+ * @property {VerificationPerformance} [timings] - Collected performance timing metrics
  */
 
 /**
@@ -136,6 +147,7 @@ export const MAX_TOOL_FAILURES = 3;
  * @property {number} iteration - Current iteration number
  * @property {string[]} reasoningLog - Log of reasoning steps
  * @property {number} toolFailures - Count of tool execution failures
+ * @property {VerificationPerformance} timings - Accumulated high-resolution timing metrics
  */
 
 /**

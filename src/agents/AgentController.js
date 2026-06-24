@@ -51,6 +51,7 @@ class AgentController {
           iterations: result.evidence.length,
           timestamp: new Date().toISOString(),
         },
+        timings: result.timings,
       };
     } catch (error) {
       const durationMs = Date.now() - startTime;
@@ -70,6 +71,13 @@ class AgentController {
           error: error.message,
           timestamp: new Date().toISOString(),
         },
+        timings: {
+          factCheckMs: 0.00,
+          newsSearchMs: 0.00,
+          webSearchMs: 0.00,
+          credibilityMs: 0.00,
+          llmAnalysisMs: 0.00,
+        }
       };
     }
   }

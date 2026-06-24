@@ -14,6 +14,7 @@
 
 import { AGENT_ACTIONS, AGENT_VERDICTS, MAX_ITERATIONS, MAX_TOOL_FAILURES } from './AgentTypes.js';
 import { safeParseJSON } from '../utils/jsonParser.js';
+import { startTimer, stopTimer } from '../utils/timer.js';
 
 class NewsVerificationAgent {
   /**
@@ -44,6 +45,13 @@ class NewsVerificationAgent {
       iteration: 0,
       reasoningLog: [],
       toolFailures: 0,
+      timings: {
+        factCheckMs: 0.00,
+        newsSearchMs: 0.00,
+        webSearchMs: 0.00,
+        credibilityMs: 0.00,
+        llmAnalysisMs: 0.00,
+      }
     };
 
     while (context.iteration < MAX_ITERATIONS) {
@@ -55,12 +63,15 @@ class NewsVerificationAgent {
 
       // 2. Ask LLM what to do next
       let responseText;
+      const llmStart = startTimer();
       try {
         responseText = await this.llmService.generateText(prompt);
       } catch (error) {
         console.error(`[AGENT] LLM generation failed: ${error.message}`);
         context.reasoningLog.push(`LLM call failed: ${error.message}`);
         break; // Fail gracefully or move to fallback
+      } finally {
+        context.timings.llmAnalysisMs += stopTimer(llmStart);
       }
 
       // 3. Parse and normalize LLM response
@@ -236,6 +247,7 @@ Your response:`;
     const tool = this.toolRegistry.get(toolName);
     console.log(`[AGENT] Executing tool ${toolName} with input: "${toolInput.substring(0, 100)}..."`);
 
+    const toolStart = startTimer();
     try {
       const resultData = await tool.execute(toolInput);
       context.evidence.push({
@@ -255,6 +267,9 @@ Your response:`;
         timestamp: new Date().toISOString(),
       });
       context.toolFailures++;
+    } finally {
+      const duration = stopTimer(toolStart);
+      this._accumulateToolTiming(toolName, duration, context.timings);
     }
   }
 
@@ -281,6 +296,7 @@ Your response:`;
       reasoning,
       evidence: context.evidence,
       sources,
+      timings: this._formatTimings(context.timings),
     };
   }
 
@@ -326,6 +342,7 @@ Your response:`;
       reasoning,
       evidence: context.evidence,
       sources,
+      timings: this._formatTimings(context.timings),
     };
   }
 
@@ -363,6 +380,41 @@ Your response:`;
     });
 
     return Array.from(sourcesMap.values());
+  }
+
+  /**
+   * Accumulates the duration of a tool execution into the correct context timings key.
+   * @param {string} toolName 
+   * @param {number} duration 
+   * @param {Object} timings 
+   * @private
+   */
+  _accumulateToolTiming(toolName, duration, timings) {
+    if (toolName === 'FactCheckTool') {
+      timings.factCheckMs += duration;
+    } else if (toolName === 'NewsSearchTool') {
+      timings.newsSearchMs += duration;
+    } else if (toolName === 'WebSearchTool') {
+      timings.webSearchMs += duration;
+    } else if (toolName === 'SourceCredibilityTool') {
+      timings.credibilityMs += duration;
+    }
+  }
+
+  /**
+   * Formats timings object values to have 2 decimal precision.
+   * @param {Object} timings 
+   * @returns {Object}
+   * @private
+   */
+  _formatTimings(timings) {
+    return {
+      factCheckMs: Number(timings.factCheckMs.toFixed(2)),
+      newsSearchMs: Number(timings.newsSearchMs.toFixed(2)),
+      webSearchMs: Number(timings.webSearchMs.toFixed(2)),
+      credibilityMs: Number(timings.credibilityMs.toFixed(2)),
+      llmAnalysisMs: Number(timings.llmAnalysisMs.toFixed(2)),
+    };
   }
 }
 

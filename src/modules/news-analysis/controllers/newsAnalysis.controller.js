@@ -62,7 +62,7 @@ class NewsAnalysisController {
       };
 
       console.log(`[CONTROLLER] Controller execution completed successfully`);
-      return responseFormatter.success(res, serializedResponse, 'Analysis completed successfully');
+      return responseFormatter.success(res, serializedResponse, 'Analysis completed successfully', 200, result.performance);
     } catch (error) {
       console.error(`[CONTROLLER] News analysis failed: ${error.message}`);
       next(error); // Pass to global error handler

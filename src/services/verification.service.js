@@ -79,6 +79,7 @@ class VerificationService {
       evidence: agentResult.evidence,
       diagnostics: agentResult.diagnostics,
     };
+    resultObject.timings = agentResult.timings;
 
     return resultObject;
   }

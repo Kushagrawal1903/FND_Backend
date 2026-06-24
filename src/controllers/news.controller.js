@@ -26,6 +26,14 @@ class NewsController {
       res.status(200).json({
         status: 'success',
         data: factCheck,
+        performance: factCheck.performance || {
+          factCheckMs: 0.00,
+          newsSearchMs: 0.00,
+          webSearchMs: 0.00,
+          credibilityMs: 0.00,
+          llmAnalysisMs: 0.00,
+          totalMs: 0.00,
+        },
       });
     } catch (error) {
       next(error);
@@ -68,6 +76,14 @@ class NewsController {
       res.status(200).json({
         status: 'success',
         data: analysisResult,
+        performance: (analysisResult.verification && analysisResult.verification.performance) || {
+          factCheckMs: 0.00,
+          newsSearchMs: 0.00,
+          webSearchMs: 0.00,
+          credibilityMs: 0.00,
+          llmAnalysisMs: 0.00,
+          totalMs: 0.00,
+        },
       });
     } catch (error) {
       next(error);
@@ -93,6 +109,14 @@ class NewsController {
       res.status(200).json({
         status: 'success',
         data: urlCheckResult,
+        performance: (urlCheckResult.verification && urlCheckResult.verification.performance) || {
+          factCheckMs: 0.00,
+          newsSearchMs: 0.00,
+          webSearchMs: 0.00,
+          credibilityMs: 0.00,
+          llmAnalysisMs: 0.00,
+          totalMs: 0.00,
+        },
       });
     } catch (error) {
       next(error);

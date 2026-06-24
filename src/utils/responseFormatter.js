@@ -10,12 +10,21 @@ export const responseFormatter = {
    * @param {string} message - Optional success message
    * @param {number} statusCode - HTTP status code (default: 200)
    */
-  success: (res, data, message = 'Success', statusCode = 200) => {
-    return res.status(statusCode).json({
+  success: (res, data, message = 'Success', statusCode = 200, performance = null) => {
+    const response = {
       status: 'success',
       message,
       data,
-    });
+    };
+    
+    // Automatically promote performance object to the root if passed or found in data
+    if (performance) {
+      response.performance = performance;
+    } else if (data && typeof data === 'object' && data.performance) {
+      response.performance = data.performance;
+    }
+    
+    return res.status(statusCode).json(response);
   },
 
   /**
