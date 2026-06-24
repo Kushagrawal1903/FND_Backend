@@ -1,0 +1,19 @@
+{
+  "0": "Package Dependencies",
+  "1": "Reports & Saved Articles",
+  "2": "Auth Controller",
+  "3": "Environment Config",
+  "4": "DB & Constants",
+  "5": "Architecture & Docs",
+  "6": "Admin Controller",
+  "7": "Admin Service",
+  "8": "Middleware & Rate Limits",
+  "9": "Admin Validation",
+  "11": "Claim Extraction Service",
+  "12": "User Controller",
+  "14": "News Service",
+  "15": "Graphify Tooling",
+  "16": "Community 16",
+  "17": "Community 17",
+  "18": "Community 18"
+}

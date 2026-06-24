@@ -26,6 +26,28 @@ export class GeminiProvider extends BaseProvider {
     return this.name;
   }
 
+  /**
+   * Sends a generic prompt to Gemini and returns the raw text response.
+   * @param {string} prompt - The full prompt text
+   * @returns {Promise<string>} Raw text response
+   */
+  async generate(prompt) {
+    try {
+      console.log(`[GEMINI] Generic generate request using model ${this.modelName}`);
+      const response = await this.ai.models.generateContent({
+        model: this.modelName,
+        contents: prompt,
+        config: {
+          temperature: this.options.temperature,
+        },
+      });
+      return response.text;
+    } catch (error) {
+      console.error(`[GEMINI] Error in generate: ${error.message}`);
+      throw error;
+    }
+  }
+
   async analyzeNews(newsText) {
     try {
       const apiKeyPresent = !!llmConfig.providers.gemini.apiKey;

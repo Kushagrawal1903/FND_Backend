@@ -97,6 +97,75 @@ class LLMService {
 
     throw lastError;
   }
+
+  /**
+   * Send a generic prompt through the configured LLM provider with fallback and retry.
+   * Used by the agent layer for planning and reasoning — not tied to any prompt template.
+   * @param {string} prompt - The full prompt text
+   * @returns {Promise<string>} Raw LLM response text
+   */
+  async generateText(prompt) {
+    const primaryName = llmConfig.provider;
+    const fallbackName = llmConfig.fallbackProvider;
+    const timeoutMs = llmConfig.timeout || 30000;
+    const maxRetries = llmConfig.maxRetries || 2;
+
+    console.log(`[LLM] generateText entered. Provider: ${primaryName}`);
+
+    // Try primary provider
+    try {
+      return await this._attemptGeneration(primaryName, prompt, timeoutMs, maxRetries);
+    } catch (primaryError) {
+      console.warn(`[LLM] Primary provider (${primaryName}) generateText failed: ${primaryError.message}`);
+
+      // Try fallback if configured and different from primary
+      if (fallbackName && fallbackName !== primaryName) {
+        console.log(`[LLM] generateText fallback: Attempting provider ${fallbackName}`);
+        try {
+          return await this._attemptGeneration(fallbackName, prompt, timeoutMs, maxRetries);
+        } catch (fallbackError) {
+          console.error(`[LLM] Fallback provider (${fallbackName}) generateText also failed: ${fallbackError.message}`);
+          throw new AppError('Text generation failed across all available AI providers', 503);
+        }
+      }
+
+      throw new AppError('Text generation failed, and no fallback provider is configured', 503);
+    }
+  }
+
+  /**
+   * Attempts text generation with a specific provider, including retry logic
+   * @private
+   */
+  async _attemptGeneration(providerName, prompt, timeoutMs, maxRetries) {
+    const provider = providerFactory.getProvider(providerName);
+    let lastError;
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        if (attempt > 1) {
+          console.log(`[LLM] generateText retry: Attempt ${attempt}/${maxRetries} for ${providerName}`);
+        }
+
+        const result = await this._withTimeout(
+          provider.generate(prompt),
+          timeoutMs
+        );
+
+        console.log(`[LLM] generateText successful with ${providerName}`);
+        return result;
+      } catch (error) {
+        lastError = error;
+        console.warn(`[LLM] Provider ${providerName} generate attempt ${attempt} failed: ${error.message}`);
+
+        if (error.message.includes('not configured')) {
+          throw error;
+        }
+      }
+    }
+
+    throw lastError;
+  }
 }
 
 export default new LLMService();

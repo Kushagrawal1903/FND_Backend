@@ -7,6 +7,8 @@ import FactCheck from '../models/factCheck.model.js';
 import { VERDICTS } from '../config/constants.js';
 import llmService from './llm/llm.service.js';
 import { NotFoundError } from '../utils/errors.js';
+import { config } from '../config/env.js';
+import verificationService from './verification.service.js';
 
 /**
  * Service to orchestrate the Fake News Verification Flow
@@ -19,6 +21,12 @@ class NewsService {
    * @returns {Promise<Object>} The saved FactCheck database record
    */
   async verifyClaim(rawClaim, userId = null) {
+    // Feature flag: route to agentic verification if enabled
+    if (config.agent && config.agent.enabled) {
+      console.log('[NEWS SERVICE] Agent mode enabled. Delegating to VerificationService...');
+      return verificationService.verifyClaimWithAgent(rawClaim, userId);
+    }
+
     // 1. Extract and clean the claim
     const refinedClaim = claimExtractionService.extractClaim(rawClaim);
 

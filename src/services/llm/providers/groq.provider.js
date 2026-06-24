@@ -26,6 +26,27 @@ export class GroqProvider extends BaseProvider {
     return this.name;
   }
 
+  /**
+   * Sends a generic prompt to Groq and returns the raw text response.
+   * @param {string} prompt - The full prompt text
+   * @returns {Promise<string>} Raw text response
+   */
+  async generate(prompt) {
+    try {
+      console.log(`[GROQ] Generic generate request using model ${this.modelName}`);
+      const response = await this.groq.chat.completions.create({
+        messages: [{ role: 'user', content: prompt }],
+        model: this.modelName,
+        temperature: this.options.temperature,
+        max_tokens: this.options.max_tokens,
+      });
+      return response.choices[0]?.message?.content || '';
+    } catch (error) {
+      console.error(`[GROQ] Error in generate: ${error.message}`);
+      throw error;
+    }
+  }
+
   async analyzeNews(newsText) {
     try {
       const apiKeyPresent = !!llmConfig.providers.groq.apiKey;

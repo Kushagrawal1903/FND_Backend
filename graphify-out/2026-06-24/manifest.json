@@ -2,7 +2,7 @@
   "package.json": {
     "mtime": 1782204435.2848783,
     "ast_hash": "eab5d770ce8d6de1eaae1cbc184eed0c",
-    "semantic_hash": "eab5d770ce8d6de1eaae1cbc184eed0c"
+    "semantic_hash": ""
   },
   "seedAdmin.js": {
     "mtime": 1782113584.3469281,
@@ -17,7 +17,7 @@
   "src/app.js": {
     "mtime": 1782204670.4997513,
     "ast_hash": "e2999798db6e3a0c488c3c179fab8c6b",
-    "semantic_hash": "e2999798db6e3a0c488c3c179fab8c6b"
+    "semantic_hash": ""
   },
   "src/config/constants.js": {
     "mtime": 1782112204.7611086,
@@ -30,9 +30,9 @@
     "semantic_hash": "00ec7728e916b91008af51458d8e3bfe"
   },
   "src/config/env.js": {
-    "mtime": 1782281273.2223806,
-    "ast_hash": "51e48f3ab6023d838b6326b33d60f641",
-    "semantic_hash": "51e48f3ab6023d838b6326b33d60f641"
+    "mtime": 1782204454.9309938,
+    "ast_hash": "54a4c216ffe765d136506d288c87b95e",
+    "semantic_hash": ""
   },
   "src/controllers/admin.controller.js": {
     "mtime": 1782113459.9700394,
@@ -47,7 +47,7 @@
   "src/controllers/news.controller.js": {
     "mtime": 1782207388.3830705,
     "ast_hash": "279bd6aa16e004eabfc099c1ead5c804",
-    "semantic_hash": "279bd6aa16e004eabfc099c1ead5c804"
+    "semantic_hash": ""
   },
   "src/controllers/report.controller.js": {
     "mtime": 1782113303.3564186,
@@ -112,7 +112,7 @@
   "src/routes/news.routes.js": {
     "mtime": 1782207379.767032,
     "ast_hash": "7cec23b0f83088a67c12a87b9c5fc043",
-    "semantic_hash": "7cec23b0f83088a67c12a87b9c5fc043"
+    "semantic_hash": ""
   },
   "src/routes/reports.routes.js": {
     "mtime": 1782113533.6323032,
@@ -165,9 +165,9 @@
     "semantic_hash": "1f89e8e910a73a540063d570d077aad6"
   },
   "src/services/news.service.js": {
-    "mtime": 1782281286.4669788,
-    "ast_hash": "8672e0c60af49d50ca15efdd0593245b",
-    "semantic_hash": "8672e0c60af49d50ca15efdd0593245b"
+    "mtime": 1782207402.8178923,
+    "ast_hash": "88f73c4c86f778db2f7d7a79e93e5c51",
+    "semantic_hash": ""
   },
   "src/services/report.service.js": {
     "mtime": 1782113156.1618936,
@@ -232,121 +232,76 @@
   "src/config/llm.config.js": {
     "mtime": 1782205759.090802,
     "ast_hash": "96b1d4111be1b1f5708328a2b497b415",
-    "semantic_hash": "96b1d4111be1b1f5708328a2b497b415"
+    "semantic_hash": ""
   },
   "src/modules/news-analysis/controllers/newsAnalysis.controller.js": {
     "mtime": 1782206053.0142038,
     "ast_hash": "125403e6fd3d7bc3e0d36919061bc32a",
-    "semantic_hash": "125403e6fd3d7bc3e0d36919061bc32a"
+    "semantic_hash": ""
   },
   "src/modules/news-analysis/models/analysisHistory.model.js": {
     "mtime": 1782204602.359935,
     "ast_hash": "1786302c692efb5f88840ae3493aedaa",
-    "semantic_hash": "1786302c692efb5f88840ae3493aedaa"
+    "semantic_hash": ""
   },
   "src/modules/news-analysis/routes/newsAnalysis.routes.js": {
     "mtime": 1782205982.405723,
     "ast_hash": "d431257fc4529652a1ca0f4b755e9653",
-    "semantic_hash": "d431257fc4529652a1ca0f4b755e9653"
+    "semantic_hash": ""
   },
   "src/modules/news-analysis/services/newsAnalysis.service.js": {
     "mtime": 1782205997.2013197,
     "ast_hash": "626cdcd1377641f04270c964fc22e159",
-    "semantic_hash": "626cdcd1377641f04270c964fc22e159"
+    "semantic_hash": ""
   },
   "src/modules/news-analysis/validators/newsAnalysis.validator.js": {
     "mtime": 1782206046.2947774,
     "ast_hash": "aea7f16c179d4cec917a2570251cf2a8",
-    "semantic_hash": "aea7f16c179d4cec917a2570251cf2a8"
+    "semantic_hash": ""
   },
   "src/services/llm/llm.service.js": {
-    "mtime": 1782281085.7443001,
-    "ast_hash": "3b7d1c467b79400af197a8a0cc568045",
-    "semantic_hash": "3b7d1c467b79400af197a8a0cc568045"
+    "mtime": 1782206009.5010016,
+    "ast_hash": "ed41239d68b75fa042cbc41e33e40f7c",
+    "semantic_hash": ""
   },
   "src/services/llm/prompts/fakeNews.prompt.js": {
     "mtime": 1782204479.8571987,
     "ast_hash": "697f5b5e5134a3957737477e1e8f31f8",
-    "semantic_hash": "697f5b5e5134a3957737477e1e8f31f8"
+    "semantic_hash": ""
   },
   "src/services/llm/providerFactory.js": {
     "mtime": 1782204704.5925643,
     "ast_hash": "378102f90d61de0961d96184d9d475ec",
-    "semantic_hash": "378102f90d61de0961d96184d9d475ec"
+    "semantic_hash": ""
   },
   "src/services/llm/providers/base.provider.js": {
-    "mtime": 1782281056.8436763,
-    "ast_hash": "1b7147a2916f6d52b7081888d4c2517c",
-    "semantic_hash": "1b7147a2916f6d52b7081888d4c2517c"
+    "mtime": 1782204477.686344,
+    "ast_hash": "e8eb93615c32daedba4fd0b66498585a",
+    "semantic_hash": ""
   },
   "src/services/llm/providers/gemini.provider.js": {
-    "mtime": 1782281060.7907183,
-    "ast_hash": "9fa9371f276f720678b20584061dc0cd",
-    "semantic_hash": "9fa9371f276f720678b20584061dc0cd"
+    "mtime": 1782206014.7867517,
+    "ast_hash": "014c4cde5eb2cd9c2fb0d373910dc4a7",
+    "semantic_hash": ""
   },
   "src/services/llm/providers/groq.provider.js": {
-    "mtime": 1782281062.810301,
-    "ast_hash": "2449d250d693f4a9159a5de1acf07617",
-    "semantic_hash": "2449d250d693f4a9159a5de1acf07617"
+    "mtime": 1782206024.9235656,
+    "ast_hash": "d6b12e92f69e424d0f05c62246b8d6d5",
+    "semantic_hash": ""
   },
   "src/utils/jsonParser.js": {
     "mtime": 1782204502.7609737,
     "ast_hash": "cb014bf99db15ec39799592fe1aab15e",
-    "semantic_hash": "cb014bf99db15ec39799592fe1aab15e"
+    "semantic_hash": ""
   },
   "src/utils/logger.js": {
     "mtime": 1782204531.9010124,
     "ast_hash": "9e328a828a727be06415b2cfb6fa61b2",
-    "semantic_hash": "9e328a828a727be06415b2cfb6fa61b2"
+    "semantic_hash": ""
   },
   "src/utils/responseFormatter.js": {
     "mtime": 1782204533.917267,
     "ast_hash": "6852f0284e2376acb47285f4a6eeadb6",
-    "semantic_hash": "6852f0284e2376acb47285f4a6eeadb6"
-  },
-  "src/agents/AgentController.js": {
-    "mtime": 1782281234.66714,
-    "ast_hash": "53cca8c5b66bdf0dca9a9de0dc80c25e",
-    "semantic_hash": "53cca8c5b66bdf0dca9a9de0dc80c25e"
-  },
-  "src/agents/AgentTypes.js": {
-    "mtime": 1782281130.8875556,
-    "ast_hash": "17de16a052a6fd137ab4f327e0d8c94f",
-    "semantic_hash": "17de16a052a6fd137ab4f327e0d8c94f"
-  },
-  "src/agents/NewsVerificationAgent.js": {
-    "mtime": 1782281228.2799523,
-    "ast_hash": "cdf6d4b00d42ac9382d8e37139430859",
-    "semantic_hash": "cdf6d4b00d42ac9382d8e37139430859"
-  },
-  "src/services/verification.service.js": {
-    "mtime": 1782281242.3679433,
-    "ast_hash": "4a6b9336fef4cdd5d45b3456af825cfa",
-    "semantic_hash": "4a6b9336fef4cdd5d45b3456af825cfa"
-  },
-  "src/tools/FactCheckTool.js": {
-    "mtime": 1782281153.20329,
-    "ast_hash": "7527738554d27515cdf88e1ac6ba96dd",
-    "semantic_hash": "7527738554d27515cdf88e1ac6ba96dd"
-  },
-  "src/tools/NewsSearchTool.js": {
-    "mtime": 1782281157.172974,
-    "ast_hash": "d246eaa8b7dabd82356258d85167664c",
-    "semantic_hash": "d246eaa8b7dabd82356258d85167664c"
-  },
-  "src/tools/SourceCredibilityTool.js": {
-    "mtime": 1782281189.5241144,
-    "ast_hash": "673ec96b2b5afff2ca0ecd77ee4252a9",
-    "semantic_hash": "673ec96b2b5afff2ca0ecd77ee4252a9"
-  },
-  "src/tools/ToolRegistry.js": {
-    "mtime": 1782281142.570632,
-    "ast_hash": "165aaae70e72dde935de6f9b8a446bcb",
-    "semantic_hash": "165aaae70e72dde935de6f9b8a446bcb"
-  },
-  "src/tools/WebSearchTool.js": {
-    "mtime": 1782281187.4791079,
-    "ast_hash": "05fcd196c6fdd0684703ea471963f2df",
-    "semantic_hash": "05fcd196c6fdd0684703ea471963f2df"
+    "semantic_hash": ""
   }
 }

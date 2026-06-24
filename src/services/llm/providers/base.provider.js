@@ -13,6 +13,16 @@ export class BaseProvider {
   }
 
   /**
+   * Sends a generic prompt to the LLM and returns the raw text response.
+   * Used by the agent layer for planning and reasoning — not tied to any specific prompt template.
+   * @param {string} prompt - The full prompt text to send
+   * @returns {Promise<string>} Raw text response from the LLM
+   */
+  async generate(prompt) {
+    throw new Error('Method "generate" must be implemented by subclass');
+  }
+
+  /**
    * Helper method to return the provider's identifier name
    * @returns {string} The name of the provider (e.g., 'gemini', 'groq')
    */
