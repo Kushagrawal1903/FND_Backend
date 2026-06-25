@@ -26,6 +26,13 @@ const envVarsSchema = joi.object()
     GROQ_API_KEY: joi.string().optional().description('Groq API Key'),
     LLM_TIMEOUT: joi.number().default(30000).description('LLM timeout in ms'),
     LLM_MAX_RETRIES: joi.number().default(2).description('Max LLM retries'),
+    ENABLE_AGENT_MODE: joi.boolean().default(false).description('Enable agent mode for legacy endpoints'),
+
+    // Search API keys (optional — agents return empty results without these)
+    WEB_SEARCH_API_KEY: joi.string().optional().allow('').description('Web search API key (e.g. Google Custom Search, Brave)'),
+    NEWS_SEARCH_API_KEY: joi.string().optional().allow('').description('News search API key (e.g. NewsAPI, GNews)'),
+    TAVILY_API_KEY: joi.string().optional().allow('').description('Tavily API Key for web search'),
+    NEWS_API_KEY: joi.string().optional().allow('').description('NewsAPI Key for news search'),
   })
   .unknown();
 
@@ -56,5 +63,8 @@ export const config = {
     groqApiKey: envVars.GROQ_API_KEY,
     timeout: envVars.LLM_TIMEOUT,
     maxRetries: envVars.LLM_MAX_RETRIES,
-  }
+  },
+  enableAgentMode: envVars.ENABLE_AGENT_MODE,
+  tavilyApiKey: envVars.TAVILY_API_KEY,
+  newsApiKey: envVars.NEWS_API_KEY,
 };

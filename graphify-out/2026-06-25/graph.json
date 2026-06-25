@@ -310,7 +310,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "seedadmin",
-      "community": 32,
+      "community": 3,
       "norm_label": "seedadmin.js"
     },
     {
@@ -320,7 +320,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "seedadmin_seedadmin",
-      "community": 32,
+      "community": 3,
       "norm_label": "seedadmin()"
     },
     {
@@ -350,7 +350,7 @@
       "source_location": "L218",
       "_origin": "ast",
       "id": "seednews_seednews",
-      "community": 32,
+      "community": 3,
       "norm_label": "seednews()"
     },
     {
@@ -907,7 +907,7 @@
       "label": "_searchCache",
       "file_type": "code",
       "source_file": "src/agents/tools/newsSearch.tool.js",
-      "source_location": "L7",
+      "source_location": "L6",
       "_origin": "ast",
       "id": "tools_newssearch_tool_searchcache",
       "community": 10,
@@ -917,7 +917,7 @@
       "label": "NewsSearchTool",
       "file_type": "code",
       "source_file": "src/agents/tools/newsSearch.tool.js",
-      "source_location": "L9",
+      "source_location": "L8",
       "_origin": "ast",
       "id": "tools_newssearch_tool_newssearchtool",
       "community": 31,
@@ -927,37 +927,17 @@
       "label": ".search()",
       "file_type": "code",
       "source_file": "src/agents/tools/newsSearch.tool.js",
-      "source_location": "L16",
+      "source_location": "L15",
       "_origin": "ast",
       "id": "tools_newssearch_tool_newssearchtool_search",
       "community": 31,
       "norm_label": ".search()"
     },
     {
-      "label": "._getFactCheckFallback()",
-      "file_type": "code",
-      "source_file": "src/agents/tools/newsSearch.tool.js",
-      "source_location": "L74",
-      "_origin": "ast",
-      "id": "tools_newssearch_tool_newssearchtool_getfactcheckfallback",
-      "community": 31,
-      "norm_label": "._getfactcheckfallback()"
-    },
-    {
-      "label": "._getFallbackResults()",
-      "file_type": "code",
-      "source_file": "src/agents/tools/newsSearch.tool.js",
-      "source_location": "L103",
-      "_origin": "ast",
-      "id": "tools_newssearch_tool_newssearchtool_getfallbackresults",
-      "community": 31,
-      "norm_label": "._getfallbackresults()"
-    },
-    {
       "label": "._getMockResults()",
       "file_type": "code",
       "source_file": "src/agents/tools/newsSearch.tool.js",
-      "source_location": "L116",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "tools_newssearch_tool_newssearchtool_getmockresults",
       "community": 31,
@@ -1057,7 +1037,7 @@
       "label": "_seenUrls",
       "file_type": "code",
       "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L7",
+      "source_location": "L6",
       "_origin": "ast",
       "id": "tools_websearch_tool_seenurls",
       "community": 10,
@@ -1067,7 +1047,7 @@
       "label": "_searchCache",
       "file_type": "code",
       "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L10",
+      "source_location": "L9",
       "_origin": "ast",
       "id": "tools_websearch_tool_searchcache",
       "community": 10,
@@ -1077,7 +1057,7 @@
       "label": "WebSearchTool",
       "file_type": "code",
       "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L12",
+      "source_location": "L11",
       "_origin": "ast",
       "id": "tools_websearch_tool_websearchtool",
       "community": 30,
@@ -1087,37 +1067,17 @@
       "label": ".search()",
       "file_type": "code",
       "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L19",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "tools_websearch_tool_websearchtool_search",
       "community": 30,
       "norm_label": ".search()"
     },
     {
-      "label": "._getFactCheckFallback()",
-      "file_type": "code",
-      "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L83",
-      "_origin": "ast",
-      "id": "tools_websearch_tool_websearchtool_getfactcheckfallback",
-      "community": 30,
-      "norm_label": "._getfactcheckfallback()"
-    },
-    {
-      "label": "._getFallbackResults()",
-      "file_type": "code",
-      "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L112",
-      "_origin": "ast",
-      "id": "tools_websearch_tool_websearchtool_getfallbackresults",
-      "community": 30,
-      "norm_label": "._getfallbackresults()"
-    },
-    {
       "label": "._getMockResults()",
       "file_type": "code",
       "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L125",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "tools_websearch_tool_websearchtool_getmockresults",
       "community": 30,
@@ -1127,7 +1087,7 @@
       "label": ".deduplicate()",
       "file_type": "code",
       "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L149",
+      "source_location": "L102",
       "_origin": "ast",
       "id": "tools_websearch_tool_websearchtool_deduplicate",
       "community": 30,
@@ -1310,7 +1270,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_app_app",
-      "community": 32,
+      "community": 3,
       "norm_label": "app"
     },
     {
@@ -1330,7 +1290,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "config_constants_roles",
-      "community": 32,
+      "community": 11,
       "norm_label": "roles"
     },
     {
@@ -1350,7 +1310,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "config_constants_report_status",
-      "community": 33,
+      "community": 9,
       "norm_label": "report_status"
     },
     {
@@ -1380,7 +1340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "config_db",
-      "community": 32,
+      "community": 3,
       "norm_label": "db.js"
     },
     {
@@ -1390,7 +1350,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "config_db_connectdb",
-      "community": 32,
+      "community": 3,
       "norm_label": "connectdb()"
     },
     {
@@ -1450,7 +1410,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "config_env_config",
-      "community": 32,
+      "community": 9,
       "norm_label": "config"
     },
     {
@@ -1830,7 +1790,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "controllers_report_controller",
-      "community": 35,
+      "community": 9,
       "norm_label": "report.controller.js"
     },
     {
@@ -1840,7 +1800,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "controllers_report_controller_reportcontroller",
-      "community": 35,
+      "community": 9,
       "norm_label": "reportcontroller"
     },
     {
@@ -1850,7 +1810,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "controllers_report_controller_reportcontroller_submitreport",
-      "community": 35,
+      "community": 9,
       "norm_label": ".submitreport()"
     },
     {
@@ -1860,7 +1820,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "controllers_report_controller_reportcontroller_getmyreports",
-      "community": 35,
+      "community": 9,
       "norm_label": ".getmyreports()"
     },
     {
@@ -1920,7 +1880,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "middleware_admin_middleware",
-      "community": 8,
+      "community": 11,
       "norm_label": "admin.middleware.js"
     },
     {
@@ -1930,7 +1890,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "middleware_admin_middleware_adminmiddleware",
-      "community": 8,
+      "community": 11,
       "norm_label": "adminmiddleware()"
     },
     {
@@ -1940,7 +1900,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "middleware_auth_middleware",
-      "community": 32,
+      "community": 9,
       "norm_label": "auth.middleware.js"
     },
     {
@@ -2120,7 +2080,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "models_report_model",
-      "community": 33,
+      "community": 9,
       "norm_label": "report.model.js"
     },
     {
@@ -2130,7 +2090,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "models_report_model_reportschema",
-      "community": 33,
+      "community": 9,
       "norm_label": "reportschema"
     },
     {
@@ -2140,7 +2100,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "models_report_model_report",
-      "community": 33,
+      "community": 9,
       "norm_label": "report"
     },
     {
@@ -2150,7 +2110,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "models_savedarticle_model",
-      "community": 34,
+      "community": 9,
       "norm_label": "savedarticle.model.js"
     },
     {
@@ -2160,7 +2120,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "models_savedarticle_model_savedarticleschema",
-      "community": 34,
+      "community": 9,
       "norm_label": "savedarticleschema"
     },
     {
@@ -2170,7 +2130,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "models_savedarticle_model_savedarticle",
-      "community": 34,
+      "community": 9,
       "norm_label": "savedarticle"
     },
     {
@@ -2180,7 +2140,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "models_user_model",
-      "community": 32,
+      "community": 9,
       "norm_label": "user.model.js"
     },
     {
@@ -2190,7 +2150,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "models_user_model_userschema",
-      "community": 32,
+      "community": 9,
       "norm_label": "userschema"
     },
     {
@@ -2200,7 +2160,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "models_user_model_user",
-      "community": 32,
+      "community": 9,
       "norm_label": "user"
     },
     {
@@ -2370,7 +2330,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "routes_admin_routes",
-      "community": 8,
+      "community": 11,
       "norm_label": "admin.routes.js"
     },
     {
@@ -2380,7 +2340,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "routes_admin_routes_router",
-      "community": 8,
+      "community": 11,
       "norm_label": "router"
     },
     {
@@ -2470,7 +2430,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_server",
-      "community": 32,
+      "community": 3,
       "norm_label": "server.js"
     },
     {
@@ -2480,7 +2440,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_server_server",
-      "community": 32,
+      "community": 3,
       "norm_label": "server"
     },
     {
@@ -2490,7 +2450,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_admin_service",
-      "community": 34,
+      "community": 9,
       "norm_label": "admin.service.js"
     },
     {
@@ -2710,7 +2670,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_analytics_service",
-      "community": 33,
+      "community": 9,
       "norm_label": "analytics.service.js"
     },
     {
@@ -2720,7 +2680,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "services_analytics_service_analyticsservice",
-      "community": 33,
+      "community": 9,
       "norm_label": "analyticsservice"
     },
     {
@@ -2730,7 +2690,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "services_analytics_service_analyticsservice_getsummarystats",
-      "community": 33,
+      "community": 9,
       "norm_label": ".getsummarystats()"
     },
     {
@@ -2740,7 +2700,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "services_analytics_service_analyticsservice_getrecentactivity",
-      "community": 33,
+      "community": 9,
       "norm_label": ".getrecentactivity()"
     },
     {
@@ -2900,7 +2860,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_explanation_service_explanationservice",
-      "community": 36,
+      "community": 10,
       "norm_label": "explanationservice"
     },
     {
@@ -2910,7 +2870,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "services_explanation_service_explanationservice_generateexplanation",
-      "community": 36,
+      "community": 10,
       "norm_label": ".generateexplanation()"
     },
     {
@@ -2920,7 +2880,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "services_explanation_service_explanationservice_truncatetext",
-      "community": 36,
+      "community": 10,
       "norm_label": "._truncatetext()"
     },
     {
@@ -2930,7 +2890,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "services_explanation_service_explanationservice_formatlist",
-      "community": 36,
+      "community": 10,
       "norm_label": "._formatlist()"
     },
     {
@@ -3300,7 +3260,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_report_service",
-      "community": 33,
+      "community": 9,
       "norm_label": "report.service.js"
     },
     {
@@ -3310,7 +3270,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_report_service_reportservice",
-      "community": 33,
+      "community": 9,
       "norm_label": "reportservice"
     },
     {
@@ -3320,7 +3280,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "services_report_service_reportservice_submitreport",
-      "community": 33,
+      "community": 9,
       "norm_label": ".submitreport()"
     },
     {
@@ -3330,7 +3290,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "services_report_service_reportservice_getuserreports",
-      "community": 33,
+      "community": 9,
       "norm_label": ".getuserreports()"
     },
     {
@@ -3340,7 +3300,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_user_service",
-      "community": 34,
+      "community": 9,
       "norm_label": "user.service.js"
     },
     {
@@ -3350,7 +3310,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_user_service_userservice",
-      "community": 37,
+      "community": 9,
       "norm_label": "userservice"
     },
     {
@@ -3360,7 +3320,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "services_user_service_userservice_savearticle",
-      "community": 37,
+      "community": 9,
       "norm_label": ".savearticle()"
     },
     {
@@ -3370,7 +3330,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "services_user_service_userservice_getsavedarticles",
-      "community": 37,
+      "community": 9,
       "norm_label": ".getsavedarticles()"
     },
     {
@@ -3380,7 +3340,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "services_user_service_userservice_deletesavedarticle",
-      "community": 37,
+      "community": 9,
       "norm_label": ".deletesavedarticle()"
     },
     {
@@ -3460,7 +3420,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "utils_errors_forbiddenerror",
-      "community": 34,
+      "community": 9,
       "norm_label": "forbiddenerror"
     },
     {
@@ -3470,7 +3430,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "utils_errors_forbiddenerror_constructor",
-      "community": 34,
+      "community": 9,
       "norm_label": ".constructor()"
     },
     {
@@ -3480,7 +3440,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "utils_errors_notfounderror",
-      "community": 34,
+      "community": 9,
       "norm_label": "notfounderror"
     },
     {
@@ -3490,7 +3450,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "utils_errors_notfounderror_constructor",
-      "community": 34,
+      "community": 9,
       "norm_label": ".constructor()"
     },
     {
@@ -3800,7 +3760,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "validations_report_validation",
-      "community": 35,
+      "community": 9,
       "norm_label": "report.validation.js"
     },
     {
@@ -3810,7 +3770,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "validations_report_validation_submitreportschema",
-      "community": 35,
+      "community": 9,
       "norm_label": "submitreportschema"
     },
     {
@@ -5981,28 +5941,6 @@
       "target": "utils_logger_logger"
     },
     {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/tools/newsSearch.tool.js",
-      "source_location": "L4",
-      "weight": 1.0,
-      "source": "tools_newssearch_tool",
-      "target": "tools_googlefactcheck_tool",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L4",
-      "weight": 1.0,
-      "source": "tools_websearch_tool",
-      "target": "tools_googlefactcheck_tool",
-      "confidence_score": 1.0
-    },
-    {
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/tools/googleFactCheck.tool.js",
@@ -6293,31 +6231,11 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/tools/newsSearch.tool.js",
-      "source_location": "L74",
-      "weight": 1.0,
-      "source": "tools_newssearch_tool_newssearchtool",
-      "target": "tools_newssearch_tool_newssearchtool_getfactcheckfallback",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/tools/newsSearch.tool.js",
-      "source_location": "L103",
-      "weight": 1.0,
-      "source": "tools_newssearch_tool_newssearchtool",
-      "target": "tools_newssearch_tool_newssearchtool_getfallbackresults",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/tools/newsSearch.tool.js",
       "source_location": "L69",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "tools_newssearch_tool_newssearchtool",
-      "target": "tools_newssearch_tool_newssearchtool_getmockresults"
+      "target": "tools_newssearch_tool_newssearchtool_getmockresults",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -6334,42 +6252,9 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/tools/newsSearch.tool.js",
-      "source_location": "L23",
-      "weight": 1.0,
-      "source": "tools_newssearch_tool_newssearchtool_search",
-      "target": "tools_newssearch_tool_newssearchtool_getfallbackresults",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/tools/newsSearch.tool.js",
       "source_location": "L22",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "tools_newssearch_tool_newssearchtool_search",
-      "target": "tools_newssearch_tool_newssearchtool_getmockresults"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/tools/newsSearch.tool.js",
-      "source_location": "L104",
-      "weight": 1.0,
-      "source": "tools_newssearch_tool_newssearchtool_getfallbackresults",
-      "target": "tools_newssearch_tool_newssearchtool_getfactcheckfallback",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/tools/newsSearch.tool.js",
-      "source_location": "L110",
-      "weight": 1.0,
-      "source": "tools_newssearch_tool_newssearchtool_getfallbackresults",
       "target": "tools_newssearch_tool_newssearchtool_getmockresults",
       "confidence_score": 1.0
     },
@@ -6586,31 +6471,11 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L83",
-      "weight": 1.0,
-      "source": "tools_websearch_tool_websearchtool",
-      "target": "tools_websearch_tool_websearchtool_getfactcheckfallback",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L112",
-      "weight": 1.0,
-      "source": "tools_websearch_tool_websearchtool",
-      "target": "tools_websearch_tool_websearchtool_getfallbackresults",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/tools/webSearch.tool.js",
       "source_location": "L78",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "tools_websearch_tool_websearchtool",
-      "target": "tools_websearch_tool_websearchtool_getmockresults"
+      "target": "tools_websearch_tool_websearchtool_getmockresults",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -6627,42 +6492,9 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L26",
-      "weight": 1.0,
-      "source": "tools_websearch_tool_websearchtool_search",
-      "target": "tools_websearch_tool_websearchtool_getfallbackresults",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/tools/webSearch.tool.js",
       "source_location": "L25",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "tools_websearch_tool_websearchtool_search",
-      "target": "tools_websearch_tool_websearchtool_getmockresults"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L113",
-      "weight": 1.0,
-      "source": "tools_websearch_tool_websearchtool_getfallbackresults",
-      "target": "tools_websearch_tool_websearchtool_getfactcheckfallback",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L119",
-      "weight": 1.0,
-      "source": "tools_websearch_tool_websearchtool_getfallbackresults",
       "target": "tools_websearch_tool_websearchtool_getmockresults",
       "confidence_score": 1.0
     },

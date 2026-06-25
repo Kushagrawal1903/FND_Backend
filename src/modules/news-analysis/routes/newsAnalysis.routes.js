@@ -21,6 +21,9 @@ router.use((req, res, next) => {
  * @desc Perform deep LLM-based analysis on news text
  * @access Private
  */
-router.post('/analyze', validateNewsAnalysis, newsAnalysisController.analyze);
+router.post('/analyze', (req, res, next) => {
+  console.log('[ROUTE] Received request on POST /api/v1/news-analysis/analyze');
+  next();
+}, validateNewsAnalysis, newsAnalysisController.analyze.bind(newsAnalysisController));
 
 export default router;

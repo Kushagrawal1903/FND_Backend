@@ -61,6 +61,7 @@ class NewsController {
       }
 
       const userId = req.user ? req.user._id : null;
+      console.log('[CONTROLLER] Entered legacy NewsController.analyze');
 
       // Delegate to service
       const analysisResult = await newsService.analyzeText(value.claim, userId);

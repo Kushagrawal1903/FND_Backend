@@ -7,6 +7,8 @@ import FactCheck from '../models/factCheck.model.js';
 import { VERDICTS } from '../config/constants.js';
 import llmService from './llm/llm.service.js';
 import { NotFoundError } from '../utils/errors.js';
+import { config as appConfig } from '../config/env.js';
+import fakeNewsWorkflow from '../agents/workflows/fakeNews.workflow.js';
 
 /**
  * Service to orchestrate the Fake News Verification Flow
@@ -19,6 +21,16 @@ class NewsService {
    * @returns {Promise<Object>} The saved FactCheck database record
    */
   async verifyClaim(rawClaim, userId = null) {
+    console.log('[SERVICE] Entered legacy NewsService.verifyClaim');
+    if (appConfig.enableAgentMode) {
+      console.log('[NEWS SERVICE] Agent mode enabled (via ENABLE_AGENT_MODE). Redirecting check to Agentic workflow...');
+      const agenticResult = await fakeNewsWorkflow.analyzeArticle({
+        articleText: rawClaim,
+        userId,
+      });
+      const factCheck = await FactCheck.findById(agenticResult.articleId);
+      return factCheck;
+    }
     // 1. Extract and clean the claim
     const refinedClaim = claimExtractionService.extractClaim(rawClaim);
 
@@ -83,6 +95,7 @@ class NewsService {
    * @returns {Promise<Object>} Verification results along with keyword analysis metadata
    */
   async analyzeText(text, userId = null) {
+    console.log('[SERVICE] Entered legacy NewsService.analyzeText');
     // Verify the claim extracted from text
     const factCheckRecord = await this.verifyClaim(text, userId);
 

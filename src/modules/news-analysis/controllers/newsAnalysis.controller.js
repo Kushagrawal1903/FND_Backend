@@ -4,26 +4,26 @@ import claimExtractionService from '../../../services/claimExtraction.service.js
 
 class NewsAnalysisController {
   /**
-   * Endpoint handler for deep AI analysis of news text
+   * Endpoint handler for deep AI analysis of news text.
+   * Now powered by the agentic pipeline.
    */
   async analyze(req, res, next) {
     try {
       const { newsText } = req.body;
       const userId = req.user ? req.user._id : null;
 
-      console.log(`[CONTROLLER] Entered news analysis controller`);
-      console.log(`[CONTROLLER] Request body: ${JSON.stringify(req.body)}`);
-      console.log(`[CONTROLLER] Authenticated user: ${userId || 'anonymous'}`);
+      console.log(`[CONTROLLER] Entered news analysis controller (agentic mode)`);
 
-      // Service call handles the complex LLM orchestration and database persistence
+      // Service call runs the full agentic orchestration pipeline
       const result = await newsAnalysisService.analyzeNews(newsText, userId);
 
-      console.log(`[CONTROLLER] LLM service result obtained. Structuring response for frontend...`);
+      // Extract the agentic result attached by the service
+      const agentic = result._agenticResult || result.analysis;
 
-      // Construct primary claim
-      const primaryClaim = (result.analysis.claims && result.analysis.claims[0]) || newsText;
+      // Construct primary claim from agentic claims
+      const primaryClaim = (agentic.claims && agentic.claims[0]?.text) || newsText;
 
-      // Map verdict to frontend expected values
+      // Map verdict to frontend expected values (backward-compatible)
       let mappedVerdict = 'unverified';
       const v = String(result.verdict).toLowerCase();
       if (v === 'real' || v === 'true') {
@@ -37,28 +37,39 @@ class NewsAnalysisController {
       // Generate keywords
       const keywords = claimExtractionService.extractKeywords(newsText, 5);
 
-      // Serialize response structure to match the frontend expectations
+      // Serialize response — backward-compatible shape + new agentic fields
       const serializedResponse = {
+        // ─── Existing shape (unchanged for frontend compatibility) ───
         verification: {
           _id: result._id,
           claim: primaryClaim,
           verdict: mappedVerdict,
           confidence: result.confidence,
-          explanation: result.analysis.summary || 'No summary available.',
-          sources: [
-            {
-              publisher: `AI Engine (${result.provider})`,
-              url: 'https://truthlens.verify.info/ai-report',
-              verdict: result.verdict
-            }
-          ],
-          createdAt: result.createdAt
+          explanation: agentic.reasoning?.join(' ') || 'No summary available.',
+          sources: this._buildSources(agentic),
+          createdAt: result.createdAt,
         },
         analysis: {
           extractedClaim: primaryClaim,
           keywords,
-          wordCount: newsText.split(/\s+/).filter(Boolean).length
-        }
+          wordCount: newsText.split(/\s+/).filter(Boolean).length,
+        },
+
+        // ─── New agentic fields (additive) ───
+        agenticAnalysis: {
+          articleId: agentic.articleId,
+          verdict: agentic.verdict,
+          confidence: agentic.confidence,
+          claims: agentic.claims || [],
+          sourceAnalysis: agentic.sourceAnalysis || {},
+          factCheckResults: agentic.factCheckResults || [],
+          researchResults: agentic.researchResults || {},
+          biasAnalysis: agentic.biasAnalysis || {},
+          evidenceSummary: agentic.evidenceSummary || {},
+          reasoning: agentic.reasoning || [],
+          agentExecutionSummary: agentic.agentExecutionSummary || [],
+          totalExecutionTimeMs: agentic.totalExecutionTimeMs,
+        },
       };
 
       console.log(`[CONTROLLER] Controller execution completed successfully`);
@@ -68,6 +79,34 @@ class NewsAnalysisController {
       next(error); // Pass to global error handler
     }
   }
+
+  /**
+   * Build sources array for backward-compatible response.
+   */
+  _buildSources(agentic) {
+    const sources = [];
+
+    // Pull from fact-check results if available
+    if (agentic.factCheckResults) {
+      agentic.factCheckResults.forEach(fc => {
+        if (fc.sources) {
+          fc.sources.forEach(s => sources.push(s));
+        }
+      });
+    }
+
+    // Fallback
+    if (sources.length === 0) {
+      sources.push({
+        publisher: 'Agentic AI Pipeline',
+        url: '',
+        verdict: agentic.verdict || 'unverified',
+      });
+    }
+
+    return sources;
+  }
 }
 
 export default new NewsAnalysisController();
+

@@ -10,7 +10,10 @@ router.use(authMiddleware);
 router.use(verificationLimiter);
 
 router.post('/check', newsController.check);
-router.post('/analyze', newsController.analyze);
+router.post('/analyze', (req, res, next) => {
+  console.log('[ROUTE] Received request on POST /api/news/analyze');
+  next();
+}, newsController.analyze);
 router.post('/url-check', newsController.urlCheck);
 router.get('/check/:id', newsController.getFactCheck);
 

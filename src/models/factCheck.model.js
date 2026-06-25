@@ -32,6 +32,7 @@ const factCheckSchema = new mongoose.Schema(
       type: String,
       enum: Object.values(VERDICTS),
       required: [true, 'Verdict is required'],
+      set: (v) => v?.toLowerCase(), // normalize to lowercase
     },
     confidence: {
       type: Number,
