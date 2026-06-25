@@ -30,9 +30,9 @@
     "semantic_hash": "00ec7728e916b91008af51458d8e3bfe"
   },
   "src/config/env.js": {
-    "mtime": 1782368472.693249,
-    "ast_hash": "0e5333ec0661649555260b273c200d7d",
-    "semantic_hash": "0e5333ec0661649555260b273c200d7d"
+    "mtime": 1782379459.555158,
+    "ast_hash": "9501b8059f820559c21c551e0b1e887e",
+    "semantic_hash": ""
   },
   "src/controllers/admin.controller.js": {
     "mtime": 1782113459.9700394,
@@ -220,9 +220,9 @@
     "semantic_hash": "637776aa6f7496d069afe7520c845c8a"
   },
   "README.md": {
-    "mtime": 1782113622.43294,
-    "ast_hash": "1078c6bf4dcb6ed1a2e624ea7e9ba7cc",
-    "semantic_hash": "1078c6bf4dcb6ed1a2e624ea7e9ba7cc"
+    "mtime": 1782379459.5593314,
+    "ast_hash": "3c939b199f5ee19f3208fdb8c70332b2",
+    "semantic_hash": ""
   },
   "agents.md": {
     "mtime": 1782200434.7493725,
@@ -305,9 +305,9 @@
     "semantic_hash": "d167c9562f4eb265119972203565e236"
   },
   "src/services/verification.service.js": {
-    "mtime": 1782368288.3979204,
-    "ast_hash": "dc72722b00cfa8f60615535486e4a78f",
-    "semantic_hash": "dc72722b00cfa8f60615535486e4a78f"
+    "mtime": 1782371278.1699355,
+    "ast_hash": "edbb5b39c45e321b056431eff7190063",
+    "semantic_hash": ""
   },
   "src/tools/FactCheckTool.js": {
     "mtime": 1782368288.3979204,
@@ -325,9 +325,9 @@
     "semantic_hash": "d27ca7234d21aba84f62da222cb1fc70"
   },
   "src/tools/ToolRegistry.js": {
-    "mtime": 1782368288.3979204,
-    "ast_hash": "5652327632a56c6d3925bc75699a8e43",
-    "semantic_hash": "5652327632a56c6d3925bc75699a8e43"
+    "mtime": 1782378633.611235,
+    "ast_hash": "9ce45ab172ff9047e1fd8b1f39fe0c0d",
+    "semantic_hash": ""
   },
   "src/tools/WebSearchTool.js": {
     "mtime": 1782296592.3446958,
@@ -345,44 +345,44 @@
     "semantic_hash": "f289a8161aa56d0978714679f9aecb9a"
   },
   "src/agents/credibility.agent.js": {
-    "mtime": 1782368155.4853451,
-    "ast_hash": "05cc79207279bd8e9403f6e296732b6f",
-    "semantic_hash": "05cc79207279bd8e9403f6e296732b6f"
+    "mtime": 1782378818.646486,
+    "ast_hash": "2dcb34aad2949f5036d6019590138a2c",
+    "semantic_hash": ""
   },
   "src/agents/evidence.agent.js": {
-    "mtime": 1782368498.7758343,
-    "ast_hash": "f6ef8d42fc7c20ecb66f1eb6237d9e8b",
-    "semantic_hash": "f6ef8d42fc7c20ecb66f1eb6237d9e8b"
+    "mtime": 1782380710.9691727,
+    "ast_hash": "7ea50c9accfe683070b686c1d2a414d6",
+    "semantic_hash": ""
   },
   "src/agents/planner.agent.js": {
-    "mtime": 1782368155.4830775,
-    "ast_hash": "4e06309f3074e50ca4a66d2afb51b195",
-    "semantic_hash": "4e06309f3074e50ca4a66d2afb51b195"
+    "mtime": 1782380588.9106915,
+    "ast_hash": "6f6e6ca09464db026c57a9c1f7a1d401",
+    "semantic_hash": ""
   },
   "src/agents/reasoning.agent.js": {
-    "mtime": 1782368155.4853451,
-    "ast_hash": "ac8083fe211e830cdd8df28fc7f4d4c4",
-    "semantic_hash": "ac8083fe211e830cdd8df28fc7f4d4c4"
+    "mtime": 1782379517.3190038,
+    "ast_hash": "6724864e935b9f30390b75a9ad3a4f0e",
+    "semantic_hash": ""
   },
   "src/agents/report.agent.js": {
-    "mtime": 1782368155.4853451,
-    "ast_hash": "5fdfcb578a8a63a2652f81e6a611220e",
-    "semantic_hash": "5fdfcb578a8a63a2652f81e6a611220e"
+    "mtime": 1782378818.6501386,
+    "ast_hash": "0ed8ec0cc49773a3b39aaef3b0a326f3",
+    "semantic_hash": ""
   },
   "src/agents/verification.agent.js": {
-    "mtime": 1782368155.4853451,
-    "ast_hash": "9e1602ce753d255b68bdbb113a91dc69",
-    "semantic_hash": "9e1602ce753d255b68bdbb113a91dc69"
+    "mtime": 1782380588.922152,
+    "ast_hash": "794f0a3f2b5840c36f03a2e7bfa6fc6c",
+    "semantic_hash": ""
   },
   "src/orchestrator/agent.orchestrator.js": {
-    "mtime": 1782368233.027059,
-    "ast_hash": "36d34eba2d7498909e1e28416e4d0ee7",
-    "semantic_hash": "36d34eba2d7498909e1e28416e4d0ee7"
+    "mtime": 1782380588.922152,
+    "ast_hash": "fb4f1185eaab5056e3ed90e41c3d605c",
+    "semantic_hash": ""
   },
   "src/orchestrator/workflow.state.js": {
-    "mtime": 1782367903.1627252,
-    "ast_hash": "3def68b8bccc7d1ccceeeb2f8a357d9d",
-    "semantic_hash": "3def68b8bccc7d1ccceeeb2f8a357d9d"
+    "mtime": 1782379517.3209546,
+    "ast_hash": "1a58e79aff70ea3fe669cd87bbb6d17d",
+    "semantic_hash": ""
   },
   "src/tools/domainCredibility.tool.js": {
     "mtime": 1782367831.6879265,
@@ -403,5 +403,15 @@
     "mtime": 1782367831.6879265,
     "ast_hash": "aac33ae2c9e98a7202708521f6abcec7",
     "semantic_hash": "aac33ae2c9e98a7202708521f6abcec7"
+  },
+  "src/tools/gnews.tool.js": {
+    "mtime": 1782380267.8148801,
+    "ast_hash": "db8cb15d3960fb57f3f72bc7cc0e4ae1",
+    "semantic_hash": ""
+  },
+  "src/utils/evidencePreparer.js": {
+    "mtime": 1782379517.3190038,
+    "ast_hash": "ae574e0652e572f1b8a8b2e1dc00f078",
+    "semantic_hash": ""
   }
 }
