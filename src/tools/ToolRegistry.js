@@ -2,8 +2,8 @@
  * Tool Registry
  * 
  * Manages registration and discovery of all tools available to the
- * NewsVerificationAgent. Provides formatted tool descriptions for
- * injection into the LLM planning prompt.
+ * orchestrated verification workflow. Provides formatted tool descriptions for
+ * any agent that needs provider metadata.
  * 
  * WHY THIS EXISTS:
  * The agent needs to know what tools are available and what each tool does.
@@ -12,10 +12,10 @@
  * without modifying agent code.
  */
 
-import FactCheckTool from './FactCheckTool.js';
-import NewsSearchTool from './NewsSearchTool.js';
-import WebSearchTool from './WebSearchTool.js';
-import SourceCredibilityTool from './SourceCredibilityTool.js';
+import GoogleFactCheckTool from './googleFactCheck.tool.js';
+import NewsSearchTool from './newsSearch.tool.js';
+import WebSearchTool from './webSearch.tool.js';
+import DomainCredibilityTool from './domainCredibility.tool.js';
 
 class ToolRegistry {
   constructor() {
@@ -81,10 +81,10 @@ class ToolRegistry {
    */
   static createDefault() {
     const registry = new ToolRegistry();
-    registry.register(new FactCheckTool());
+    registry.register(new GoogleFactCheckTool());
     registry.register(new NewsSearchTool());
     registry.register(new WebSearchTool());
-    registry.register(new SourceCredibilityTool());
+    registry.register(new DomainCredibilityTool());
     return registry;
   }
 }

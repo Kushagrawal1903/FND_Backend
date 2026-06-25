@@ -27,7 +27,7 @@ const envVarsSchema = joi.object()
     GROQ_API_KEY: joi.string().optional().description('Groq API Key'),
     LLM_TIMEOUT: joi.number().default(30000).description('LLM timeout in ms'),
     LLM_MAX_RETRIES: joi.number().default(2).description('Max LLM retries'),
-    ENABLE_AGENT_MODE: joi.boolean().default(false).description('Enable agentic verification mode'),
+    ENABLE_AGENT_MODE: joi.boolean().default(true).description('Enable agentic verification mode'),
   })
   .unknown();
 

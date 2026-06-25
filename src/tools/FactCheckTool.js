@@ -2,7 +2,7 @@
  * FactCheckTool
  * 
  * Wraps the existing Google Fact Check API integration and credibility
- * scoring service as a tool callable by the NewsVerificationAgent.
+ * scoring service as a reusable evidence tool.
  * 
  * WHY THIS EXISTS:
  * The Google Fact Check integration already exists in googleFactCheck.service.js

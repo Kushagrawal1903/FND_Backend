@@ -3,7 +3,7 @@
  * 
  * Orchestration service that bridges the existing controller layer with the agentic
  * verification flow. Receives verification requests, extracts claims, triggers the
- * autonomous NewsVerificationAgent loop, maps the agent results to the database schema,
+ * master agent orchestrator, maps the agent results to the database schema,
  * and persists them.
  * 
  * WHY THIS EXISTS:
@@ -17,10 +17,9 @@
  */
 
 import claimExtractionService from './claimExtraction.service.js';
-import agentController from '../agents/AgentController.js';
+import agentOrchestrator from '../orchestrator/agent.orchestrator.js';
 import FactCheck from '../models/factCheck.model.js';
 import { VERDICTS } from '../config/constants.js';
-import { AGENT_VERDICTS } from '../agents/AgentTypes.js';
 
 class VerificationService {
   /**
@@ -35,23 +34,28 @@ class VerificationService {
     // 1. Extract core claim
     const refinedClaim = claimExtractionService.extractClaim(rawClaim);
 
-    // 2. Delegate to the agent controller
-    const agentResult = await agentController.runVerification(rawClaim, refinedClaim);
+    // 2. Delegate to the master orchestrator. The orchestrator is the only module
+    // coordinating agents and owns retries, state, and execution history.
+    const agentResult = await agentOrchestrator.verify({
+      originalInput: rawClaim,
+      refinedClaim,
+    });
 
     // 3. Map Agent verdicts to existing database VERDICTS schema
     const mappedVerdict = this._mapAgentVerdictToDb(agentResult.verdict);
 
     // 4. Transform agent sources to match database source schema
-    const mappedSources = agentResult.sources.map(src => ({
-      publisher: src.name,
+    const references = agentResult.references || [];
+    const mappedSources = references.map(src => ({
+      publisher: src.publisher || src.name || 'Referenced Source',
       url: src.url,
       verdict: src.verdict || 'Unrated',
-    }));
+    })).filter(src => src.url);
 
     // If there were no sources, add a placeholder indicating the agent did the review
     if (mappedSources.length === 0) {
       mappedSources.push({
-        publisher: 'NewsVerificationAgent',
+        publisher: 'AgentOrchestrator',
         url: 'https://truthlens.verify.info/agent-report',
         verdict: agentResult.verdict,
       });
@@ -67,7 +71,6 @@ class VerificationService {
       confidence: agentResult.confidence,
       explanation: agentResult.summary,
       sources: mappedSources,
-      // Store agent's full diagnostics, reasoning, and evidence in a metadata field or just log it
     });
 
     // Attach agent reasoning context to the returned object so that it could be returned
@@ -77,9 +80,13 @@ class VerificationService {
       rawVerdict: agentResult.verdict,
       reasoning: agentResult.reasoning,
       evidence: agentResult.evidence,
-      diagnostics: agentResult.diagnostics,
+      credibility: agentResult.credibility,
+      executionMetadata: agentResult.executionMetadata,
+      workflowState: agentResult.workflowState,
     };
     resultObject.timings = agentResult.timings;
+
+    this._assertSerializable(resultObject, 'VerificationService result');
 
     return resultObject;
   }
@@ -92,17 +99,24 @@ class VerificationService {
    */
   _mapAgentVerdictToDb(agentVerdict) {
     switch (agentVerdict) {
-      case AGENT_VERDICTS.TRUE:
-      case AGENT_VERDICTS.LIKELY_TRUE:
+      case 'True':
+      case 'Likely True':
         return VERDICTS.TRUE;
-      case AGENT_VERDICTS.FALSE:
-      case AGENT_VERDICTS.LIKELY_FALSE:
+      case 'False':
+      case 'Likely False':
         return VERDICTS.FALSE;
-      case AGENT_VERDICTS.MIXED:
+      case 'Mixed':
         return VERDICTS.MIXTURE;
-      case AGENT_VERDICTS.INSUFFICIENT_EVIDENCE:
       default:
         return VERDICTS.UNVERIFIED;
+    }
+  }
+
+  _assertSerializable(value, label) {
+    try {
+      JSON.stringify(value);
+    } catch (error) {
+      throw new Error(`${label} is not JSON serializable. Circular reference or unsupported value detected: ${error.message}`);
     }
   }
 }

@@ -1,178 +1,207 @@
 /**
  * SourceCredibilityTool
- * 
- * Evaluates the credibility of a URL or domain based on multiple heuristic
- * signals. Produces a 0-100 score with detailed reasoning.
- * 
- * WHY THIS EXISTS:
- * When the agent encounters URLs or source references, it needs to assess
- * whether those sources are trustworthy. This tool provides a lightweight,
- * deterministic scoring system — no external API calls required.
- * 
- * SCORING CRITERIA:
- * - HTTPS protocol (+15 points)
- * - Known reputable news domains (+30 points)
- * - Government domain .gov (+25 points)
- * - Educational domain .edu (+20 points)
- * - Known fact-checking organizations (+25 points)
- * - Suspicious TLD penalties (-15 points)
- * - Short/random domain name penalties (-10 points)
+ *
+ * Deterministically evaluates the credibility of a URL or domain. The scoring
+ * weights and trusted domain lists are configurable through the constructor, so
+ * future source policies can change without touching agent code.
  */
 
-/** Set of known reputable news and media domains */
-const REPUTABLE_DOMAINS = new Set([
-  // Major wire services
-  'reuters.com', 'apnews.com', 'afp.com',
-  // US major outlets
-  'nytimes.com', 'washingtonpost.com', 'wsj.com', 'usatoday.com',
-  'npr.org', 'pbs.org', 'abcnews.go.com', 'cbsnews.com', 'nbcnews.com',
-  'cnn.com', 'foxnews.com', 'msnbc.com', 'bbc.com', 'bbc.co.uk',
-  // International
-  'theguardian.com', 'economist.com', 'ft.com', 'aljazeera.com',
-  'dw.com', 'france24.com', 'abc.net.au', 'cbc.ca',
-  // India
-  'thehindu.com', 'indianexpress.com', 'ndtv.com', 'hindustantimes.com',
-  'timesofindia.indiatimes.com', 'livemint.com',
-  // Science and tech
-  'nature.com', 'sciencemag.org', 'thelancet.com', 'nejm.org',
-  'scientificamerican.com', 'wired.com', 'techcrunch.com',
-]);
+export const DEFAULT_SOURCE_CREDIBILITY_CONFIG = Object.freeze({
+  baseScore: 50,
+  weights: {
+    https: 15,
+    noHttps: -5,
+    reputableDomain: 30,
+    factCheckDomain: 25,
+    governmentDomain: 25,
+    educationalDomain: 20,
+    organizationDomain: 5,
+    suspiciousTld: -15,
+    shortDomain: -10,
+    excessiveHyphens: -10,
+    numericHeavyDomain: -10,
+  },
+  reputableDomains: [
+    'reuters.com', 'apnews.com', 'afp.com',
+    'nytimes.com', 'washingtonpost.com', 'wsj.com', 'usatoday.com',
+    'npr.org', 'pbs.org', 'abcnews.go.com', 'cbsnews.com', 'nbcnews.com',
+    'cnn.com', 'foxnews.com', 'msnbc.com', 'bbc.com', 'bbc.co.uk',
+    'theguardian.com', 'economist.com', 'ft.com', 'aljazeera.com',
+    'dw.com', 'france24.com', 'abc.net.au', 'cbc.ca',
+    'thehindu.com', 'indianexpress.com', 'ndtv.com', 'hindustantimes.com',
+    'timesofindia.indiatimes.com', 'livemint.com',
+    'nature.com', 'sciencemag.org', 'thelancet.com', 'nejm.org',
+    'scientificamerican.com', 'wired.com', 'techcrunch.com',
+  ],
+  factCheckDomains: [
+    'politifact.com', 'snopes.com', 'factcheck.org', 'fullfact.org',
+    'altnews.in', 'boomlive.in', 'vishvasnews.com', 'thequint.com',
+    'checkyourfact.com', 'leadstories.com',
+  ],
+  suspiciousTlds: [
+    '.xyz', '.top', '.buzz', '.click', '.link', '.win', '.gq', '.cf',
+    '.tk', '.ml', '.ga', '.info', '.biz', '.pw', '.cc',
+  ],
+});
 
-/** Set of known fact-checking organizations */
-const FACT_CHECK_DOMAINS = new Set([
-  'politifact.com', 'snopes.com', 'factcheck.org', 'fullfact.org',
-  'altnews.in', 'boomlive.in', 'vishvasnews.com', 'thequint.com',
-  'checkyourfact.com', 'leadstories.com',
-]);
-
-/** Suspicious top-level domains often associated with unreliable content */
-const SUSPICIOUS_TLDS = new Set([
-  '.xyz', '.top', '.buzz', '.click', '.link', '.win', '.gq', '.cf',
-  '.tk', '.ml', '.ga', '.info', '.biz', '.pw', '.cc',
-]);
+const mergeConfig = (config = {}) => ({
+  ...DEFAULT_SOURCE_CREDIBILITY_CONFIG,
+  ...config,
+  weights: {
+    ...DEFAULT_SOURCE_CREDIBILITY_CONFIG.weights,
+    ...(config.weights || {}),
+  },
+});
 
 class SourceCredibilityTool {
-  constructor() {
+  constructor(config = {}) {
     this.name = 'SourceCredibilityTool';
-    this.description = 'Evaluates the credibility of a source URL or domain. Checks for HTTPS, known reputable news outlets, government/educational domains, and suspicious indicators. Returns a credibility score (0-100) with detailed reasoning.';
+    this.description = 'Evaluates the credibility of a source URL or domain. Checks HTTPS, known reputable outlets, official domains, and suspicious indicators. Returns a 0-100 credibility score with detailed reasoning.';
+    this.config = mergeConfig(config);
+    this.reputableDomains = new Set(this.config.reputableDomains);
+    this.factCheckDomains = new Set(this.config.factCheckDomains);
+    this.suspiciousTlds = new Set(this.config.suspiciousTlds);
   }
 
   /**
-   * Execute the source credibility evaluation
-   * @param {string} input - A URL or domain name to evaluate
-   * @returns {Promise<{score: number, reasoning: string[], domain: string, isReputable: boolean}>}
+   * Execute the source credibility evaluation.
+   * @param {string} input - A URL or domain name to evaluate.
+   * @returns {Promise<Object>}
    */
   async execute(input) {
     console.log(`[SOURCE CREDIBILITY TOOL] Evaluating: "${input}"`);
 
     const reasoning = [];
-    let score = 50; // Start at neutral
+    const { weights } = this.config;
+    let score = this.config.baseScore;
     let domain = '';
     let isHttps = false;
 
-    // Parse the URL to extract domain and protocol
     try {
-      // Handle bare domains without protocol
       const urlString = input.includes('://') ? input : `https://${input}`;
       const parsed = new URL(urlString);
       domain = parsed.hostname.replace(/^www\./, '').toLowerCase();
       isHttps = parsed.protocol === 'https:';
     } catch (error) {
-      // If URL parsing fails, treat the input as a raw domain
-      domain = input.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0].toLowerCase();
+      domain = String(input || '').replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0].toLowerCase();
     }
 
     if (!domain) {
       return {
         score: 0,
+        trustScore: 0,
         reasoning: ['Could not parse a valid domain from the input.'],
+        reason: 'Could not parse a valid domain from the input.',
         domain: input,
+        reliability: 'unknown',
+        officialSource: false,
+        historicalConfidence: 0,
         isReputable: false,
       };
     }
 
-    // ─── Scoring Checks ─────────────────────────────────
-
-    // 1. HTTPS check
     if (isHttps) {
-      score += 15;
-      reasoning.push('Source uses HTTPS (secure connection) (+15)');
+      score += weights.https;
+      reasoning.push(`Source uses HTTPS (${this._formatDelta(weights.https)})`);
     } else {
-      score -= 5;
-      reasoning.push('Source does not use HTTPS (-5)');
+      score += weights.noHttps;
+      reasoning.push(`Source does not use HTTPS (${this._formatDelta(weights.noHttps)})`);
     }
 
-    // 2. Known reputable news domain
-    if (REPUTABLE_DOMAINS.has(domain)) {
-      score += 30;
-      reasoning.push(`"${domain}" is a recognized reputable news source (+30)`);
+    if (this.reputableDomains.has(domain)) {
+      score += weights.reputableDomain;
+      reasoning.push(`"${domain}" is a recognized reputable news source (${this._formatDelta(weights.reputableDomain)})`);
     }
 
-    // 3. Known fact-checking organization
-    if (FACT_CHECK_DOMAINS.has(domain)) {
-      score += 25;
-      reasoning.push(`"${domain}" is a recognized fact-checking organization (+25)`);
+    if (this.factCheckDomains.has(domain)) {
+      score += weights.factCheckDomain;
+      reasoning.push(`"${domain}" is a recognized fact-checking organization (${this._formatDelta(weights.factCheckDomain)})`);
     }
 
-    // 4. Government domain
-    if (domain.endsWith('.gov') || domain.endsWith('.gov.in') || domain.endsWith('.gov.uk') || domain.endsWith('.gov.au')) {
-      score += 25;
-      reasoning.push(`"${domain}" is a government domain (+25)`);
+    const officialSource = this._isOfficialDomain(domain);
+    if (officialSource) {
+      score += weights.governmentDomain;
+      reasoning.push(`"${domain}" is an official government source (${this._formatDelta(weights.governmentDomain)})`);
     }
 
-    // 5. Educational domain
-    if (domain.endsWith('.edu') || domain.endsWith('.ac.in') || domain.endsWith('.ac.uk')) {
-      score += 20;
-      reasoning.push(`"${domain}" is an educational institution domain (+20)`);
+    if (this._isEducationalDomain(domain)) {
+      score += weights.educationalDomain;
+      reasoning.push(`"${domain}" is an educational institution domain (${this._formatDelta(weights.educationalDomain)})`);
     }
 
-    // 6. Non-profit / Organization domain
-    if (domain.endsWith('.org') && !REPUTABLE_DOMAINS.has(domain) && !FACT_CHECK_DOMAINS.has(domain)) {
-      score += 5;
-      reasoning.push(`"${domain}" uses .org TLD (organizational) (+5)`);
+    if (domain.endsWith('.org') && !this.reputableDomains.has(domain) && !this.factCheckDomains.has(domain)) {
+      score += weights.organizationDomain;
+      reasoning.push(`"${domain}" uses an organization TLD (${this._formatDelta(weights.organizationDomain)})`);
     }
 
-    // 7. Suspicious TLD penalty
-    const domainTLD = '.' + domain.split('.').pop();
-    if (SUSPICIOUS_TLDS.has(domainTLD)) {
-      score -= 15;
-      reasoning.push(`"${domain}" uses suspicious TLD "${domainTLD}" (-15)`);
+    const domainTld = `.${domain.split('.').pop()}`;
+    if (this.suspiciousTlds.has(domainTld)) {
+      score += weights.suspiciousTld;
+      reasoning.push(`"${domain}" uses suspicious TLD "${domainTld}" (${this._formatDelta(weights.suspiciousTld)})`);
     }
 
-    // 8. Very short or random-looking domain names
     const domainBase = domain.split('.')[0];
-    if (domainBase.length <= 3 && !REPUTABLE_DOMAINS.has(domain)) {
-      score -= 10;
-      reasoning.push(`Domain name "${domainBase}" is very short, possibly suspicious (-10)`);
+    if (domainBase.length <= 3 && !this.reputableDomains.has(domain)) {
+      score += weights.shortDomain;
+      reasoning.push(`Domain name "${domainBase}" is very short (${this._formatDelta(weights.shortDomain)})`);
     }
 
-    // 9. Excessive hyphens (common in fake news domains)
     const hyphenCount = (domainBase.match(/-/g) || []).length;
     if (hyphenCount >= 3) {
-      score -= 10;
-      reasoning.push(`Domain contains ${hyphenCount} hyphens, which is common in unreliable sources (-10)`);
+      score += weights.excessiveHyphens;
+      reasoning.push(`Domain contains ${hyphenCount} hyphens (${this._formatDelta(weights.excessiveHyphens)})`);
     }
 
-    // 10. Numeric-heavy domain names
-    const digitRatio = (domainBase.match(/\d/g) || []).length / domainBase.length;
+    const digitRatio = domainBase.length > 0 ? (domainBase.match(/\d/g) || []).length / domainBase.length : 0;
     if (digitRatio > 0.5 && domainBase.length > 3) {
-      score -= 10;
-      reasoning.push(`Domain name is heavily numeric (${Math.round(digitRatio * 100)}% digits), potentially auto-generated (-10)`);
+      score += weights.numericHeavyDomain;
+      reasoning.push(`Domain name is heavily numeric (${this._formatDelta(weights.numericHeavyDomain)})`);
     }
 
-    // Clamp score between 0 and 100
-    score = Math.max(0, Math.min(100, score));
+    score = Math.max(0, Math.min(100, Math.round(score)));
 
-    const isReputable = REPUTABLE_DOMAINS.has(domain) || FACT_CHECK_DOMAINS.has(domain);
+    const isReputable = this.reputableDomains.has(domain) || this.factCheckDomains.has(domain);
+    const reliability = this._getReliability(score);
+    const historicalConfidence = isReputable || officialSource ? score : Math.min(score, 70);
 
     console.log(`[SOURCE CREDIBILITY TOOL] Score for "${domain}": ${score}`);
 
     return {
       score,
+      trustScore: score,
       reasoning,
+      reason: reasoning.join(' '),
       domain,
+      reliability,
+      officialSource,
+      historicalConfidence,
       isReputable,
     };
+  }
+
+  _isOfficialDomain(domain) {
+    return domain.endsWith('.gov')
+      || domain.endsWith('.gov.in')
+      || domain.endsWith('.gov.uk')
+      || domain.endsWith('.gov.au');
+  }
+
+  _isEducationalDomain(domain) {
+    return domain.endsWith('.edu')
+      || domain.endsWith('.ac.in')
+      || domain.endsWith('.ac.uk');
+  }
+
+  _getReliability(score) {
+    if (score >= 85) return 'very_high';
+    if (score >= 70) return 'high';
+    if (score >= 50) return 'medium';
+    if (score >= 30) return 'low';
+    return 'very_low';
+  }
+
+  _formatDelta(value) {
+    return value >= 0 ? `+${value}` : `${value}`;
   }
 }
 
