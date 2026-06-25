@@ -28,6 +28,14 @@ const factCheckSchema = new mongoose.Schema(
       required: [true, 'Claim text is required'],
       trim: true,
     },
+    originalClaim: {
+      type: String,
+      trim: true,
+    },
+    normalizedClaim: {
+      type: String,
+      trim: true,
+    },
     verdict: {
       type: String,
       enum: Object.values(VERDICTS),
@@ -45,6 +53,14 @@ const factCheckSchema = new mongoose.Schema(
       required: [true, 'Explanation is required'],
     },
     sources: [sourceSchema],
+    reasoning: [String],
+    supportingSources: [mongoose.Schema.Types.Mixed],
+    contradictingSources: [mongoose.Schema.Types.Mixed],
+    evidenceSources: [mongoose.Schema.Types.Mixed],
+    timeline: [mongoose.Schema.Types.Mixed],
+    executionReport: {
+      type: String,
+    },
   },
   {
     timestamps: true,

@@ -19,7 +19,7 @@ class SourceAgent {
    */
   async execute({ url, publisher }) {
     const start = Date.now();
-    console.log(`[SOURCE_AGENT] Started`);
+    console.log(`[SOURCE_AGENT] Execution Started`);
     const lookupTarget = url || publisher || '';
     logger.info(`[${this.name}] Evaluating source: "${lookupTarget}"`);
 
@@ -30,31 +30,53 @@ class SourceAgent {
       // Confidence in our assessment depends on whether we found the source in our DB
       const confidence = reputation.category !== 'unknown' ? 85 : 40;
 
-      console.log(`[SOURCE_AGENT] Completed in ${executionTimeMs} ms`);
+      console.log(`[SOURCE_AGENT] Execution Ended`);
       logger.info(`[${this.name}] Source "${reputation.sourceName}" scored ${reputation.trustScore}/100 in ${executionTimeMs}ms`);
 
+      logger.trace(`[SOURCE_AGENT] Source URL: ${url || 'N/A'}`);
+      logger.trace(`[SOURCE_AGENT] Domain analyzed: ${reputation.sourceName}`);
+      logger.trace(`[SOURCE_AGENT] Reputation score: ${reputation.trustScore}`);
+      logger.trace(`[SOURCE_AGENT] Reputation database match: ${reputation.category !== 'unknown'}`);
+      logger.trace(`[SOURCE_AGENT] Reasons for score assignment: ${reputation.explanation}`);
+
       return {
+        input: { url, publisher },
         output: {
           sourceName: reputation.sourceName,
           trustScore: reputation.trustScore,
           category: reputation.category,
+          sourceTier: reputation.sourceTier,
+          authorityScore: reputation.authorityScore,
           explanation: reputation.explanation,
         },
+        urlsVisited: url ? [url] : [],
+        reasoning: reputation.explanation,
+        evidenceUsed: { databaseMatch: reputation.category !== 'unknown', category: reputation.category },
         confidence,
         executionTimeMs,
       };
     } catch (error) {
       const executionTimeMs = Date.now() - start;
-      console.log(`[SOURCE_AGENT] Completed in ${executionTimeMs} ms (error)`);
+      console.log(`[SOURCE_AGENT] Execution Ended`);
       logger.error(`[${this.name}] Failed: ${error.message}`);
 
+      logger.trace(`[SOURCE_AGENT] Source URL: ${url || 'N/A'}`);
+      logger.trace(`[SOURCE_AGENT] Domain analyzed: N/A`);
+      logger.trace(`[SOURCE_AGENT] Reputation score: 50`);
+      logger.trace(`[SOURCE_AGENT] Reputation database match: false`);
+      logger.trace(`[SOURCE_AGENT] Reasons for score assignment: Failed - ${error.message}`);
+
       return {
+        input: { url, publisher },
         output: {
           sourceName: lookupTarget,
           trustScore: 50,
           category: 'unknown',
           explanation: `Source evaluation failed: ${error.message}`,
         },
+        urlsVisited: url ? [url] : [],
+        reasoning: `Evaluation failed: ${error.message}`,
+        evidenceUsed: null,
         confidence: 10,
         executionTimeMs,
       };

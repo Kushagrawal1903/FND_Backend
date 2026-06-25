@@ -9,13 +9,13 @@ class NewsAnalysisController {
    */
   async analyze(req, res, next) {
     try {
-      const { newsText } = req.body;
+      const { newsText, url } = req.body;
       const userId = req.user ? req.user._id : null;
 
       console.log(`[CONTROLLER] Entered news analysis controller (agentic mode)`);
 
       // Service call runs the full agentic orchestration pipeline
-      const result = await newsAnalysisService.analyzeNews(newsText, userId);
+      const result = await newsAnalysisService.analyzeNews(newsText, userId, url);
 
       // Extract the agentic result attached by the service
       const agentic = result._agenticResult || result.analysis;
@@ -39,6 +39,18 @@ class NewsAnalysisController {
 
       // Serialize response — backward-compatible shape + new agentic fields
       const serializedResponse = {
+        // ─── Requirement 12 flat structure (top level) ───
+        originalClaim: agentic.originalClaim || newsText,
+        normalizedClaim: agentic.normalizedClaim || primaryClaim,
+        verdict: String(agentic.verdict || result.verdict).toUpperCase(),
+        confidence: agentic.confidence || result.confidence,
+        reasoning: agentic.reasoning || [],
+        supportingSources: agentic.supportingEvidence || [],
+        contradictingSources: agentic.contradictingEvidence || [],
+        evidenceSources: agentic.evidenceSources || [],
+        timeline: agentic.timeline || [],
+        executionReport: agentic.executionReport || '',
+
         // ─── Existing shape (unchanged for frontend compatibility) ───
         verification: {
           _id: result._id,
@@ -69,6 +81,12 @@ class NewsAnalysisController {
           reasoning: agentic.reasoning || [],
           agentExecutionSummary: agentic.agentExecutionSummary || [],
           totalExecutionTimeMs: agentic.totalExecutionTimeMs,
+          timeline: agentic.timeline || [],
+          evidenceSources: agentic.evidenceSources || [],
+          supportingEvidence: agentic.supportingEvidence || [],
+          contradictingEvidence: agentic.contradictingEvidence || [],
+          authorityWeightedScore: agentic.authorityWeightedScore || {},
+          executionReport: agentic.executionReport || '',
         },
       };
 
@@ -88,7 +106,10 @@ class NewsAnalysisController {
 
     // Pull from fact-check results if available
     if (agentic.factCheckResults) {
-      agentic.factCheckResults.forEach(fc => {
+      const fcList = Array.isArray(agentic.factCheckResults)
+        ? agentic.factCheckResults
+        : agentic.factCheckResults.results || [];
+      fcList.forEach(fc => {
         if (fc.sources) {
           fc.sources.forEach(s => sources.push(s));
         }

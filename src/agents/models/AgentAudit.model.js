@@ -2,11 +2,10 @@ import mongoose from 'mongoose';
 import { AGENT_NAMES } from '../../config/constants.js';
 
 /**
- * AgentExecution Model
- * Records every individual agent invocation for observability and debugging.
- * Each analysis run produces one document per agent that executed.
+ * AgentAudit Model
+ * Records every individual agent invocation for observability, debugging, and reasoning trace.
  */
-const agentExecutionSchema = new mongoose.Schema(
+const agentAuditSchema = new mongoose.Schema(
   {
     /** Reference to the parent FactCheck document this execution belongs to */
     articleId: {
@@ -22,7 +21,7 @@ const agentExecutionSchema = new mongoose.Schema(
       enum: Object.values(AGENT_NAMES),
     },
 
-    /** The input payload sent to the agent (stored as-is for replay) */
+    /** The input payload sent to the agent */
     input: {
       type: mongoose.Schema.Types.Mixed,
       default: null,
@@ -30,6 +29,24 @@ const agentExecutionSchema = new mongoose.Schema(
 
     /** The output payload returned by the agent */
     output: {
+      type: mongoose.Schema.Types.Mixed,
+      default: null,
+    },
+
+    /** Detailed reasoning or chain of thought for the agent's decision */
+    reasoning: {
+      type: mongoose.Schema.Types.Mixed,
+      default: null,
+    },
+
+    /** List of URLs visited or consulted by the agent */
+    urlsVisited: {
+      type: [String],
+      default: [],
+    },
+
+    /** Evidence snippets or scores used by the agent */
+    evidenceUsed: {
       type: mongoose.Schema.Types.Mixed,
       default: null,
     },
@@ -67,10 +84,10 @@ const agentExecutionSchema = new mongoose.Schema(
 );
 
 // Indexes for efficient querying
-agentExecutionSchema.index({ articleId: 1 });
-agentExecutionSchema.index({ agentName: 1 });
-agentExecutionSchema.index({ createdAt: -1 });
+agentAuditSchema.index({ articleId: 1 });
+agentAuditSchema.index({ agentName: 1 });
+agentAuditSchema.index({ createdAt: -1 });
 
-const AgentExecution = mongoose.model('AgentExecution', agentExecutionSchema);
+const AgentAudit = mongoose.model('AgentAudit', agentAuditSchema);
 
-export default AgentExecution;
+export default AgentAudit;

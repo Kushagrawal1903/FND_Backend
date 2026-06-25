@@ -21,11 +21,16 @@ export const validateNewsAnalysis = [
     .isLength({ min: 10, max: 25000 })
     .withMessage('claim must be between 10 and 25000 characters'),
 
+  body('url')
+    .optional()
+    .isURL()
+    .withMessage('url must be a valid URL'),
+
   // Middleware to handle validation errors and normalize fields
   (req, res, next) => {
-    if (!req.body.newsText && !req.body.claim) {
+    if (!req.body.newsText && !req.body.claim && !req.body.url) {
       return responseFormatter.fail(res, 'Validation failed', 400, [
-        { msg: 'Either newsText or claim is required', path: 'newsText' }
+        { msg: 'Either newsText, claim, or url is required', path: 'newsText' }
       ]);
     }
 
@@ -41,3 +46,4 @@ export const validateNewsAnalysis = [
     next();
   }
 ];
+

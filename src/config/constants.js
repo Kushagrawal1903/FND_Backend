@@ -32,6 +32,36 @@ export const API_LIMITS = {
 };
 
 /**
+ * Claim type classifications for targeted research
+ */
+export const CLAIM_TYPES = {
+  STATISTICAL: 'statistical',
+  POLITICAL: 'political',
+  SCIENTIFIC: 'scientific',
+  HISTORICAL: 'historical',
+  NEWS: 'news',
+  RANKING: 'ranking',
+};
+
+/**
+ * Fact-check result statuses — NOT_FOUND is explicitly neutral
+ */
+export const FACT_CHECK_STATUSES = {
+  VERIFIED_TRUE: 'verified_true',
+  VERIFIED_FALSE: 'verified_false',
+  NOT_FOUND: 'not_found',
+};
+
+/**
+ * Source authority tiers — lower tier number = higher authority
+ */
+export const SOURCE_TIERS = {
+  TIER_1: 1, // Government, official bodies, intl orgs
+  TIER_2: 2, // Major wire services & reputable media
+  TIER_3: 3, // Wikipedia, blogs, community sites, unknown
+};
+
+/**
  * Agent identifiers used across the agentic pipeline
  */
 export const AGENT_NAMES = {

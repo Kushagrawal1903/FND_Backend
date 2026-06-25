@@ -4,26 +4,23 @@ import logger from '../../utils/logger.js';
 
 /**
  * Verdict Agent
- * Generates the final verdict using rule-based logic + LLM reasoning.
+ * Generates the final verdict using evidence-driven rules + LLM reasoning.
  *
- * Verdict determination:
- * 1. Rule-based: derive verdict from overall evidence score thresholds
- * 2. LLM: generate human-readable reasoning for the verdict
- * 3. Validation: ensure LLM doesn't contradict rule-based verdict
+ * Evidence-driven verdict determination:
+ * 1. If Tier 1 government source confirms → TRUE
+ * 2. If Tier 1 government source denies → FALSE
+ * 3. If supportScore > contradictScore × 3 → LIKELY_TRUE
+ * 4. If contradictScore > supportScore × 3 → LIKELY_FALSE
+ * 5. If both sides have evidence, roughly balanced → MIXTURE
+ * 6. If neither side has evidence → INSUFFICIENT_EVIDENCE
+ *
+ * Confidence is derived from the ratio strength and source authority,
+ * NOT from distance-from-50.
  */
-
-/** Score thresholds for verdict determination */
-const THRESHOLDS = {
-  TRUE:                  80,
-  LIKELY_TRUE:           65,
-  MIXED:                 45,
-  LIKELY_FALSE:          25,
-  FALSE:                 10,
-  // Below 10 or very low confidence → INSUFFICIENT_EVIDENCE
-};
 
 const REASONING_PROMPT = `You are a final verdict analyst for a fake news detection system.
 Given the evidence summary below, generate 3-5 concise reasoning points explaining WHY the verdict was reached.
+Each point should reference specific evidence sources, authority scores, or classifications.
 
 Return ONLY valid JSON:
 {
@@ -40,163 +37,245 @@ class VerdictAgent {
   }
 
   /**
-   * Generate the final verdict.
-   * @param {{
-   *   evidenceSummary: Object,
-   *   claimResult: Object,
-   *   factCheckResult: Object,
-   *   biasResult: Object,
-   *   sourceResult: Object,
-   *   researchResult: Object
-   * }} input
-   * @returns {Promise<{ output: Object, confidence: number, executionTimeMs: number }>}
+   * Generate the final verdict from evidence.
    */
   async execute(input) {
     const start = Date.now();
-    console.log(`[VERDICT_AGENT] Started`);
+    console.log(`[VERDICT_AGENT] Execution Started`);
     const { evidenceSummary } = input;
-    const overallScore = evidenceSummary?.overallEvidenceScore ?? 50;
 
-    logger.info(`[${this.name}] Generating verdict from evidence score: ${overallScore}/100`);
+    const {
+      supportScore = 0,
+      contradictScore = 0,
+      governmentSourceConfirms = false,
+      governmentSourceDenies = false,
+      supportingSources = [],
+      contradictingSources = [],
+      factCheckStatus,
+      biasPenalty = 1,
+      failedAgents = [],
+    } = evidenceSummary || {};
 
-    // Step 1: Rule-based verdict
-    const verdict = this._deriveVerdict(overallScore, input);
+    logger.info(`[${this.name}] Generating verdict: support=${supportScore}, contradict=${contradictScore}, govConfirm=${governmentSourceConfirms}, govDeny=${governmentSourceDenies}`);
 
-    // Step 2: Calculate confidence
-    const confidence = this._calculateConfidence(overallScore, input);
+    // Step 1: Evidence-driven verdict
+    const verdict = this._deriveVerdict({
+      supportScore, contradictScore,
+      governmentSourceConfirms, governmentSourceDenies,
+      supportingSources, contradictingSources,
+      factCheckStatus, failedAgents,
+    });
 
-    // Step 3: Generate LLM reasoning (best-effort, non-blocking)
+    // Step 2: Calculate confidence from evidence strength
+    const confidence = this._calculateConfidence({
+      supportScore, contradictScore,
+      governmentSourceConfirms, governmentSourceDenies,
+      supportingSources, contradictingSources,
+      biasPenalty, failedAgents,
+    });
+
+    // Step 3: Generate LLM reasoning (best-effort)
     let reasoning = [];
     try {
-      reasoning = await this._generateReasoning(input, verdict, confidence);
+      reasoning = await this._generateReasoning(input, verdict, confidence, {
+        supportScore, contradictScore,
+        governmentSourceConfirms, governmentSourceDenies,
+        supportingSources, contradictingSources,
+      });
     } catch (error) {
       logger.warn(`[${this.name}] LLM reasoning generation failed: ${error.message}. Using rule-based reasoning.`);
-      reasoning = this._fallbackReasoning(verdict, overallScore, input);
+      reasoning = this._fallbackReasoning(verdict, {
+        supportScore, contradictScore,
+        governmentSourceConfirms, governmentSourceDenies,
+        supportingSources, contradictingSources,
+        factCheckStatus,
+      });
     }
 
     const executionTimeMs = Date.now() - start;
-    console.log(`[VERDICT_AGENT] Completed in ${executionTimeMs} ms`);
+    console.log(`[VERDICT_AGENT] Execution Ended`);
     logger.info(`[${this.name}] Verdict: ${verdict} (confidence: ${confidence}%) in ${executionTimeMs}ms`);
 
+    logger.trace(`[VERDICT_AGENT] Evidence: support=${supportScore}, contradict=${contradictScore}`);
+    logger.trace(`[VERDICT_AGENT] Government confirms: ${governmentSourceConfirms}, denies: ${governmentSourceDenies}`);
+    logger.trace(`[VERDICT_AGENT] Verdict chosen: ${verdict}, confidence: ${confidence}`);
+    logger.trace(`[VERDICT_AGENT] Reasoning: ${reasoning.join(' | ')}`);
+
     return {
+      input: { evidenceSummary },
       output: { verdict, confidence, reasoning },
+      urlsVisited: [],
+      reasoning: reasoning.join('\n'),
+      evidenceUsed: evidenceSummary,
       confidence,
       executionTimeMs,
     };
   }
 
   /**
-   * Rule-based verdict derivation from evidence scores.
+   * Evidence-driven verdict determination.
    */
-  _deriveVerdict(overallScore, input) {
-    const { factCheckResult, evidenceSummary } = input;
-    const failedAgents = evidenceSummary?.failedAgents || [];
-
+  _deriveVerdict({ supportScore, contradictScore, governmentSourceConfirms, governmentSourceDenies, supportingSources, contradictingSources, factCheckStatus, failedAgents }) {
     // If too many agents failed, we can't be confident
     if (failedAgents.length >= 3) {
       return VERDICTS.INSUFFICIENT_EVIDENCE;
     }
 
-    // If fact-check found direct matches with high confidence, trust that
-    const fcResults = factCheckResult?.output?.results || [];
-    const highConfFc = fcResults.filter(r => r.factCheckFound && r.confidence >= 80);
-    if (highConfFc.length > 0) {
-      const fcVerdict = factCheckResult.output.overallVerdict;
-      if (fcVerdict === 'true') return VERDICTS.TRUE;
-      if (fcVerdict === 'false') return VERDICTS.FALSE;
-      if (fcVerdict === 'mixture') return VERDICTS.MIXTURE;
+    // Rule 1: Government (Tier 1) source confirms → TRUE
+    if (governmentSourceConfirms && !governmentSourceDenies) {
+      return VERDICTS.TRUE;
     }
 
-    // Threshold-based verdict from aggregated evidence
-    if (overallScore >= THRESHOLDS.TRUE) return VERDICTS.TRUE;
-    if (overallScore >= THRESHOLDS.LIKELY_TRUE) return VERDICTS.LIKELY_TRUE;
-    if (overallScore >= THRESHOLDS.MIXED) return VERDICTS.MIXTURE;
-    if (overallScore >= THRESHOLDS.LIKELY_FALSE) return VERDICTS.LIKELY_FALSE;
-    if (overallScore >= THRESHOLDS.FALSE) return VERDICTS.FALSE;
+    // Rule 2: Government (Tier 1) source denies → FALSE
+    if (governmentSourceDenies && !governmentSourceConfirms) {
+      return VERDICTS.FALSE;
+    }
 
+    // Rule 3: If supportScore dominates (>3x contradict) → LIKELY_TRUE
+    if (supportScore > 0 && supportScore > contradictScore * 3) {
+      return VERDICTS.LIKELY_TRUE;
+    }
+
+    // Rule 4: If contradictScore dominates (>3x support) → LIKELY_FALSE
+    if (contradictScore > 0 && contradictScore > supportScore * 3) {
+      return VERDICTS.LIKELY_FALSE;
+    }
+
+    // Rule 5: Both sides have evidence, roughly balanced → MIXTURE
+    if (supportScore > 0 && contradictScore > 0) {
+      return VERDICTS.MIXTURE;
+    }
+
+    // Rule 6: Only supporting evidence, no contradiction → LIKELY_TRUE
+    if (supportingSources.length > 0 && contradictingSources.length === 0) {
+      return VERDICTS.LIKELY_TRUE;
+    }
+
+    // Rule 7: Only contradicting evidence, no support → LIKELY_FALSE
+    if (contradictingSources.length > 0 && supportingSources.length === 0) {
+      return VERDICTS.LIKELY_FALSE;
+    }
+
+    // No evidence on either side
     return VERDICTS.INSUFFICIENT_EVIDENCE;
   }
 
   /**
-   * Calculate confidence in our verdict.
-   * Higher when more agents succeeded and agree.
+   * Calculate confidence from evidence strength, not distance-from-50.
    */
-  _calculateConfidence(overallScore, input) {
-    const failedAgents = input.evidenceSummary?.failedAgents || [];
+  _calculateConfidence({ supportScore, contradictScore, governmentSourceConfirms, governmentSourceDenies, supportingSources, contradictingSources, biasPenalty, failedAgents }) {
+    const totalScore = supportScore + contradictScore;
+    const totalSources = supportingSources.length + contradictingSources.length;
 
-    // Base confidence from evidence score distance from 50 (ambiguity midpoint)
-    // Scores far from 50 (very high or very low) → higher confidence
-    const distanceFrom50 = Math.abs(overallScore - 50);
-    let confidence = 50 + distanceFrom50;
+    if (totalSources === 0) return 10;
 
-    // Penalty for each failed agent
-    confidence -= failedAgents.length * 8;
+    // Base confidence from dominant score ratio
+    const dominantScore = Math.max(supportScore, contradictScore);
+    let confidence;
 
-    // Bonus for fact-check direct matches
-    const fcResults = input.factCheckResult?.output?.results || [];
-    const directMatches = fcResults.filter(r => r.factCheckFound).length;
-    confidence += Math.min(directMatches * 5, 15);
+    if (totalScore > 0) {
+      confidence = Math.round((dominantScore / totalScore) * 100);
+    } else {
+      confidence = 30;
+    }
 
-    return Math.min(100, Math.max(10, Math.round(confidence)));
+    // Boost for government source
+    if (governmentSourceConfirms || governmentSourceDenies) {
+      confidence = Math.min(100, confidence + 15);
+    }
+
+    // Boost for multiple sources agreeing
+    const dominantCount = supportScore >= contradictScore ? supportingSources.length : contradictingSources.length;
+    if (dominantCount >= 3) confidence = Math.min(100, confidence + 5);
+
+    // Apply bias penalty
+    confidence = Math.round(confidence * biasPenalty);
+
+    // Penalty for failed agents
+    confidence -= failedAgents.length * 5;
+
+    // Capping logic: Never return 100% unless evidence is overwhelming
+    // Cap at 95% by default. Allow up to 98% ONLY if:
+    // - There are no contradicting sources (for supporting verdicts) or vice versa
+    // - We have at least 4 dominant agreeing sources
+    // - At least one is a Tier 1 source
+    const hasContradiction = contradictingSources.length > 0 && supportingSources.length > 0;
+    const isOverwhelming = !hasContradiction && dominantCount >= 4 && (governmentSourceConfirms || governmentSourceDenies);
+
+    let maxConfidence = 95;
+    if (isOverwhelming) {
+      maxConfidence = 98;
+    }
+
+    return Math.min(maxConfidence, Math.max(10, confidence));
   }
 
   /**
    * Generate reasoning via LLM.
    */
-  async _generateReasoning(input, verdict, confidence) {
+  async _generateReasoning(input, verdict, confidence, evidenceDetails) {
     const evidenceContext = JSON.stringify({
       verdict,
       confidence,
-      sourceScore: input.evidenceSummary?.sourceScore,
-      factScore: input.evidenceSummary?.factScore,
-      biasScore: input.evidenceSummary?.biasScore,
-      researchScore: input.evidenceSummary?.researchScore,
-      factCheckVerdict: input.factCheckResult?.output?.overallVerdict,
+      supportScore: evidenceDetails.supportScore,
+      contradictScore: evidenceDetails.contradictScore,
+      governmentSourceConfirms: evidenceDetails.governmentSourceConfirms,
+      governmentSourceDenies: evidenceDetails.governmentSourceDenies,
+      supportingSourceCount: evidenceDetails.supportingSources.length,
+      contradictingSourceCount: evidenceDetails.contradictingSources.length,
+      topSupportingSources: evidenceDetails.supportingSources.slice(0, 5).map(s => ({
+        source: s.source, authorityScore: s.authorityScore, tier: s.sourceTier,
+      })),
+      topContradictingSources: evidenceDetails.contradictingSources.slice(0, 5).map(s => ({
+        source: s.source, authorityScore: s.authorityScore, tier: s.sourceTier,
+      })),
       biasExplanation: input.biasResult?.output?.explanation,
       sourceExplanation: input.sourceResult?.output?.explanation,
-      failedAgents: input.evidenceSummary?.failedAgents,
     }, null, 2);
 
+    logger.trace(`[VERDICT_AGENT] All evidence received: ${evidenceContext}`);
+    logger.trace(`[VERDICT_AGENT] Prompt sent to LLM: ${REASONING_PROMPT}`);
+
     const result = await llmTool.generateJSON(REASONING_PROMPT, evidenceContext);
+
+    logger.trace(`[VERDICT_AGENT] Raw LLM response: ${JSON.stringify(result)}`);
+
     if (result && Array.isArray(result.reasoning)) {
       return result.reasoning;
     }
-    return this._fallbackReasoning(verdict, input.evidenceSummary?.overallEvidenceScore, input);
+    return this._fallbackReasoning(verdict, evidenceDetails);
   }
 
   /**
-   * Deterministic fallback reasoning when LLM is unavailable.
+   * Deterministic fallback reasoning.
    */
-  _fallbackReasoning(verdict, overallScore, input) {
+  _fallbackReasoning(verdict, evidenceDetails) {
     const reasons = [];
 
-    // Source credibility
-    const srcScore = input.sourceResult?.output?.trustScore;
-    if (srcScore !== undefined) {
-      reasons.push(srcScore >= 70
-        ? `Source has a high trust score (${srcScore}/100).`
-        : `Source has a low trust score (${srcScore}/100), reducing reliability.`);
+    const { supportScore, contradictScore, governmentSourceConfirms, governmentSourceDenies, supportingSources, contradictingSources, factCheckStatus } = evidenceDetails;
+
+    if (governmentSourceConfirms) {
+      reasons.push('Official government or institutional source confirms this claim.');
+    }
+    if (governmentSourceDenies) {
+      reasons.push('Official government or institutional source contradicts this claim.');
     }
 
-    // Fact check results
-    const fcResults = input.factCheckResult?.output?.results || [];
-    const found = fcResults.filter(r => r.factCheckFound);
-    if (found.length > 0) {
-      reasons.push(`${found.length} claim(s) matched existing fact-check records.`);
-    } else {
-      reasons.push('No existing fact-check records were found for the claims.');
+    if (supportingSources.length > 0) {
+      const topSource = supportingSources.sort((a, b) => b.authorityScore - a.authorityScore)[0];
+      reasons.push(`${supportingSources.length} source(s) support this claim. Top source: ${topSource.source || topSource.title} (authority: ${topSource.authorityScore}/100).`);
     }
 
-    // Bias
-    const biasScore = input.biasResult?.output?.biasScore;
-    if (biasScore !== undefined) {
-      reasons.push(biasScore >= 60
-        ? `Article shows signs of bias (score: ${biasScore}/100).`
-        : `Article shows low bias indicators (score: ${biasScore}/100).`);
+    if (contradictingSources.length > 0) {
+      const topSource = contradictingSources.sort((a, b) => b.authorityScore - a.authorityScore)[0];
+      reasons.push(`${contradictingSources.length} source(s) contradict this claim. Top source: ${topSource.source || topSource.title} (authority: ${topSource.authorityScore}/100).`);
     }
 
-    // Overall
-    reasons.push(`Overall evidence score: ${overallScore}/100 → verdict: ${verdict}.`);
+    if (factCheckStatus === 'not_found') {
+      reasons.push('No existing fact-check records were found. This is treated as neutral — not as negative evidence.');
+    }
+
+    reasons.push(`Authority-weighted scores: support=${supportScore?.toFixed?.(1) || 0}, contradict=${contradictScore?.toFixed?.(1) || 0} → verdict: ${verdict}.`);
 
     return reasons;
   }

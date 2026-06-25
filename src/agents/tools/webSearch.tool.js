@@ -22,7 +22,6 @@ class WebSearchTool {
     const apiKey = appConfig.tavilyApiKey || process.env.TAVILY_API_KEY;
 
     if (!apiKey || apiKey.includes('YOUR_') || apiKey.length < 10) {
-      console.log('[WEB_SEARCH] Tavily API key missing or invalid. Falling back to Google Fact Check API.');
       return this._getFallbackResults(query);
     }
 

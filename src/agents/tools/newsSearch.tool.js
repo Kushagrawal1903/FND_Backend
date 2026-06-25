@@ -19,7 +19,6 @@ class NewsSearchTool {
     const apiKey = appConfig.newsApiKey || process.env.NEWS_API_KEY;
 
     if (!apiKey || apiKey.includes('YOUR_') || apiKey.length < 10) {
-      console.log('[NEWS_SEARCH] NewsAPI API key missing or invalid. Falling back to Google Fact Check API.');
       return this._getFallbackResults(query);
     }
 

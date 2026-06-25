@@ -1,47 +1,31 @@
-import { AGENT_NAMES } from '../../config/constants.js';
+import { AGENT_NAMES, FACT_CHECK_STATUSES, SOURCE_TIERS } from '../../config/constants.js';
 import logger from '../../utils/logger.js';
 
 /**
  * Evidence Aggregator Agent
- * Merges evidence from all other agents into a unified scoring system.
+ * Replaces the old weighted-average system with authority-weighted evidence scoring.
  * Fully deterministic — no LLM calls.
  *
- * Scoring weights:
- *   Source credibility  → 15%
- *   Fact check results  → 35%
- *   Research evidence   → 20%
- *   Bias analysis       → 15%
- *   Claim extraction    → 15% (confidence in extracted claims)
+ * New scoring:
+ *   supportScore  = Σ(authorityScore × confidence) for each supporting source
+ *   contradictScore = Σ(authorityScore × confidence) for each contradicting source
+ *
+ * Key rules:
+ *   - NOT_FOUND from FactCheckAgent contributes ZERO (neutral)
+ *   - VERIFIED_TRUE/VERIFIED_FALSE from FactCheckAgent adds high-weight evidence
+ *   - Government (Tier 1) sources get special flags for the VerdictAgent
  */
-
-const WEIGHTS = {
-  source: 0.15,
-  factCheck: 0.35,
-  research: 0.20,
-  bias: 0.15,
-  claim: 0.15,
-};
-
 class EvidenceAgent {
   constructor() {
     this.name = AGENT_NAMES.EVIDENCE;
   }
 
   /**
-   * Aggregate evidence from all agent outputs.
-   * @param {{
-   *   claimResult: { output: Object, confidence: number },
-   *   sourceResult: { output: Object, confidence: number },
-   *   factCheckResult: { output: Object, confidence: number },
-   *   researchResult: { output: Object, confidence: number },
-   *   biasResult: { output: Object, confidence: number },
-   *   failedAgents: string[]
-   * }} input
-   * @returns {Promise<{ output: Object, confidence: number, executionTimeMs: number }>}
+   * Aggregate evidence from all agent outputs using authority-weighted scoring.
    */
   async execute(input) {
     const start = Date.now();
-    console.log(`[EVIDENCE_AGENT] Started`);
+    console.log(`[EVIDENCE_AGENT] Execution Started`);
     logger.info(`[${this.name}] Aggregating evidence from all agents`);
 
     const {
@@ -53,121 +37,140 @@ class EvidenceAgent {
       failedAgents = [],
     } = input;
 
-    // Calculate individual dimension scores (0-100)
-    const sourceScore = this._calcSourceScore(sourceResult);
-    const factScore = this._calcFactScore(factCheckResult);
-    const researchScore = this._calcResearchScore(researchResult);
-    const biasScore = this._calcBiasScore(biasResult);
-    const claimScore = claimResult?.confidence || 0;
+    // ─── Collect all evidence sources with authority weights ───
 
-    // Weighted overall score
-    // If an agent failed, redistribute its weight proportionally
-    let activeWeights = { ...WEIGHTS };
-    if (failedAgents.length > 0) {
-      activeWeights = this._redistributeWeights(failedAgents);
-    }
+    const supportingSources = [];
+    const contradictingSources = [];
 
-    const overallEvidenceScore = Math.round(
-      (sourceScore * activeWeights.source) +
-      (factScore * activeWeights.factCheck) +
-      (researchScore * activeWeights.research) +
-      // For bias, invert the score: high bias → low evidence quality
-      ((100 - biasScore) * activeWeights.bias) +
-      (claimScore * activeWeights.claim)
+    // 1. Research evidence (primary signal)
+    const supporting = researchResult?.output?.supportingEvidence || [];
+    const contradicting = researchResult?.output?.contradictingEvidence || [];
+
+    supporting.forEach(e => {
+      supportingSources.push({
+        url: e.url,
+        title: e.title,
+        source: e.source,
+        snippet: e.snippet || e.evidenceSnippet,
+        publishedAt: e.publishedAt,
+        authorityScore: e.authorityScore || 40,
+        sourceTier: e.sourceTier || SOURCE_TIERS.TIER_3,
+        confidence: e.confidence || 50,
+        classification: 'supporting',
+        explanation: e.explanation,
+        origin: 'research',
+      });
+    });
+
+    contradicting.forEach(e => {
+      contradictingSources.push({
+        url: e.url,
+        title: e.title,
+        source: e.source,
+        snippet: e.snippet || e.evidenceSnippet,
+        publishedAt: e.publishedAt,
+        authorityScore: e.authorityScore || 40,
+        sourceTier: e.sourceTier || SOURCE_TIERS.TIER_3,
+        confidence: e.confidence || 50,
+        classification: 'contradicting',
+        explanation: e.explanation,
+        origin: 'research',
+      });
+    });
+
+    // 2. Fact-check evidence (only if VERIFIED — NOT_FOUND is ignored)
+    const fcResults = factCheckResult?.output?.results || [];
+    const fcOverallStatus = factCheckResult?.output?.overallStatus || FACT_CHECK_STATUSES.NOT_FOUND;
+
+    fcResults.forEach(fc => {
+      if (fc.status === FACT_CHECK_STATUSES.VERIFIED_TRUE) {
+        fc.sources?.forEach(s => {
+          supportingSources.push({
+            url: s.url || '',
+            title: s.publisher || 'Fact Checker',
+            source: s.publisher,
+            snippet: `Fact check: ${fc.claim} → ${fc.verdict}`,
+            publishedAt: null,
+            authorityScore: 90,
+            sourceTier: SOURCE_TIERS.TIER_2,
+            confidence: fc.confidence || 80,
+            classification: 'supporting',
+            explanation: `Verified TRUE by ${s.publisher}`,
+            origin: 'factcheck',
+          });
+        });
+      } else if (fc.status === FACT_CHECK_STATUSES.VERIFIED_FALSE) {
+        fc.sources?.forEach(s => {
+          contradictingSources.push({
+            url: s.url || '',
+            title: s.publisher || 'Fact Checker',
+            source: s.publisher,
+            snippet: `Fact check: ${fc.claim} → ${fc.verdict}`,
+            publishedAt: null,
+            authorityScore: 90,
+            sourceTier: SOURCE_TIERS.TIER_2,
+            confidence: fc.confidence || 80,
+            classification: 'contradicting',
+            explanation: `Verified FALSE by ${s.publisher}`,
+            origin: 'factcheck',
+          });
+        });
+      }
+      // NOT_FOUND: intentionally contributes nothing — neutral
+    });
+
+    // ─── Calculate authority-weighted scores ───
+
+    const supportScore = supportingSources.reduce(
+      (sum, s) => sum + (s.authorityScore * s.confidence / 100), 0
+    );
+    const contradictScore = contradictingSources.reduce(
+      (sum, s) => sum + (s.authorityScore * s.confidence / 100), 0
     );
 
+    // Check for government (Tier 1) source confirmation/denial
+    const governmentSourceConfirms = supportingSources.some(s => s.sourceTier === SOURCE_TIERS.TIER_1);
+    const governmentSourceDenies = contradictingSources.some(s => s.sourceTier === SOURCE_TIERS.TIER_1);
+
+    // Bias penalty (0-1 multiplier, lower = more biased = less trustworthy)
+    const biasScore = biasResult?.output?.biasScore ?? 50;
+    const biasPenalty = 1 - (biasScore / 200); // 0 bias → 1.0, 100 bias → 0.5
+
     const executionTimeMs = Date.now() - start;
-    console.log(`[EVIDENCE_AGENT] Completed in ${executionTimeMs} ms`);
-    logger.info(`[${this.name}] Overall evidence score: ${overallEvidenceScore}/100 in ${executionTimeMs}ms`);
+    console.log(`[EVIDENCE_AGENT] Execution Ended`);
+
+    const evidenceOutput = {
+      supportScore: Math.round(supportScore * 100) / 100,
+      contradictScore: Math.round(contradictScore * 100) / 100,
+      supportingSources,
+      contradictingSources,
+      governmentSourceConfirms,
+      governmentSourceDenies,
+      factCheckStatus: fcOverallStatus,
+      biasScore,
+      biasPenalty: Math.round(biasPenalty * 100) / 100,
+      sourceAnalysis: sourceResult?.output || {},
+      failedAgents,
+    };
+
+    logger.info(`[${this.name}] Support: ${supportScore.toFixed(1)}, Contradict: ${contradictScore.toFixed(1)}, GovConfirm: ${governmentSourceConfirms}, GovDeny: ${governmentSourceDenies}`);
+    logger.trace(`[EVIDENCE_AGENT] Supporting sources: ${supportingSources.length}, Contradicting sources: ${contradictingSources.length}`);
+    logger.trace(`[EVIDENCE_AGENT] Authority-weighted supportScore: ${supportScore.toFixed(2)}, contradictScore: ${contradictScore.toFixed(2)}`);
+    logger.trace(`[EVIDENCE_AGENT] Fact-check status: ${fcOverallStatus} (neutral if NOT_FOUND)`);
+    logger.trace(`[EVIDENCE_AGENT] Government source confirms: ${governmentSourceConfirms}, denies: ${governmentSourceDenies}`);
+    logger.trace(`[EVIDENCE_AGENT] Bias penalty multiplier: ${biasPenalty.toFixed(2)}`);
 
     return {
-      output: {
-        sourceScore,
-        factScore,
-        researchScore,
-        biasScore,
-        claimScore,
-        overallEvidenceScore,
-        weights: activeWeights,
-        failedAgents,
+      input: { failedAgents },
+      output: evidenceOutput,
+      reasoning: `Authority-weighted scoring: support=${supportScore.toFixed(1)} vs contradict=${contradictScore.toFixed(1)}. ${supportingSources.length} supporting, ${contradictingSources.length} contradicting sources.`,
+      evidenceUsed: {
+        supportingSources,
+        contradictingSources,
       },
-      confidence: overallEvidenceScore,
+      confidence: Math.round(Math.max(supportScore, contradictScore)),
       executionTimeMs,
     };
-  }
-
-  /** Source score: direct trust score from the source agent */
-  _calcSourceScore(sourceResult) {
-    return sourceResult?.output?.trustScore ?? 50;
-  }
-
-  /** Fact check score: based on average confidence of found fact-checks */
-  _calcFactScore(factCheckResult) {
-    if (!factCheckResult?.output?.results) return 0;
-    const results = factCheckResult.output.results;
-    if (results.length === 0) return 0;
-
-    const found = results.filter(r => r.factCheckFound);
-    if (found.length === 0) return 20; // Some claims checked but nothing found
-
-    return Math.round(found.reduce((sum, r) => sum + r.confidence, 0) / found.length);
-  }
-
-  /** Research score: based on amount and quality of evidence found */
-  _calcResearchScore(researchResult) {
-    if (!researchResult?.output) return 10;
-    const { supportingEvidence = [], contradictingEvidence = [] } = researchResult.output;
-    const total = supportingEvidence.length + contradictingEvidence.length;
-    if (total === 0) return 10; // Stubs return nothing
-
-    // More evidence = higher score, capped at 90
-    return Math.min(90, 30 + (total * 10));
-  }
-
-  /** Bias score: average of all bias dimensions (higher = more biased) */
-  _calcBiasScore(biasResult) {
-    if (!biasResult?.output) return 50;
-    const { biasScore = 50, clickbaitScore = 50, emotionalManipulationScore = 50, sensationalismScore = 50 } = biasResult.output;
-    return Math.round((biasScore + clickbaitScore + emotionalManipulationScore + sensationalismScore) / 4);
-  }
-
-  /**
-   * Redistribute weights when agents fail.
-   * Failed agent weights are distributed proportionally among remaining agents.
-   */
-  _redistributeWeights(failedAgents) {
-    const agentKeyMap = {
-      [AGENT_NAMES.SOURCE]: 'source',
-      [AGENT_NAMES.FACTCHECK]: 'factCheck',
-      [AGENT_NAMES.RESEARCH]: 'research',
-      [AGENT_NAMES.BIAS]: 'bias',
-      [AGENT_NAMES.CLAIM]: 'claim',
-    };
-
-    const adjusted = { ...WEIGHTS };
-    let removedWeight = 0;
-    const failedKeys = [];
-
-    for (const agentName of failedAgents) {
-      const key = agentKeyMap[agentName];
-      if (key && adjusted[key]) {
-        removedWeight += adjusted[key];
-        adjusted[key] = 0;
-        failedKeys.push(key);
-      }
-    }
-
-    // Redistribute removed weight proportionally
-    if (removedWeight > 0) {
-      const activeKeys = Object.keys(adjusted).filter(k => adjusted[k] > 0);
-      const activeTotal = activeKeys.reduce((sum, k) => sum + adjusted[k], 0);
-
-      for (const key of activeKeys) {
-        adjusted[key] += removedWeight * (adjusted[key] / activeTotal);
-      }
-    }
-
-    return adjusted;
   }
 }
 

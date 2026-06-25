@@ -310,7 +310,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "seedadmin",
-      "community": 32,
+      "community": 3,
       "norm_label": "seedadmin.js"
     },
     {
@@ -320,7 +320,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "seedadmin_seedadmin",
-      "community": 32,
+      "community": 3,
       "norm_label": "seedadmin()"
     },
     {
@@ -330,7 +330,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "seednews",
-      "community": 10,
+      "community": 3,
       "norm_label": "seednews.js"
     },
     {
@@ -340,7 +340,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "seednews_samplenews",
-      "community": 10,
+      "community": 3,
       "norm_label": "samplenews"
     },
     {
@@ -350,7 +350,7 @@
       "source_location": "L218",
       "_origin": "ast",
       "id": "seednews_seednews",
-      "community": 32,
+      "community": 3,
       "norm_label": "seednews()"
     },
     {
@@ -397,7 +397,7 @@
       "label": "._clamp()",
       "file_type": "code",
       "source_file": "src/agents/bias/bias.agent.js",
-      "source_location": "L88",
+      "source_location": "L108",
       "_origin": "ast",
       "id": "bias_bias_agent_biasagent_clamp",
       "community": 22,
@@ -414,10 +414,20 @@
       "norm_label": "claim.agent.js"
     },
     {
+      "label": "CLAIM_TYPE_SEARCH_HINTS",
+      "file_type": "code",
+      "source_file": "src/agents/claim/claim.agent.js",
+      "source_location": "L67",
+      "_origin": "ast",
+      "id": "claim_claim_agent_claim_type_search_hints",
+      "community": 10,
+      "norm_label": "claim_type_search_hints"
+    },
+    {
       "label": "ClaimAgent",
       "file_type": "code",
       "source_file": "src/agents/claim/claim.agent.js",
-      "source_location": "L28",
+      "source_location": "L76",
       "_origin": "ast",
       "id": "claim_claim_agent_claimagent",
       "community": 23,
@@ -427,7 +437,7 @@
       "label": ".constructor()",
       "file_type": "code",
       "source_file": "src/agents/claim/claim.agent.js",
-      "source_location": "L29",
+      "source_location": "L77",
       "_origin": "ast",
       "id": "claim_claim_agent_claimagent_constructor",
       "community": 23,
@@ -437,17 +447,27 @@
       "label": ".execute()",
       "file_type": "code",
       "source_file": "src/agents/claim/claim.agent.js",
-      "source_location": "L38",
+      "source_location": "L86",
       "_origin": "ast",
       "id": "claim_claim_agent_claimagent_execute",
       "community": 23,
       "norm_label": ".execute()"
     },
     {
+      "label": "._normalizeClaimType()",
+      "file_type": "code",
+      "source_file": "src/agents/claim/claim.agent.js",
+      "source_location": "L149",
+      "_origin": "ast",
+      "id": "claim_claim_agent_claimagent_normalizeclaimtype",
+      "community": 23,
+      "norm_label": "._normalizeclaimtype()"
+    },
+    {
       "label": "._fallbackExtraction()",
       "file_type": "code",
       "source_file": "src/agents/claim/claim.agent.js",
-      "source_location": "L72",
+      "source_location": "L158",
       "_origin": "ast",
       "id": "claim_claim_agent_claimagent_fallbackextraction",
       "community": 23,
@@ -464,94 +484,34 @@
       "norm_label": "evidence.agent.js"
     },
     {
-      "label": "WEIGHTS",
-      "file_type": "code",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L17",
-      "_origin": "ast",
-      "id": "evidence_evidence_agent_weights",
-      "community": 10,
-      "norm_label": "weights"
-    },
-    {
       "label": "EvidenceAgent",
       "file_type": "code",
       "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L25",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "evidence_evidence_agent_evidenceagent",
-      "community": 12,
+      "community": 10,
       "norm_label": "evidenceagent"
     },
     {
       "label": ".constructor()",
       "file_type": "code",
       "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L26",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "evidence_evidence_agent_evidenceagent_constructor",
-      "community": 12,
+      "community": 10,
       "norm_label": ".constructor()"
     },
     {
       "label": ".execute()",
       "file_type": "code",
       "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L42",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "evidence_evidence_agent_evidenceagent_execute",
-      "community": 12,
+      "community": 10,
       "norm_label": ".execute()"
-    },
-    {
-      "label": "._calcSourceScore()",
-      "file_type": "code",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L100",
-      "_origin": "ast",
-      "id": "evidence_evidence_agent_evidenceagent_calcsourcescore",
-      "community": 12,
-      "norm_label": "._calcsourcescore()"
-    },
-    {
-      "label": "._calcFactScore()",
-      "file_type": "code",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L105",
-      "_origin": "ast",
-      "id": "evidence_evidence_agent_evidenceagent_calcfactscore",
-      "community": 12,
-      "norm_label": "._calcfactscore()"
-    },
-    {
-      "label": "._calcResearchScore()",
-      "file_type": "code",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L117",
-      "_origin": "ast",
-      "id": "evidence_evidence_agent_evidenceagent_calcresearchscore",
-      "community": 12,
-      "norm_label": "._calcresearchscore()"
-    },
-    {
-      "label": "._calcBiasScore()",
-      "file_type": "code",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L128",
-      "_origin": "ast",
-      "id": "evidence_evidence_agent_evidenceagent_calcbiasscore",
-      "community": 12,
-      "norm_label": "._calcbiasscore()"
-    },
-    {
-      "label": "._redistributeWeights()",
-      "file_type": "code",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L138",
-      "_origin": "ast",
-      "id": "evidence_evidence_agent_evidenceagent_redistributeweights",
-      "community": 12,
-      "norm_label": "._redistributeweights()"
     },
     {
       "label": "factcheck.agent.js",
@@ -567,7 +527,7 @@
       "label": "FactCheckAgent",
       "file_type": "code",
       "source_file": "src/agents/factcheck/factcheck.agent.js",
-      "source_location": "L11",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "factcheck_factcheck_agent_factcheckagent",
       "community": 24,
@@ -577,7 +537,7 @@
       "label": ".constructor()",
       "file_type": "code",
       "source_file": "src/agents/factcheck/factcheck.agent.js",
-      "source_location": "L12",
+      "source_location": "L15",
       "_origin": "ast",
       "id": "factcheck_factcheck_agent_factcheckagent_constructor",
       "community": 24,
@@ -587,51 +547,61 @@
       "label": ".execute()",
       "file_type": "code",
       "source_file": "src/agents/factcheck/factcheck.agent.js",
-      "source_location": "L21",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "factcheck_factcheck_agent_factcheckagent_execute",
       "community": 24,
       "norm_label": ".execute()"
     },
     {
-      "label": "._deriveOverallVerdict()",
+      "label": "._mapToStatus()",
       "file_type": "code",
       "source_file": "src/agents/factcheck/factcheck.agent.js",
-      "source_location": "L87",
+      "source_location": "L121",
       "_origin": "ast",
-      "id": "factcheck_factcheck_agent_factcheckagent_deriveoverallverdict",
+      "id": "factcheck_factcheck_agent_factcheckagent_maptostatus",
       "community": 24,
-      "norm_label": "._deriveoverallverdict()"
+      "norm_label": "._maptostatus()"
     },
     {
-      "label": "AgentExecution.model.js",
+      "label": "._deriveOverallStatus()",
       "file_type": "code",
-      "source_file": "src/agents/models/AgentExecution.model.js",
+      "source_file": "src/agents/factcheck/factcheck.agent.js",
+      "source_location": "L132",
+      "_origin": "ast",
+      "id": "factcheck_factcheck_agent_factcheckagent_deriveoverallstatus",
+      "community": 24,
+      "norm_label": "._deriveoverallstatus()"
+    },
+    {
+      "label": "AgentAudit.model.js",
+      "file_type": "code",
+      "source_file": "src/agents/models/AgentAudit.model.js",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "models_agentexecution_model",
-      "community": 10,
-      "norm_label": "agentexecution.model.js"
+      "id": "models_agentaudit_model",
+      "community": 3,
+      "norm_label": "agentaudit.model.js"
     },
     {
-      "label": "agentExecutionSchema",
+      "label": "agentAuditSchema",
       "file_type": "code",
-      "source_file": "src/agents/models/AgentExecution.model.js",
-      "source_location": "L9",
+      "source_file": "src/agents/models/AgentAudit.model.js",
+      "source_location": "L8",
       "_origin": "ast",
-      "id": "models_agentexecution_model_agentexecutionschema",
-      "community": 10,
-      "norm_label": "agentexecutionschema"
+      "id": "models_agentaudit_model_agentauditschema",
+      "community": 3,
+      "norm_label": "agentauditschema"
     },
     {
-      "label": "AgentExecution",
+      "label": "AgentAudit",
       "file_type": "code",
-      "source_file": "src/agents/models/AgentExecution.model.js",
-      "source_location": "L74",
+      "source_file": "src/agents/models/AgentAudit.model.js",
+      "source_location": "L91",
       "_origin": "ast",
-      "id": "models_agentexecution_model_agentexecution",
-      "community": 10,
-      "norm_label": "agentexecution"
+      "id": "models_agentaudit_model_agentaudit",
+      "community": 3,
+      "norm_label": "agentaudit"
     },
     {
       "label": "orchestrator.agent.js",
@@ -697,7 +667,7 @@
       "label": "._toSummary()",
       "file_type": "code",
       "source_file": "src/agents/orchestrator.agent.js",
-      "source_location": "L172",
+      "source_location": "L169",
       "_origin": "ast",
       "id": "agents_orchestrator_agent_orchestratoragent_tosummary",
       "community": 19,
@@ -717,7 +687,7 @@
       "label": "ResearchAgent",
       "file_type": "code",
       "source_file": "src/agents/research/research.agent.js",
-      "source_location": "L33",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "research_research_agent_researchagent",
       "community": 10,
@@ -727,7 +697,7 @@
       "label": ".constructor()",
       "file_type": "code",
       "source_file": "src/agents/research/research.agent.js",
-      "source_location": "L34",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "research_research_agent_researchagent_constructor",
       "community": 10,
@@ -737,11 +707,21 @@
       "label": ".execute()",
       "file_type": "code",
       "source_file": "src/agents/research/research.agent.js",
-      "source_location": "L43",
+      "source_location": "L49",
       "_origin": "ast",
       "id": "research_research_agent_researchagent_execute",
       "community": 10,
       "norm_label": ".execute()"
+    },
+    {
+      "label": "._buildSearchQueries()",
+      "file_type": "code",
+      "source_file": "src/agents/research/research.agent.js",
+      "source_location": "L214",
+      "_origin": "ast",
+      "id": "research_research_agent_researchagent_buildsearchqueries",
+      "community": 10,
+      "norm_label": "._buildsearchqueries()"
     },
     {
       "label": "source.agent.js",
@@ -937,7 +917,7 @@
       "label": "._getFactCheckFallback()",
       "file_type": "code",
       "source_file": "src/agents/tools/newsSearch.tool.js",
-      "source_location": "L74",
+      "source_location": "L73",
       "_origin": "ast",
       "id": "tools_newssearch_tool_newssearchtool_getfactcheckfallback",
       "community": 31,
@@ -947,7 +927,7 @@
       "label": "._getFallbackResults()",
       "file_type": "code",
       "source_file": "src/agents/tools/newsSearch.tool.js",
-      "source_location": "L103",
+      "source_location": "L102",
       "_origin": "ast",
       "id": "tools_newssearch_tool_newssearchtool_getfallbackresults",
       "community": 31,
@@ -957,7 +937,7 @@
       "label": "._getMockResults()",
       "file_type": "code",
       "source_file": "src/agents/tools/newsSearch.tool.js",
-      "source_location": "L116",
+      "source_location": "L115",
       "_origin": "ast",
       "id": "tools_newssearch_tool_newssearchtool_getmockresults",
       "community": 31,
@@ -977,17 +957,27 @@
       "label": "REPUTATION_DB",
       "file_type": "code",
       "source_file": "src/agents/tools/sourceReputation.tool.js",
-      "source_location": "L14",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "tools_sourcereputation_tool_reputation_db",
       "community": 10,
       "norm_label": "reputation_db"
     },
     {
+      "label": "GOV_DOMAIN_PATTERNS",
+      "file_type": "code",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L84",
+      "_origin": "ast",
+      "id": "tools_sourcereputation_tool_gov_domain_patterns",
+      "community": 10,
+      "norm_label": "gov_domain_patterns"
+    },
+    {
       "label": "_domainCache",
       "file_type": "code",
       "source_file": "src/agents/tools/sourceReputation.tool.js",
-      "source_location": "L55",
+      "source_location": "L87",
       "_origin": "ast",
       "id": "tools_sourcereputation_tool_domaincache",
       "community": 10,
@@ -997,7 +987,7 @@
       "label": "SourceReputationTool",
       "file_type": "code",
       "source_file": "src/agents/tools/sourceReputation.tool.js",
-      "source_location": "L57",
+      "source_location": "L89",
       "_origin": "ast",
       "id": "tools_sourcereputation_tool_sourcereputationtool",
       "community": 21,
@@ -1007,17 +997,57 @@
       "label": ".lookup()",
       "file_type": "code",
       "source_file": "src/agents/tools/sourceReputation.tool.js",
-      "source_location": "L63",
+      "source_location": "L95",
       "_origin": "ast",
       "id": "tools_sourcereputation_tool_sourcereputationtool_lookup",
       "community": 21,
       "norm_label": ".lookup()"
     },
     {
+      "label": ".getAuthorityForUrl()",
+      "file_type": "code",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L141",
+      "_origin": "ast",
+      "id": "tools_sourcereputation_tool_sourcereputationtool_getauthorityforurl",
+      "community": 21,
+      "norm_label": ".getauthorityforurl()"
+    },
+    {
+      "label": "._findEntry()",
+      "file_type": "code",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L149",
+      "_origin": "ast",
+      "id": "tools_sourcereputation_tool_sourcereputationtool_findentry",
+      "community": 21,
+      "norm_label": "._findentry()"
+    },
+    {
+      "label": "._findParentDomainEntry()",
+      "file_type": "code",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L159",
+      "_origin": "ast",
+      "id": "tools_sourcereputation_tool_sourcereputationtool_findparentdomainentry",
+      "community": 21,
+      "norm_label": "._findparentdomainentry()"
+    },
+    {
+      "label": "._isGovDomain()",
+      "file_type": "code",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L172",
+      "_origin": "ast",
+      "id": "tools_sourcereputation_tool_sourcereputationtool_isgovdomain",
+      "community": 21,
+      "norm_label": "._isgovdomain()"
+    },
+    {
       "label": "._extractDomain()",
       "file_type": "code",
       "source_file": "src/agents/tools/sourceReputation.tool.js",
-      "source_location": "L100",
+      "source_location": "L179",
       "_origin": "ast",
       "id": "tools_sourcereputation_tool_sourcereputationtool_extractdomain",
       "community": 21,
@@ -1027,7 +1057,7 @@
       "label": "._unknownResult()",
       "file_type": "code",
       "source_file": "src/agents/tools/sourceReputation.tool.js",
-      "source_location": "L113",
+      "source_location": "L191",
       "_origin": "ast",
       "id": "tools_sourcereputation_tool_sourcereputationtool_unknownresult",
       "community": 21,
@@ -1037,7 +1067,7 @@
       "label": "._buildExplanation()",
       "file_type": "code",
       "source_file": "src/agents/tools/sourceReputation.tool.js",
-      "source_location": "L122",
+      "source_location": "L202",
       "_origin": "ast",
       "id": "tools_sourcereputation_tool_sourcereputationtool_buildexplanation",
       "community": 21,
@@ -1097,7 +1127,7 @@
       "label": "._getFactCheckFallback()",
       "file_type": "code",
       "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L83",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "tools_websearch_tool_websearchtool_getfactcheckfallback",
       "community": 30,
@@ -1107,7 +1137,7 @@
       "label": "._getFallbackResults()",
       "file_type": "code",
       "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L112",
+      "source_location": "L111",
       "_origin": "ast",
       "id": "tools_websearch_tool_websearchtool_getfallbackresults",
       "community": 30,
@@ -1117,7 +1147,7 @@
       "label": "._getMockResults()",
       "file_type": "code",
       "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L125",
+      "source_location": "L124",
       "_origin": "ast",
       "id": "tools_websearch_tool_websearchtool_getmockresults",
       "community": 30,
@@ -1127,7 +1157,7 @@
       "label": ".deduplicate()",
       "file_type": "code",
       "source_file": "src/agents/tools/webSearch.tool.js",
-      "source_location": "L149",
+      "source_location": "L148",
       "_origin": "ast",
       "id": "tools_websearch_tool_websearchtool_deduplicate",
       "community": 30,
@@ -1144,20 +1174,10 @@
       "norm_label": "verdict.agent.js"
     },
     {
-      "label": "THRESHOLDS",
-      "file_type": "code",
-      "source_file": "src/agents/verdict/verdict.agent.js",
-      "source_location": "L16",
-      "_origin": "ast",
-      "id": "verdict_verdict_agent_thresholds",
-      "community": 10,
-      "norm_label": "thresholds"
-    },
-    {
       "label": "VerdictAgent",
       "file_type": "code",
       "source_file": "src/agents/verdict/verdict.agent.js",
-      "source_location": "L37",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "verdict_verdict_agent_verdictagent",
       "community": 13,
@@ -1167,7 +1187,7 @@
       "label": ".constructor()",
       "file_type": "code",
       "source_file": "src/agents/verdict/verdict.agent.js",
-      "source_location": "L38",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "verdict_verdict_agent_verdictagent_constructor",
       "community": 13,
@@ -1177,7 +1197,7 @@
       "label": ".execute()",
       "file_type": "code",
       "source_file": "src/agents/verdict/verdict.agent.js",
-      "source_location": "L54",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "verdict_verdict_agent_verdictagent_execute",
       "community": 13,
@@ -1187,7 +1207,7 @@
       "label": "._deriveVerdict()",
       "file_type": "code",
       "source_file": "src/agents/verdict/verdict.agent.js",
-      "source_location": "L91",
+      "source_location": "L118",
       "_origin": "ast",
       "id": "verdict_verdict_agent_verdictagent_deriveverdict",
       "community": 13,
@@ -1197,7 +1217,7 @@
       "label": "._calculateConfidence()",
       "file_type": "code",
       "source_file": "src/agents/verdict/verdict.agent.js",
-      "source_location": "L124",
+      "source_location": "L166",
       "_origin": "ast",
       "id": "verdict_verdict_agent_verdictagent_calculateconfidence",
       "community": 13,
@@ -1207,7 +1227,7 @@
       "label": "._generateReasoning()",
       "file_type": "code",
       "source_file": "src/agents/verdict/verdict.agent.js",
-      "source_location": "L146",
+      "source_location": "L216",
       "_origin": "ast",
       "id": "verdict_verdict_agent_verdictagent_generatereasoning",
       "community": 13,
@@ -1217,7 +1237,7 @@
       "label": "._fallbackReasoning()",
       "file_type": "code",
       "source_file": "src/agents/verdict/verdict.agent.js",
-      "source_location": "L170",
+      "source_location": "L252",
       "_origin": "ast",
       "id": "verdict_verdict_agent_verdictagent_fallbackreasoning",
       "community": 13,
@@ -1230,7 +1250,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "workflows_fakenews_workflow",
-      "community": 10,
+      "community": 3,
       "norm_label": "fakenews.workflow.js"
     },
     {
@@ -1247,7 +1267,7 @@
       "label": ".analyzeArticle()",
       "file_type": "code",
       "source_file": "src/agents/workflows/fakeNews.workflow.js",
-      "source_location": "L26",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "workflows_fakenews_workflow_fakenewsworkflow_analyzearticle",
       "community": 20,
@@ -1257,7 +1277,7 @@
       "label": "._mapVerdict()",
       "file_type": "code",
       "source_file": "src/agents/workflows/fakeNews.workflow.js",
-      "source_location": "L74",
+      "source_location": "L86",
       "_origin": "ast",
       "id": "workflows_fakenews_workflow_fakenewsworkflow_mapverdict",
       "community": 20,
@@ -1267,7 +1287,7 @@
       "label": "._extractPrimaryClaim()",
       "file_type": "code",
       "source_file": "src/agents/workflows/fakeNews.workflow.js",
-      "source_location": "L90",
+      "source_location": "L102",
       "_origin": "ast",
       "id": "workflows_fakenews_workflow_fakenewsworkflow_extractprimaryclaim",
       "community": 20,
@@ -1277,21 +1297,61 @@
       "label": "._extractSources()",
       "file_type": "code",
       "source_file": "src/agents/workflows/fakeNews.workflow.js",
-      "source_location": "L101",
+      "source_location": "L112",
       "_origin": "ast",
       "id": "workflows_fakenews_workflow_fakenewsworkflow_extractsources",
       "community": 20,
       "norm_label": "._extractsources()"
     },
     {
-      "label": "._saveAgentExecutions()",
+      "label": "._buildTimeline()",
       "file_type": "code",
       "source_file": "src/agents/workflows/fakeNews.workflow.js",
-      "source_location": "L135",
+      "source_location": "L160",
       "_origin": "ast",
-      "id": "workflows_fakenews_workflow_fakenewsworkflow_saveagentexecutions",
+      "id": "workflows_fakenews_workflow_fakenewsworkflow_buildtimeline",
       "community": 20,
-      "norm_label": "._saveagentexecutions()"
+      "norm_label": "._buildtimeline()"
+    },
+    {
+      "label": "._buildEvidenceSources()",
+      "file_type": "code",
+      "source_file": "src/agents/workflows/fakeNews.workflow.js",
+      "source_location": "L171",
+      "_origin": "ast",
+      "id": "workflows_fakenews_workflow_fakenewsworkflow_buildevidencesources",
+      "community": 20,
+      "norm_label": "._buildevidencesources()"
+    },
+    {
+      "label": "._saveAgentAudits()",
+      "file_type": "code",
+      "source_file": "src/agents/workflows/fakeNews.workflow.js",
+      "source_location": "L211",
+      "_origin": "ast",
+      "id": "workflows_fakenews_workflow_fakenewsworkflow_saveagentaudits",
+      "community": 20,
+      "norm_label": "._saveagentaudits()"
+    },
+    {
+      "label": "._buildExecutionReport()",
+      "file_type": "code",
+      "source_file": "src/agents/workflows/fakeNews.workflow.js",
+      "source_location": "L234",
+      "_origin": "ast",
+      "id": "workflows_fakenews_workflow_fakenewsworkflow_buildexecutionreport",
+      "community": 20,
+      "norm_label": "._buildexecutionreport()"
+    },
+    {
+      "label": "._printExecutionReport()",
+      "file_type": "code",
+      "source_file": "src/agents/workflows/fakeNews.workflow.js",
+      "source_location": "L255",
+      "_origin": "ast",
+      "id": "workflows_fakenews_workflow_fakenewsworkflow_printexecutionreport",
+      "community": 20,
+      "norm_label": "._printexecutionreport()"
     },
     {
       "label": "app.js",
@@ -1310,7 +1370,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_app_app",
-      "community": 32,
+      "community": 3,
       "norm_label": "app"
     },
     {
@@ -1330,7 +1390,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "config_constants_roles",
-      "community": 32,
+      "community": 8,
       "norm_label": "roles"
     },
     {
@@ -1340,7 +1400,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "config_constants_verdicts",
-      "community": 10,
+      "community": 3,
       "norm_label": "verdicts"
     },
     {
@@ -1350,7 +1410,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "config_constants_report_status",
-      "community": 33,
+      "community": 11,
       "norm_label": "report_status"
     },
     {
@@ -1364,10 +1424,40 @@
       "norm_label": "api_limits"
     },
     {
-      "label": "AGENT_NAMES",
+      "label": "CLAIM_TYPES",
       "file_type": "code",
       "source_file": "src/config/constants.js",
       "source_location": "L37",
+      "_origin": "ast",
+      "id": "config_constants_claim_types",
+      "community": 10,
+      "norm_label": "claim_types"
+    },
+    {
+      "label": "FACT_CHECK_STATUSES",
+      "file_type": "code",
+      "source_file": "src/config/constants.js",
+      "source_location": "L49",
+      "_origin": "ast",
+      "id": "config_constants_fact_check_statuses",
+      "community": 10,
+      "norm_label": "fact_check_statuses"
+    },
+    {
+      "label": "SOURCE_TIERS",
+      "file_type": "code",
+      "source_file": "src/config/constants.js",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "config_constants_source_tiers",
+      "community": 10,
+      "norm_label": "source_tiers"
+    },
+    {
+      "label": "AGENT_NAMES",
+      "file_type": "code",
+      "source_file": "src/config/constants.js",
+      "source_location": "L67",
       "_origin": "ast",
       "id": "config_constants_agent_names",
       "community": 10,
@@ -1380,7 +1470,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "config_db",
-      "community": 32,
+      "community": 3,
       "norm_label": "db.js"
     },
     {
@@ -1390,7 +1480,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "config_db_connectdb",
-      "community": 32,
+      "community": 3,
       "norm_label": "connectdb()"
     },
     {
@@ -1450,7 +1540,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "config_env_config",
-      "community": 32,
+      "community": 3,
       "norm_label": "config"
     },
     {
@@ -1830,7 +1920,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "controllers_report_controller",
-      "community": 35,
+      "community": 1,
       "norm_label": "report.controller.js"
     },
     {
@@ -1840,7 +1930,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "controllers_report_controller_reportcontroller",
-      "community": 35,
+      "community": 1,
       "norm_label": "reportcontroller"
     },
     {
@@ -1850,7 +1940,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "controllers_report_controller_reportcontroller_submitreport",
-      "community": 35,
+      "community": 1,
       "norm_label": ".submitreport()"
     },
     {
@@ -1860,7 +1950,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "controllers_report_controller_reportcontroller_getmyreports",
-      "community": 35,
+      "community": 1,
       "norm_label": ".getmyreports()"
     },
     {
@@ -1870,7 +1960,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "controllers_user_controller",
-      "community": 9,
+      "community": 17,
       "norm_label": "user.controller.js"
     },
     {
@@ -1940,7 +2030,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "middleware_auth_middleware",
-      "community": 32,
+      "community": 8,
       "norm_label": "auth.middleware.js"
     },
     {
@@ -1960,7 +2050,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "middleware_error_middleware",
-      "community": 3,
+      "community": 14,
       "norm_label": "error.middleware.js"
     },
     {
@@ -1970,7 +2060,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "middleware_error_middleware_handlecasterrordb",
-      "community": 3,
+      "community": 14,
       "norm_label": "handlecasterrordb()"
     },
     {
@@ -1980,7 +2070,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "middleware_error_middleware_handleduplicatefieldsdb",
-      "community": 3,
+      "community": 14,
       "norm_label": "handleduplicatefieldsdb()"
     },
     {
@@ -1990,7 +2080,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "middleware_error_middleware_handlevalidationerrordb",
-      "community": 3,
+      "community": 14,
       "norm_label": "handlevalidationerrordb()"
     },
     {
@@ -2000,7 +2090,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "middleware_error_middleware_handlejwterror",
-      "community": 3,
+      "community": 14,
       "norm_label": "handlejwterror()"
     },
     {
@@ -2010,7 +2100,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "middleware_error_middleware_handlejwtexpirederror",
-      "community": 3,
+      "community": 14,
       "norm_label": "handlejwtexpirederror()"
     },
     {
@@ -2020,7 +2110,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "middleware_error_middleware_senderrordev",
-      "community": 3,
+      "community": 14,
       "norm_label": "senderrordev()"
     },
     {
@@ -2030,7 +2120,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "middleware_error_middleware_senderrorprod",
-      "community": 3,
+      "community": 14,
       "norm_label": "senderrorprod()"
     },
     {
@@ -2080,7 +2170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "models_factcheck_model",
-      "community": 10,
+      "community": 3,
       "norm_label": "factcheck.model.js"
     },
     {
@@ -2090,7 +2180,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "models_factcheck_model_sourceschema",
-      "community": 10,
+      "community": 3,
       "norm_label": "sourceschema"
     },
     {
@@ -2100,17 +2190,17 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "models_factcheck_model_factcheckschema",
-      "community": 10,
+      "community": 3,
       "norm_label": "factcheckschema"
     },
     {
       "label": "FactCheck",
       "file_type": "code",
       "source_file": "src/models/factCheck.model.js",
-      "source_location": "L59",
+      "source_location": "L75",
       "_origin": "ast",
       "id": "models_factcheck_model_factcheck",
-      "community": 10,
+      "community": 3,
       "norm_label": "factcheck"
     },
     {
@@ -2120,7 +2210,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "models_report_model",
-      "community": 33,
+      "community": 11,
       "norm_label": "report.model.js"
     },
     {
@@ -2130,7 +2220,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "models_report_model_reportschema",
-      "community": 33,
+      "community": 11,
       "norm_label": "reportschema"
     },
     {
@@ -2140,7 +2230,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "models_report_model_report",
-      "community": 33,
+      "community": 11,
       "norm_label": "report"
     },
     {
@@ -2150,7 +2240,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "models_savedarticle_model",
-      "community": 34,
+      "community": 11,
       "norm_label": "savedarticle.model.js"
     },
     {
@@ -2160,7 +2250,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "models_savedarticle_model_savedarticleschema",
-      "community": 34,
+      "community": 11,
       "norm_label": "savedarticleschema"
     },
     {
@@ -2170,7 +2260,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "models_savedarticle_model_savedarticle",
-      "community": 34,
+      "community": 11,
       "norm_label": "savedarticle"
     },
     {
@@ -2180,7 +2270,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "models_user_model",
-      "community": 32,
+      "community": 1,
       "norm_label": "user.model.js"
     },
     {
@@ -2190,7 +2280,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "models_user_model_userschema",
-      "community": 32,
+      "community": 1,
       "norm_label": "userschema"
     },
     {
@@ -2200,7 +2290,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "models_user_model_user",
-      "community": 32,
+      "community": 1,
       "norm_label": "user"
     },
     {
@@ -2237,7 +2327,7 @@
       "label": "._buildSources()",
       "file_type": "code",
       "source_file": "src/modules/news-analysis/controllers/newsAnalysis.controller.js",
-      "source_location": "L86",
+      "source_location": "L104",
       "_origin": "ast",
       "id": "controllers_newsanalysis_controller_newsanalysiscontroller_buildsources",
       "community": 8,
@@ -2317,7 +2407,7 @@
       "label": ".analyzeNews()",
       "file_type": "code",
       "source_file": "src/modules/news-analysis/services/newsAnalysis.service.js",
-      "source_location": "L13",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "services_newsanalysis_service_newsanalysisservice_analyzenews",
       "community": 26,
@@ -2327,7 +2417,7 @@
       "label": "._mapToLegacyVerdict()",
       "file_type": "code",
       "source_file": "src/modules/news-analysis/services/newsAnalysis.service.js",
-      "source_location": "L47",
+      "source_location": "L49",
       "_origin": "ast",
       "id": "services_newsanalysis_service_newsanalysisservice_maptolegacyverdict",
       "community": 26,
@@ -2337,7 +2427,7 @@
       "label": "._deriveRiskLevel()",
       "file_type": "code",
       "source_file": "src/modules/news-analysis/services/newsAnalysis.service.js",
-      "source_location": "L63",
+      "source_location": "L65",
       "_origin": "ast",
       "id": "services_newsanalysis_service_newsanalysisservice_deriverisklevel",
       "community": 26,
@@ -2417,7 +2507,7 @@
       "label": "router",
       "file_type": "code",
       "source_file": "src/routes/news.routes.js",
-      "source_location": "L6",
+      "source_location": "L8",
       "_origin": "ast",
       "id": "routes_news_routes_router",
       "community": 8,
@@ -2470,7 +2560,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_server",
-      "community": 32,
+      "community": 3,
       "norm_label": "server.js"
     },
     {
@@ -2480,7 +2570,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_server_server",
-      "community": 32,
+      "community": 3,
       "norm_label": "server"
     },
     {
@@ -2490,7 +2580,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_admin_service",
-      "community": 34,
+      "community": 11,
       "norm_label": "admin.service.js"
     },
     {
@@ -2710,7 +2800,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_analytics_service",
-      "community": 33,
+      "community": 11,
       "norm_label": "analytics.service.js"
     },
     {
@@ -2720,7 +2810,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "services_analytics_service_analyticsservice",
-      "community": 33,
+      "community": 11,
       "norm_label": "analyticsservice"
     },
     {
@@ -2730,7 +2820,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "services_analytics_service_analyticsservice_getsummarystats",
-      "community": 33,
+      "community": 11,
       "norm_label": ".getsummarystats()"
     },
     {
@@ -2740,7 +2830,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "services_analytics_service_analyticsservice_getrecentactivity",
-      "community": 33,
+      "community": 11,
       "norm_label": ".getrecentactivity()"
     },
     {
@@ -2750,7 +2840,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_auth_service",
-      "community": 9,
+      "community": 1,
       "norm_label": "auth.service.js"
     },
     {
@@ -2760,7 +2850,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "services_auth_service_authservice",
-      "community": 25,
+      "community": 1,
       "norm_label": "authservice"
     },
     {
@@ -2770,7 +2860,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "services_auth_service_authservice_register",
-      "community": 25,
+      "community": 1,
       "norm_label": ".register()"
     },
     {
@@ -2780,7 +2870,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "services_auth_service_authservice_login",
-      "community": 25,
+      "community": 1,
       "norm_label": ".login()"
     },
     {
@@ -2790,7 +2880,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "services_auth_service_authservice_generatetoken",
-      "community": 25,
+      "community": 1,
       "norm_label": ".generatetoken()"
     },
     {
@@ -2800,7 +2890,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_claimextraction_service",
-      "community": 8,
+      "community": 9,
       "norm_label": "claimextraction.service.js"
     },
     {
@@ -2810,7 +2900,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "services_claimextraction_service_claimextractionservice",
-      "community": 8,
+      "community": 9,
       "norm_label": "claimextractionservice"
     },
     {
@@ -2820,7 +2910,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "services_claimextraction_service_claimextractionservice_constructor",
-      "community": 8,
+      "community": 9,
       "norm_label": ".constructor()"
     },
     {
@@ -2830,7 +2920,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "services_claimextraction_service_claimextractionservice_extractclaim",
-      "community": 8,
+      "community": 9,
       "norm_label": ".extractclaim()"
     },
     {
@@ -2840,7 +2930,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "services_claimextraction_service_claimextractionservice_extractkeywords",
-      "community": 8,
+      "community": 9,
       "norm_label": ".extractkeywords()"
     },
     {
@@ -2850,7 +2940,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_credibility_service",
-      "community": 10,
+      "community": 3,
       "norm_label": "credibility.service.js"
     },
     {
@@ -2860,7 +2950,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_credibility_service_credibilityservice",
-      "community": 10,
+      "community": 3,
       "norm_label": "credibilityservice"
     },
     {
@@ -2870,7 +2960,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "services_credibility_service_credibilityservice_normalizerating",
-      "community": 10,
+      "community": 3,
       "norm_label": ".normalizerating()"
     },
     {
@@ -2880,7 +2970,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "services_credibility_service_credibilityservice_calculatecredibility",
-      "community": 10,
+      "community": 3,
       "norm_label": ".calculatecredibility()"
     },
     {
@@ -2890,7 +2980,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_explanation_service",
-      "community": 10,
+      "community": 3,
       "norm_label": "explanation.service.js"
     },
     {
@@ -2900,7 +2990,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "services_explanation_service_explanationservice",
-      "community": 36,
+      "community": 3,
       "norm_label": "explanationservice"
     },
     {
@@ -2910,7 +3000,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "services_explanation_service_explanationservice_generateexplanation",
-      "community": 36,
+      "community": 3,
       "norm_label": ".generateexplanation()"
     },
     {
@@ -2920,7 +3010,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "services_explanation_service_explanationservice_truncatetext",
-      "community": 36,
+      "community": 3,
       "norm_label": "._truncatetext()"
     },
     {
@@ -2930,7 +3020,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "services_explanation_service_explanationservice_formatlist",
-      "community": 36,
+      "community": 3,
       "norm_label": "._formatlist()"
     },
     {
@@ -3000,7 +3090,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "llm_llm_service_llmservice",
-      "community": 14,
+      "community": 12,
       "norm_label": "llmservice"
     },
     {
@@ -3010,7 +3100,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "llm_llm_service_llmservice_withtimeout",
-      "community": 14,
+      "community": 12,
       "norm_label": "._withtimeout()"
     },
     {
@@ -3020,7 +3110,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "llm_llm_service_llmservice_analyzenews",
-      "community": 14,
+      "community": 12,
       "norm_label": ".analyzenews()"
     },
     {
@@ -3030,7 +3120,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "llm_llm_service_llmservice_attemptanalysis",
-      "community": 14,
+      "community": 12,
       "norm_label": "._attemptanalysis()"
     },
     {
@@ -3240,7 +3330,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_news_service",
-      "community": 10,
+      "community": 3,
       "norm_label": "news.service.js"
     },
     {
@@ -3300,7 +3390,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_report_service",
-      "community": 33,
+      "community": 11,
       "norm_label": "report.service.js"
     },
     {
@@ -3310,7 +3400,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_report_service_reportservice",
-      "community": 33,
+      "community": 11,
       "norm_label": "reportservice"
     },
     {
@@ -3320,7 +3410,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "services_report_service_reportservice_submitreport",
-      "community": 33,
+      "community": 11,
       "norm_label": ".submitreport()"
     },
     {
@@ -3330,7 +3420,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "services_report_service_reportservice_getuserreports",
-      "community": 33,
+      "community": 11,
       "norm_label": ".getuserreports()"
     },
     {
@@ -3340,7 +3430,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "services_user_service",
-      "community": 34,
+      "community": 11,
       "norm_label": "user.service.js"
     },
     {
@@ -3350,7 +3440,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "services_user_service_userservice",
-      "community": 37,
+      "community": 11,
       "norm_label": "userservice"
     },
     {
@@ -3360,7 +3450,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "services_user_service_userservice_savearticle",
-      "community": 37,
+      "community": 11,
       "norm_label": ".savearticle()"
     },
     {
@@ -3370,7 +3460,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "services_user_service_userservice_getsavedarticles",
-      "community": 37,
+      "community": 11,
       "norm_label": ".getsavedarticles()"
     },
     {
@@ -3380,7 +3470,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "services_user_service_userservice_deletesavedarticle",
-      "community": 37,
+      "community": 11,
       "norm_label": ".deletesavedarticle()"
     },
     {
@@ -3390,7 +3480,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_errors",
-      "community": 9,
+      "community": 14,
       "norm_label": "errors.js"
     },
     {
@@ -3420,7 +3510,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "utils_errors_badrequesterror",
-      "community": 9,
+      "community": 1,
       "norm_label": "badrequesterror"
     },
     {
@@ -3430,7 +3520,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "utils_errors_badrequesterror_constructor",
-      "community": 9,
+      "community": 1,
       "norm_label": ".constructor()"
     },
     {
@@ -3440,7 +3530,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "utils_errors_unauthorizederror",
-      "community": 9,
+      "community": 1,
       "norm_label": "unauthorizederror"
     },
     {
@@ -3450,7 +3540,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "utils_errors_unauthorizederror_constructor",
-      "community": 9,
+      "community": 1,
       "norm_label": ".constructor()"
     },
     {
@@ -3460,7 +3550,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "utils_errors_forbiddenerror",
-      "community": 34,
+      "community": 11,
       "norm_label": "forbiddenerror"
     },
     {
@@ -3470,7 +3560,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "utils_errors_forbiddenerror_constructor",
-      "community": 34,
+      "community": 11,
       "norm_label": ".constructor()"
     },
     {
@@ -3480,7 +3570,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "utils_errors_notfounderror",
-      "community": 34,
+      "community": 11,
       "norm_label": "notfounderror"
     },
     {
@@ -3490,7 +3580,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "utils_errors_notfounderror_constructor",
-      "community": 34,
+      "community": 11,
       "norm_label": ".constructor()"
     },
     {
@@ -3500,7 +3590,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "utils_errors_conflicterror",
-      "community": 9,
+      "community": 1,
       "norm_label": "conflicterror"
     },
     {
@@ -3510,7 +3600,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "utils_errors_conflicterror_constructor",
-      "community": 9,
+      "community": 1,
       "norm_label": ".constructor()"
     },
     {
@@ -3520,7 +3610,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "utils_errors_internalservererror",
-      "community": 9,
+      "community": 14,
       "norm_label": "internalservererror"
     },
     {
@@ -3530,7 +3620,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "utils_errors_internalservererror_constructor",
-      "community": 9,
+      "community": 14,
       "norm_label": ".constructor()"
     },
     {
@@ -3584,10 +3674,20 @@
       "norm_label": "gettimestamp()"
     },
     {
+      "label": "maskSensitiveData()",
+      "file_type": "code",
+      "source_file": "src/utils/logger.js",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "utils_logger_masksensitivedata",
+      "community": 10,
+      "norm_label": "masksensitivedata()"
+    },
+    {
       "label": "logger",
       "file_type": "code",
       "source_file": "src/utils/logger.js",
-      "source_location": "L8",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "utils_logger_logger",
       "community": 10,
@@ -3800,7 +3900,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "validations_report_validation",
-      "community": 35,
+      "community": 1,
       "norm_label": "report.validation.js"
     },
     {
@@ -3810,7 +3910,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "validations_report_validation_submitreportschema",
-      "community": 35,
+      "community": 1,
       "norm_label": "submitreportschema"
     },
     {
@@ -3820,7 +3920,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "validations_user_validation",
-      "community": 9,
+      "community": 17,
       "norm_label": "user.validation.js"
     },
     {
@@ -3830,8 +3930,48 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "validations_user_validation_savearticleschema",
-      "community": 9,
+      "community": 17,
       "norm_label": "savearticleschema"
+    },
+    {
+      "label": "test_search.js",
+      "file_type": "code",
+      "source_file": "test_search.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "test_search",
+      "community": 25,
+      "norm_label": "test_search.js"
+    },
+    {
+      "label": "testNews()",
+      "file_type": "code",
+      "source_file": "test_search.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "test_search_testnews",
+      "community": 25,
+      "norm_label": "testnews()"
+    },
+    {
+      "label": "testTavily()",
+      "file_type": "code",
+      "source_file": "test_search.js",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "test_search_testtavily",
+      "community": 25,
+      "norm_label": "testtavily()"
+    },
+    {
+      "label": "run()",
+      "file_type": "code",
+      "source_file": "test_search.js",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "test_search_run",
+      "community": 25,
+      "norm_label": "run()"
     },
     {
       "label": "graphify.md",
@@ -5037,6 +5177,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/claim/claim.agent.js",
+      "source_location": "L67",
+      "weight": 1.0,
+      "source": "claim_claim_agent",
+      "target": "claim_claim_agent_claim_type_search_hints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/claim/claim.agent.js",
       "source_location": "L28",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -5066,6 +5216,17 @@
       "target": "config_constants_agent_names"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/claim/claim.agent.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "claim_claim_agent",
+      "target": "config_constants_claim_types",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -5086,6 +5247,28 @@
       "confidence_score": 1.0,
       "source": "claim_claim_agent",
       "target": "tools_llm_tool"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/claim/claim.agent.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "claim_claim_agent",
+      "target": "utils_errors",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/claim/claim.agent.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "claim_claim_agent",
+      "target": "utils_errors_apperror",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -5140,6 +5323,16 @@
       "target": "claim_claim_agent_claimagent_fallbackextraction"
     },
     {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/claim/claim.agent.js",
+      "source_location": "L149",
+      "weight": 1.0,
+      "source": "claim_claim_agent_claimagent",
+      "target": "claim_claim_agent_claimagent_normalizeclaimtype",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -5184,6 +5377,28 @@
       "target": "config_constants_agent_names"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/evidence/evidence.agent.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "evidence_evidence_agent",
+      "target": "config_constants_fact_check_statuses",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/evidence/evidence.agent.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "evidence_evidence_agent",
+      "target": "config_constants_source_tiers",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/evidence/evidence.agent.js",
@@ -5192,16 +5407,6 @@
       "confidence_score": 1.0,
       "source": "evidence_evidence_agent",
       "target": "evidence_evidence_agent_evidenceagent"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L17",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "evidence_evidence_agent",
-      "target": "evidence_evidence_agent_weights"
     },
     {
       "relation": "imports_from",
@@ -5229,46 +5434,6 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L126",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "evidence_evidence_agent_evidenceagent",
-      "target": "evidence_evidence_agent_evidenceagent_calcbiasscore"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L103",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "evidence_evidence_agent_evidenceagent",
-      "target": "evidence_evidence_agent_evidenceagent_calcfactscore"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L115",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "evidence_evidence_agent_evidenceagent",
-      "target": "evidence_evidence_agent_evidenceagent_calcresearchscore"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L98",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "evidence_evidence_agent_evidenceagent",
-      "target": "evidence_evidence_agent_evidenceagent_calcsourcescore"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/evidence/evidence.agent.js",
       "source_location": "L26",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -5284,71 +5449,6 @@
       "confidence_score": 1.0,
       "source": "evidence_evidence_agent_evidenceagent",
       "target": "evidence_evidence_agent_evidenceagent_execute"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L136",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "evidence_evidence_agent_evidenceagent",
-      "target": "evidence_evidence_agent_evidenceagent_redistributeweights"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L59",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "evidence_evidence_agent_evidenceagent_execute",
-      "target": "evidence_evidence_agent_evidenceagent_calcbiasscore"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L57",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "evidence_evidence_agent_evidenceagent_execute",
-      "target": "evidence_evidence_agent_evidenceagent_calcfactscore"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L58",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "evidence_evidence_agent_evidenceagent_execute",
-      "target": "evidence_evidence_agent_evidenceagent_calcresearchscore"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L56",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "evidence_evidence_agent_evidenceagent_execute",
-      "target": "evidence_evidence_agent_evidenceagent_calcsourcescore"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/evidence/evidence.agent.js",
-      "source_location": "L66",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "evidence_evidence_agent_evidenceagent_execute",
-      "target": "evidence_evidence_agent_evidenceagent_redistributeweights"
     },
     {
       "relation": "imports_from",
@@ -5382,6 +5482,17 @@
       "confidence_score": 1.0,
       "source": "factcheck_factcheck_agent",
       "target": "config_constants_agent_names"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/factcheck/factcheck.agent.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "factcheck_factcheck_agent",
+      "target": "config_constants_fact_check_statuses",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -5451,11 +5562,11 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/factcheck/factcheck.agent.js",
-      "source_location": "L85",
+      "source_location": "L132",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "factcheck_factcheck_agent_factcheckagent",
-      "target": "factcheck_factcheck_agent_factcheckagent_deriveoverallverdict"
+      "target": "factcheck_factcheck_agent_factcheckagent_deriveoverallstatus",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -5468,57 +5579,67 @@
       "target": "factcheck_factcheck_agent_factcheckagent_execute"
     },
     {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/factcheck/factcheck.agent.js",
+      "source_location": "L121",
+      "weight": 1.0,
+      "source": "factcheck_factcheck_agent_factcheckagent",
+      "target": "factcheck_factcheck_agent_factcheckagent_maptostatus",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/factcheck/factcheck.agent.js",
-      "source_location": "L70",
+      "source_location": "L97",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "factcheck_factcheck_agent_factcheckagent_execute",
-      "target": "factcheck_factcheck_agent_factcheckagent_deriveoverallverdict"
+      "target": "factcheck_factcheck_agent_factcheckagent_deriveoverallstatus",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/agents/models/AgentExecution.model.js",
+      "source_file": "src/agents/models/AgentAudit.model.js",
       "source_location": "L2",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "models_agentexecution_model",
-      "target": "config_constants"
+      "source": "models_agentaudit_model",
+      "target": "config_constants",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "src/agents/models/AgentExecution.model.js",
+      "source_file": "src/agents/models/AgentAudit.model.js",
       "source_location": "L2",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "models_agentexecution_model",
-      "target": "config_constants_agent_names"
+      "source": "models_agentaudit_model",
+      "target": "config_constants_agent_names",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/agents/models/AgentExecution.model.js",
-      "source_location": "L74",
+      "source_file": "src/agents/models/AgentAudit.model.js",
+      "source_location": "L91",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "models_agentexecution_model",
-      "target": "models_agentexecution_model_agentexecution"
+      "source": "models_agentaudit_model",
+      "target": "models_agentaudit_model_agentaudit",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/agents/models/AgentExecution.model.js",
-      "source_location": "L9",
+      "source_file": "src/agents/models/AgentAudit.model.js",
+      "source_location": "L8",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "models_agentexecution_model",
-      "target": "models_agentexecution_model_agentexecutionschema"
+      "source": "models_agentaudit_model",
+      "target": "models_agentaudit_model_agentauditschema",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -5527,9 +5648,9 @@
       "source_file": "src/agents/workflows/fakeNews.workflow.js",
       "source_location": "L2",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "workflows_fakenews_workflow",
-      "target": "models_agentexecution_model"
+      "target": "models_agentaudit_model",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -5538,9 +5659,9 @@
       "source_file": "src/agents/workflows/fakeNews.workflow.js",
       "source_location": "L2",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "workflows_fakenews_workflow",
-      "target": "models_agentexecution_model_agentexecution"
+      "target": "models_agentaudit_model_agentaudit",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -5804,6 +5925,17 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/research/research.agent.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "research_research_agent",
+      "target": "tools_sourcereputation_tool",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/research/research.agent.js",
       "source_location": "L1",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -5831,6 +5963,16 @@
       "confidence_score": 1.0,
       "source": "research_research_agent",
       "target": "utils_logger_logger"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/research/research.agent.js",
+      "source_location": "L214",
+      "weight": 1.0,
+      "source": "research_research_agent_researchagent",
+      "target": "research_research_agent_researchagent_buildsearchqueries",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -5987,9 +6129,9 @@
       "source_file": "src/agents/tools/newsSearch.tool.js",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tools_newssearch_tool",
-      "target": "tools_googlefactcheck_tool",
-      "confidence_score": 1.0
+      "target": "tools_googlefactcheck_tool"
     },
     {
       "relation": "imports_from",
@@ -5998,9 +6140,9 @@
       "source_file": "src/agents/tools/webSearch.tool.js",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tools_websearch_tool",
-      "target": "tools_googlefactcheck_tool",
-      "confidence_score": 1.0
+      "target": "tools_googlefactcheck_tool"
     },
     {
       "relation": "method",
@@ -6295,9 +6437,9 @@
       "source_file": "src/agents/tools/newsSearch.tool.js",
       "source_location": "L74",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tools_newssearch_tool_newssearchtool",
-      "target": "tools_newssearch_tool_newssearchtool_getfactcheckfallback",
-      "confidence_score": 1.0
+      "target": "tools_newssearch_tool_newssearchtool_getfactcheckfallback"
     },
     {
       "relation": "method",
@@ -6305,9 +6447,9 @@
       "source_file": "src/agents/tools/newsSearch.tool.js",
       "source_location": "L103",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tools_newssearch_tool_newssearchtool",
-      "target": "tools_newssearch_tool_newssearchtool_getfallbackresults",
-      "confidence_score": 1.0
+      "target": "tools_newssearch_tool_newssearchtool_getfallbackresults"
     },
     {
       "relation": "method",
@@ -6336,9 +6478,9 @@
       "source_file": "src/agents/tools/newsSearch.tool.js",
       "source_location": "L23",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tools_newssearch_tool_newssearchtool_search",
-      "target": "tools_newssearch_tool_newssearchtool_getfallbackresults",
-      "confidence_score": 1.0
+      "target": "tools_newssearch_tool_newssearchtool_getfallbackresults"
     },
     {
       "relation": "calls",
@@ -6358,9 +6500,9 @@
       "source_file": "src/agents/tools/newsSearch.tool.js",
       "source_location": "L104",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tools_newssearch_tool_newssearchtool_getfallbackresults",
-      "target": "tools_newssearch_tool_newssearchtool_getfactcheckfallback",
-      "confidence_score": 1.0
+      "target": "tools_newssearch_tool_newssearchtool_getfactcheckfallback"
     },
     {
       "relation": "calls",
@@ -6369,8 +6511,30 @@
       "source_file": "src/agents/tools/newsSearch.tool.js",
       "source_location": "L110",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tools_newssearch_tool_newssearchtool_getfallbackresults",
-      "target": "tools_newssearch_tool_newssearchtool_getmockresults",
+      "target": "tools_newssearch_tool_newssearchtool_getmockresults"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "tools_sourcereputation_tool",
+      "target": "config_constants",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "tools_sourcereputation_tool",
+      "target": "config_constants_source_tiers",
       "confidence_score": 1.0
     },
     {
@@ -6382,6 +6546,16 @@
       "confidence_score": 1.0,
       "source": "tools_sourcereputation_tool",
       "target": "tools_sourcereputation_tool_domaincache"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L84",
+      "weight": 1.0,
+      "source": "tools_sourcereputation_tool",
+      "target": "tools_sourcereputation_tool_gov_domain_patterns",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -6449,6 +6623,46 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L149",
+      "weight": 1.0,
+      "source": "tools_sourcereputation_tool_sourcereputationtool",
+      "target": "tools_sourcereputation_tool_sourcereputationtool_findentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L159",
+      "weight": 1.0,
+      "source": "tools_sourcereputation_tool_sourcereputationtool",
+      "target": "tools_sourcereputation_tool_sourcereputationtool_findparentdomainentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L141",
+      "weight": 1.0,
+      "source": "tools_sourcereputation_tool_sourcereputationtool",
+      "target": "tools_sourcereputation_tool_sourcereputationtool_getauthorityforurl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L172",
+      "weight": 1.0,
+      "source": "tools_sourcereputation_tool_sourcereputationtool",
+      "target": "tools_sourcereputation_tool_sourcereputationtool_isgovdomain",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
       "source_location": "L63",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -6464,6 +6678,17 @@
       "confidence_score": 1.0,
       "source": "tools_sourcereputation_tool_sourcereputationtool",
       "target": "tools_sourcereputation_tool_sourcereputationtool_unknownresult"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L142",
+      "weight": 1.0,
+      "source": "tools_sourcereputation_tool_sourcereputationtool_getauthorityforurl",
+      "target": "tools_sourcereputation_tool_sourcereputationtool_lookup",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -6492,11 +6717,44 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L106",
+      "weight": 1.0,
+      "source": "tools_sourcereputation_tool_sourcereputationtool_lookup",
+      "target": "tools_sourcereputation_tool_sourcereputationtool_findentry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L118",
+      "weight": 1.0,
+      "source": "tools_sourcereputation_tool_sourcereputationtool_lookup",
+      "target": "tools_sourcereputation_tool_sourcereputationtool_isgovdomain",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
       "source_location": "L65",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "tools_sourcereputation_tool_sourcereputationtool_lookup",
       "target": "tools_sourcereputation_tool_sourcereputationtool_unknownresult"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/tools/sourceReputation.tool.js",
+      "source_location": "L152",
+      "weight": 1.0,
+      "source": "tools_sourcereputation_tool_sourcereputationtool_findentry",
+      "target": "tools_sourcereputation_tool_sourcereputationtool_findparentdomainentry",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -6588,9 +6846,9 @@
       "source_file": "src/agents/tools/webSearch.tool.js",
       "source_location": "L83",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tools_websearch_tool_websearchtool",
-      "target": "tools_websearch_tool_websearchtool_getfactcheckfallback",
-      "confidence_score": 1.0
+      "target": "tools_websearch_tool_websearchtool_getfactcheckfallback"
     },
     {
       "relation": "method",
@@ -6598,9 +6856,9 @@
       "source_file": "src/agents/tools/webSearch.tool.js",
       "source_location": "L112",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tools_websearch_tool_websearchtool",
-      "target": "tools_websearch_tool_websearchtool_getfallbackresults",
-      "confidence_score": 1.0
+      "target": "tools_websearch_tool_websearchtool_getfallbackresults"
     },
     {
       "relation": "method",
@@ -6629,9 +6887,9 @@
       "source_file": "src/agents/tools/webSearch.tool.js",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tools_websearch_tool_websearchtool_search",
-      "target": "tools_websearch_tool_websearchtool_getfallbackresults",
-      "confidence_score": 1.0
+      "target": "tools_websearch_tool_websearchtool_getfallbackresults"
     },
     {
       "relation": "calls",
@@ -6651,9 +6909,9 @@
       "source_file": "src/agents/tools/webSearch.tool.js",
       "source_location": "L113",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tools_websearch_tool_websearchtool_getfallbackresults",
-      "target": "tools_websearch_tool_websearchtool_getfactcheckfallback",
-      "confidence_score": 1.0
+      "target": "tools_websearch_tool_websearchtool_getfactcheckfallback"
     },
     {
       "relation": "calls",
@@ -6662,9 +6920,9 @@
       "source_file": "src/agents/tools/webSearch.tool.js",
       "source_location": "L119",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tools_websearch_tool_websearchtool_getfallbackresults",
-      "target": "tools_websearch_tool_websearchtool_getmockresults",
-      "confidence_score": 1.0
+      "target": "tools_websearch_tool_websearchtool_getmockresults"
     },
     {
       "relation": "imports_from",
@@ -6720,16 +6978,6 @@
       "confidence_score": 1.0,
       "source": "verdict_verdict_agent",
       "target": "utils_logger_logger"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/agents/verdict/verdict.agent.js",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "verdict_verdict_agent",
-      "target": "verdict_verdict_agent_thresholds"
     },
     {
       "relation": "contains",
@@ -6946,6 +7194,36 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/workflows/fakeNews.workflow.js",
+      "source_location": "L171",
+      "weight": 1.0,
+      "source": "workflows_fakenews_workflow_fakenewsworkflow",
+      "target": "workflows_fakenews_workflow_fakenewsworkflow_buildevidencesources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/workflows/fakeNews.workflow.js",
+      "source_location": "L234",
+      "weight": 1.0,
+      "source": "workflows_fakenews_workflow_fakenewsworkflow",
+      "target": "workflows_fakenews_workflow_fakenewsworkflow_buildexecutionreport",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/workflows/fakeNews.workflow.js",
+      "source_location": "L160",
+      "weight": 1.0,
+      "source": "workflows_fakenews_workflow_fakenewsworkflow",
+      "target": "workflows_fakenews_workflow_fakenewsworkflow_buildtimeline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/workflows/fakeNews.workflow.js",
       "source_location": "L89",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -6976,11 +7254,54 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/workflows/fakeNews.workflow.js",
-      "source_location": "L134",
+      "source_location": "L255",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "workflows_fakenews_workflow_fakenewsworkflow",
-      "target": "workflows_fakenews_workflow_fakenewsworkflow_saveagentexecutions"
+      "target": "workflows_fakenews_workflow_fakenewsworkflow_printexecutionreport",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/workflows/fakeNews.workflow.js",
+      "source_location": "L211",
+      "weight": 1.0,
+      "source": "workflows_fakenews_workflow_fakenewsworkflow",
+      "target": "workflows_fakenews_workflow_fakenewsworkflow_saveagentaudits",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/workflows/fakeNews.workflow.js",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "workflows_fakenews_workflow_fakenewsworkflow_analyzearticle",
+      "target": "workflows_fakenews_workflow_fakenewsworkflow_buildevidencesources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/workflows/fakeNews.workflow.js",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "workflows_fakenews_workflow_fakenewsworkflow_analyzearticle",
+      "target": "workflows_fakenews_workflow_fakenewsworkflow_buildexecutionreport",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/workflows/fakeNews.workflow.js",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "workflows_fakenews_workflow_fakenewsworkflow_analyzearticle",
+      "target": "workflows_fakenews_workflow_fakenewsworkflow_buildtimeline",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -7020,11 +7341,33 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/agents/workflows/fakeNews.workflow.js",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "workflows_fakenews_workflow_fakenewsworkflow_analyzearticle",
+      "target": "workflows_fakenews_workflow_fakenewsworkflow_printexecutionreport",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/workflows/fakeNews.workflow.js",
       "source_location": "L48",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "workflows_fakenews_workflow_fakenewsworkflow_analyzearticle",
-      "target": "workflows_fakenews_workflow_fakenewsworkflow_saveagentexecutions"
+      "target": "workflows_fakenews_workflow_fakenewsworkflow_saveagentaudits",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/agents/workflows/fakeNews.workflow.js",
+      "source_location": "L256",
+      "weight": 1.0,
+      "source": "workflows_fakenews_workflow_fakenewsworkflow_printexecutionreport",
+      "target": "workflows_fakenews_workflow_fakenewsworkflow_buildexecutionreport",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -7269,6 +7612,26 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/config/constants.js",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "config_constants",
+      "target": "config_constants_claim_types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/config/constants.js",
+      "source_location": "L49",
+      "weight": 1.0,
+      "source": "config_constants",
+      "target": "config_constants_fact_check_statuses",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/config/constants.js",
       "source_location": "L17",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -7284,6 +7647,16 @@
       "confidence_score": 1.0,
       "source": "config_constants",
       "target": "config_constants_roles"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/config/constants.js",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "config_constants",
+      "target": "config_constants_source_tiers",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -9596,6 +9969,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/routes/news.routes.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "routes_news_routes",
+      "target": "controllers_newsanalysis_controller",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/modules/news-analysis/routes/newsAnalysis.routes.js",
       "source_location": "L2",
       "weight": 1.0,
@@ -9807,6 +10191,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/routes/news.routes.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "routes_news_routes",
+      "target": "validators_newsanalysis_validator",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/modules/news-analysis/validators/newsAnalysis.validator.js",
       "source_location": "L2",
       "weight": 1.0,
@@ -9834,6 +10229,17 @@
       "confidence_score": 1.0,
       "source": "validators_newsanalysis_validator",
       "target": "validators_newsanalysis_validator_validatenewsanalysis"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/routes/news.routes.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "routes_news_routes",
+      "target": "validators_newsanalysis_validator_validatenewsanalysis",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -11445,6 +11851,16 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "src/utils/logger.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "utils_logger",
+      "target": "utils_logger_masksensitivedata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "src/utils/responseFormatter.js",
       "source_location": "L5",
       "weight": 1.0,
@@ -11621,6 +12037,58 @@
       "confidence_score": 1.0,
       "source": "validations_user_validation",
       "target": "validations_user_validation_savearticleschema"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "test_search.js",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "test_search",
+      "target": "test_search_run",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "test_search.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "test_search",
+      "target": "test_search_testnews",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "test_search.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "test_search",
+      "target": "test_search_testtavily",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "test_search.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "test_search_run",
+      "target": "test_search_testnews",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "test_search.js",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "test_search_run",
+      "target": "test_search_testtavily",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -12112,5 +12580,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "28bb7cb4a4245d27407a3a7bad098d58b83e2230"
+  "built_at_commit": "7315b6c19c4c1ea68ba7724a6fa2c37e5d1b961c"
 }

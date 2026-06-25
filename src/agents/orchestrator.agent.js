@@ -46,7 +46,7 @@ class OrchestratorAgent {
     const agentExecutions = [];
     const failedAgents = [];
 
-    console.log(`[ORCHESTRATOR] Agentic workflow started`);
+    console.log(`[ORCHESTRATOR] Execution Started`);
     logger.info(`[${this.name}] Starting agentic pipeline (${articleText.length} chars)`);
 
     // ─── Step 1: Claim Extraction (must complete before fact-check & research) ───
@@ -116,14 +116,14 @@ class OrchestratorAgent {
     }
 
     const totalTimeMs = Date.now() - pipelineStart;
-    console.log(`[ORCHESTRATOR] Agentic workflow completed in ${totalTimeMs} ms`);
+    console.log(`[ORCHESTRATOR] Execution Ended`);
     logger.info(`[${this.name}] Pipeline complete in ${totalTimeMs}ms. Failed agents: [${failedAgents.join(', ') || 'none'}]`);
 
     // ─── Assemble final response ───
     return {
       claims: claims,
       sourceAnalysis: sourceResult.output || {},
-      factCheckResults: factCheckResult.output?.results || [],
+      factCheckResults: factCheckResult.output || {},
       researchResults: researchResult.output || {},
       biasAnalysis: biasResult.output || {},
       evidenceSummary: evidenceResult.output || {},
@@ -166,15 +166,17 @@ class OrchestratorAgent {
     };
   }
 
-  /**
-   * Create an execution summary entry for the response.
-   */
   _toSummary(agentName, result, status = 'success', errorMessage = null) {
     return {
       agentName,
       status,
       executionTimeMs: result.executionTimeMs || 0,
       confidence: result.confidence || 0,
+      input: result.input || null,
+      output: result.output || null,
+      reasoning: result.reasoning || null,
+      urlsVisited: result.urlsVisited || [],
+      evidenceUsed: result.evidenceUsed || null,
       ...(errorMessage && { errorMessage }),
     };
   }

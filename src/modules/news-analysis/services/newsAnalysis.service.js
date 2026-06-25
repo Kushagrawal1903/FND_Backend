@@ -8,15 +8,17 @@ class NewsAnalysisService {
    * Replaces the previous direct LLM call with a multi-agent orchestration.
    * @param {string} newsText - The text to analyze
    * @param {string} userId - User ID (optional)
+   * @param {string} url - URL to analyze (optional)
    * @returns {Promise<Object>} The analysis result (combined AnalysisHistory + agentic data)
    */
-  async analyzeNews(newsText, userId = null) {
+  async analyzeNews(newsText, userId = null, url = null) {
     console.log('[SERVICE] Entered newsAnalysisService.analyzeNews (agentic mode)');
     logger.info(`[SERVICE] Entered news analysis service (agentic mode)`);
 
     // Run the full agentic pipeline
     const agenticResult = await fakeNewsWorkflow.analyzeArticle({
-      articleText: newsText,
+      articleText: newsText || url,
+      url,
       userId,
     });
 

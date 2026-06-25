@@ -1,5 +1,5 @@
 import orchestratorAgent from '../orchestrator.agent.js';
-import AgentExecution from '../models/AgentExecution.model.js';
+import AgentAudit from '../models/AgentAudit.model.js';
 import FactCheck from '../../models/factCheck.model.js';
 import logger from '../../utils/logger.js';
 
@@ -15,44 +15,46 @@ import logger from '../../utils/logger.js';
 class FakeNewsWorkflow {
   /**
    * Analyze an article through the full agentic pipeline.
-   * @param {{
-   *   articleText: string,
-   *   url?: string,
-   *   publisher?: string,
-   *   userId?: string|null
-   * }} params
-   * @returns {Promise<Object>} Full agentic analysis result
    */
   async analyzeArticle({ articleText, url = null, publisher = null, userId = null }) {
     console.log('[WORKFLOW] Entered FakeNewsWorkflow.analyzeArticle');
     logger.info(`[WORKFLOW] Starting agentic analysis for user=${userId || 'anonymous'}`);
 
-    // Run the orchestrator pipeline
     const result = await orchestratorAgent.execute({ articleText, url, publisher });
 
-    // Map the agentic verdict to the FactCheck model's verdict enum.
-    // The FactCheck model now supports the extended verdicts.
     const mappedVerdict = this._mapVerdict(result.verdict);
+    const normalizedClaim = this._extractPrimaryClaim(result.claims, articleText);
+    const timeline = this._buildTimeline(result.agentExecutionSummary);
+    const evidenceSources = this._buildEvidenceSources(result);
+    const executionReport = this._buildExecutionReport(result);
 
-    // Persist the high-level result to the FactCheck collection
-    // so existing queries against FactCheck continue to work.
     const factCheck = await FactCheck.create({
       userId,
-      claim: this._extractPrimaryClaim(result.claims, articleText),
+      claim: normalizedClaim,
+      originalClaim: articleText,
+      normalizedClaim,
       verdict: mappedVerdict,
       confidence: result.confidence,
       explanation: result.reasoning.join(' '),
       sources: this._extractSources(result),
+      reasoning: result.reasoning || [],
+      supportingSources: result.evidenceSummary?.supportingSources || [],
+      contradictingSources: result.evidenceSummary?.contradictingSources || [],
+      evidenceSources,
+      timeline,
+      executionReport,
     });
 
-    // Persist individual agent executions for observability
-    await this._saveAgentExecutions(factCheck._id, result.agentExecutionSummary);
+    await this._saveAgentAudits(factCheck._id, result.agentExecutionSummary);
+
+    this._printExecutionReport(result);
 
     logger.info(`[WORKFLOW] Analysis complete. FactCheck ID: ${factCheck._id}, Verdict: ${mappedVerdict}`);
 
-    // Return the full agentic response envelope
     return {
       articleId: factCheck._id,
+      originalClaim: articleText,
+      normalizedClaim,
       verdict: result.verdict,
       confidence: result.confidence,
       claims: result.claims,
@@ -65,6 +67,16 @@ class FakeNewsWorkflow {
       agentExecutionSummary: result.agentExecutionSummary,
       totalExecutionTimeMs: result.totalExecutionTimeMs,
       createdAt: factCheck.createdAt,
+      // New evidence transparency fields
+      timeline,
+      evidenceSources,
+      supportingEvidence: result.evidenceSummary?.supportingSources || [],
+      contradictingEvidence: result.evidenceSummary?.contradictingSources || [],
+      authorityWeightedScore: {
+        support: result.evidenceSummary?.supportScore || 0,
+        contradict: result.evidenceSummary?.contradictScore || 0,
+      },
+      executionReport,
     };
   }
 
@@ -91,7 +103,6 @@ class FakeNewsWorkflow {
     if (claims && claims.length > 0 && claims[0].text) {
       return claims[0].text;
     }
-    // Fallback: first 200 chars of article
     return articleText.substring(0, 200);
   }
 
@@ -101,9 +112,25 @@ class FakeNewsWorkflow {
   _extractSources(result) {
     const sources = [];
 
+    // From evidence supporting/contradicting sources
+    const allEvidenceSources = [
+      ...(result.evidenceSummary?.supportingSources || []),
+      ...(result.evidenceSummary?.contradictingSources || []),
+    ];
+
+    allEvidenceSources.forEach(s => {
+      if (s.url) {
+        sources.push({
+          publisher: s.source || s.title || 'Unknown',
+          url: s.url,
+          verdict: s.classification || result.verdict,
+        });
+      }
+    });
+
     // From fact-check results
-    if (result.factCheckResults) {
-      result.factCheckResults.forEach(fc => {
+    if (result.factCheckResults?.results) {
+      result.factCheckResults.results.forEach(fc => {
         if (fc.sources) {
           fc.sources.forEach(s => {
             sources.push({
@@ -116,7 +143,6 @@ class FakeNewsWorkflow {
       });
     }
 
-    // If no fact-check sources, add the AI engine as source
     if (sources.length === 0) {
       sources.push({
         publisher: 'Agentic AI Pipeline',
@@ -129,28 +155,106 @@ class FakeNewsWorkflow {
   }
 
   /**
-   * Persist agent execution records to MongoDB.
-   * Non-blocking — errors are logged but don't break the pipeline.
+   * Build the agent execution timeline.
    */
-  async _saveAgentExecutions(articleId, executionSummary) {
+  _buildTimeline(executionSummary) {
+    if (!executionSummary) return [];
+    return executionSummary.map(exec => ({
+      agentName: exec.agentName,
+      executionTimeMs: exec.executionTimeMs || 0,
+      status: exec.status || 'success',
+    }));
+  }
+  /**
+   * Build evidence sources list.
+   */
+  _buildEvidenceSources(result) {
+    const sources = [];
+    const seen = new Set();
+
+    const addSource = (s) => {
+      if (s.url && !seen.has(s.url)) {
+        seen.add(s.url);
+        sources.push({
+          url: s.url,
+          title: s.title || s.source || '',
+          source: s.source || '',
+          snippet: s.snippet || s.evidenceSnippet || '',
+          publicationDate: s.publishedAt || null,
+          publishedAt: s.publishedAt || null,
+          authorityScore: s.authorityScore || 40,
+          sourceTier: s.sourceTier || 3,
+          classification: s.classification || 'neutral',
+          confidence: s.confidence || 0,
+          explanation: s.explanation || '',
+          origin: s.origin || 'unknown',
+        });
+      }
+    };
+
+    (result.evidenceSummary?.supportingSources || []).forEach(addSource);
+    (result.evidenceSummary?.contradictingSources || []).forEach(addSource);
+
+    return sources.sort((a, b) => {
+      if (b.authorityScore !== a.authorityScore) {
+        return b.authorityScore - a.authorityScore;
+      }
+      const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+      const dateB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+      return dateB - dateA;
+    });
+  }
+
+  /**
+   * Persist agent execution records to MongoDB.
+   */
+  async _saveAgentAudits(articleId, executionSummary) {
     try {
       const docs = executionSummary.map(exec => ({
         articleId,
         agentName: exec.agentName,
-        input: null, // Not storing inputs to save space; enable if needed for debugging
-        output: null, // Not storing full outputs; they're in the response already
+        input: exec.input || null,
+        output: exec.output || null,
+        reasoning: exec.reasoning || null,
+        urlsVisited: exec.urlsVisited || [],
+        evidenceUsed: exec.evidenceUsed || null,
         status: exec.status,
         executionTimeMs: exec.executionTimeMs,
         confidence: exec.confidence,
         errorMessage: exec.errorMessage || null,
       }));
 
-      await AgentExecution.insertMany(docs);
-      logger.debug(`[WORKFLOW] Saved ${docs.length} agent execution records`);
+      await AgentAudit.insertMany(docs);
+      logger.debug(`[WORKFLOW] Saved ${docs.length} agent audit records`);
     } catch (error) {
-      // Non-fatal: log and continue
-      logger.error(`[WORKFLOW] Failed to save agent executions: ${error.message}`);
+      logger.error(`[WORKFLOW] Failed to save agent audits: ${error.message}`);
     }
+  }
+
+  _buildExecutionReport(result) {
+    const getSummary = (name) => result.agentExecutionSummary?.find(a => a.agentName === name) || {};
+
+    const claimAgent = getSummary('CLAIM_AGENT');
+    const sourceAgent = getSummary('SOURCE_AGENT');
+    const factCheckAgent = getSummary('FACTCHECK_AGENT');
+    const researchAgent = getSummary('RESEARCH_AGENT');
+    const biasAgent = getSummary('BIAS_AGENT');
+    const evidenceAgent = getSummary('EVIDENCE_AGENT');
+    const verdictAgent = getSummary('VERDICT_AGENT');
+
+    return `ClaimAgent ........ ${claimAgent.executionTimeMs || 0}ms
+SourceAgent ....... ${sourceAgent.executionTimeMs || 0}ms
+FactCheckAgent .... ${factCheckAgent.executionTimeMs || 0}ms
+ResearchAgent ..... ${researchAgent.executionTimeMs || 0}ms
+BiasAgent ......... ${biasAgent.executionTimeMs || 0}ms
+EvidenceAgent ..... ${evidenceAgent.executionTimeMs || 0}ms
+VerdictAgent ...... ${verdictAgent.executionTimeMs || 0}ms
+Total Time ........ ${result.totalExecutionTimeMs || 0}ms`;
+  }
+
+  _printExecutionReport(result) {
+    const report = this._buildExecutionReport(result);
+    console.log(`\n=== AGENTIC EXECUTION REPORT ===\n${report}\n`);
   }
 }
 
