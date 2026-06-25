@@ -45,6 +45,10 @@ class ReportAgent {
         addReference(source.publisher || source.title, source.url, source.verdict || 'Search result');
       });
 
+      (result.evidenceItems || []).forEach(source => {
+        addReference(source.source || source.publisher || source.title, source.url, source.verdict || source.evidenceType || 'Evidence');
+      });
+
       (result.claims || []).forEach(claim => {
         (claim.reviews || []).forEach(review => {
           addReference(review.publisher, review.url, review.rating);

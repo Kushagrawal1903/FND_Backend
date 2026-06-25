@@ -16,6 +16,7 @@ import GoogleFactCheckTool from './googleFactCheck.tool.js';
 import NewsSearchTool from './newsSearch.tool.js';
 import WebSearchTool from './webSearch.tool.js';
 import DomainCredibilityTool from './domainCredibility.tool.js';
+import GNewsTool from './gnews.tool.js';
 
 class ToolRegistry {
   constructor() {
@@ -84,6 +85,7 @@ class ToolRegistry {
     registry.register(new GoogleFactCheckTool());
     registry.register(new NewsSearchTool());
     registry.register(new WebSearchTool());
+    registry.register(new GNewsTool());
     registry.register(new DomainCredibilityTool());
     return registry;
   }

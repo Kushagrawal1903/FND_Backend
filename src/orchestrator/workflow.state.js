@@ -16,6 +16,18 @@ class WorkflowState {
     this.content = null;
     this.evidence = [];
     this.credibility = [];
+    this.preparedEvidence = {
+      items: [],
+      sourceCredibility: [],
+      stats: {
+        originalEvidenceCount: 0,
+        dedupedEvidenceCount: 0,
+        filteredEvidenceCount: 0,
+        estimatedPromptSize: 0,
+        finalTokenEstimate: 0,
+        maxPromptTokens: 0,
+      },
+    };
     this.reasoning = null;
     this.verification = null;
     this.report = null;
@@ -32,6 +44,7 @@ class WorkflowState {
       factCheckMs: 0,
       newsSearchMs: 0,
       webSearchMs: 0,
+      gnewsMs: 0,
       credibilityMs: 0,
       llmAnalysisMs: 0,
     };
@@ -64,6 +77,11 @@ class WorkflowState {
   setCredibility(credibility) {
     this.credibility = credibility;
     this.agentOutputs.credibility = credibility;
+  }
+
+  setPreparedEvidence(preparedEvidence) {
+    this.preparedEvidence = preparedEvidence;
+    this.agentOutputs.evidencePreparation = preparedEvidence?.stats || preparedEvidence;
   }
 
   setReasoning(reasoning) {
@@ -118,6 +136,8 @@ class WorkflowState {
     const normalized = String(toolName || '').toLowerCase();
     if (normalized.includes('factcheck')) {
       this.timings.factCheckMs += durationMs;
+    } else if (normalized.includes('gnews')) {
+      this.timings.gnewsMs += durationMs;
     } else if (normalized.includes('news')) {
       this.timings.newsSearchMs += durationMs;
     } else if (normalized.includes('web')) {
@@ -141,6 +161,7 @@ class WorkflowState {
       factCheckMs: Number(this.timings.factCheckMs.toFixed(2)),
       newsSearchMs: Number(this.timings.newsSearchMs.toFixed(2)),
       webSearchMs: Number(this.timings.webSearchMs.toFixed(2)),
+      gnewsMs: Number(this.timings.gnewsMs.toFixed(2)),
       credibilityMs: Number(this.timings.credibilityMs.toFixed(2)),
       llmAnalysisMs: Number(this.timings.llmAnalysisMs.toFixed(2)),
       totalMs: Number(this.timings.totalMs.toFixed(2)),
@@ -186,6 +207,7 @@ class WorkflowState {
       content: this.content,
       evidence: this.evidence,
       credibility: this.credibility,
+      preparedEvidence: this.preparedEvidence,
       reasoning: this.reasoning,
       verification: this.verification,
       report: this._toSerializableSnapshot(this.report),

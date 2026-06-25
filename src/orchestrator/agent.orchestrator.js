@@ -11,6 +11,8 @@ import claimExtractionService from '../services/claimExtraction.service.js';
 import llmService from '../services/llm/llm.service.js';
 import logger from '../utils/logger.js';
 import { startTimer, stopTimer } from '../utils/timer.js';
+import evidencePreparer from '../utils/evidencePreparer.js';
+import { config } from '../config/env.js';
 
 class AgentOrchestrator {
   constructor({
@@ -19,11 +21,13 @@ class AgentOrchestrator {
     confidenceThreshold = 75,
     maxEvidenceRounds = 3,
     maxAgentRetries = 1,
+    reasoningMaxPromptTokens = config.agent.reasoningMaxPromptTokens,
   } = {}) {
     this.toolRegistry = toolRegistry;
     this.confidenceThreshold = confidenceThreshold;
     this.maxEvidenceRounds = maxEvidenceRounds;
     this.maxAgentRetries = maxAgentRetries;
+    this.reasoningMaxPromptTokens = reasoningMaxPromptTokens;
     this.agents = agents || this._createDefaultAgents();
   }
 
@@ -45,16 +49,26 @@ class AgentOrchestrator {
       const content = await this._runAgent('content', state);
       state.setContent(content);
 
-      let requestedProviders = plan.evidenceProviders;
+      let requestedExecutionPlan = this._getExecutionPlanTools(plan);
+      logger.info('[ORCHESTRATOR] Execution Plan', requestedExecutionPlan);
+      logger.info('[ORCHESTRATOR] Planner Selected Tools', requestedExecutionPlan.map(step => step.provider));
 
       while (state.metadata.evidenceRound < state.metadata.maxEvidenceRounds) {
         state.incrementEvidenceRound();
 
-        const evidenceOutput = await this._runAgent('evidence', state, { providers: requestedProviders });
+        const evidenceOutput = await this._runAgent('evidence', state, { executionPlan: requestedExecutionPlan });
         state.addEvidence(evidenceOutput.evidence);
 
         const credibility = await this._runAgent('credibility', state);
         state.setCredibility(credibility);
+
+        const preparedEvidence = evidencePreparer.prepare({
+          claim: state.content?.mainClaim || state.extractedClaim || state.originalInput,
+          evidence: state.evidence,
+          credibility: state.credibility,
+          maxPromptTokens: this.reasoningMaxPromptTokens,
+        });
+        state.setPreparedEvidence(preparedEvidence);
 
         const reasoning = await this._runAgent('reasoning', state);
         state.setReasoning(reasoning);
@@ -66,7 +80,7 @@ class AgentOrchestrator {
           break;
         }
 
-        requestedProviders = verification.requestedProviders;
+        requestedExecutionPlan = verification.requestedExecutionPlan || this._providersToExecutionPlan(verification.requestedProviders || []);
       }
 
       const report = await this._runAgent('report', state);
@@ -170,6 +184,24 @@ class AgentOrchestrator {
       evidenceRound: state.metadata.evidenceRound,
       options,
     };
+  }
+
+  _getExecutionPlanTools(plan) {
+    if (Array.isArray(plan?.executionPlan) && plan.executionPlan.length > 0) {
+      return plan.executionPlan
+        .filter(step => step?.provider)
+        .sort((a, b) => Number(a.order || 0) - Number(b.order || 0));
+    }
+
+    return this._providersToExecutionPlan(plan?.tools || plan?.evidenceProviders || []);
+  }
+
+  _providersToExecutionPlan(providers = []) {
+    return providers.map((provider, index) => ({
+      order: index + 1,
+      provider,
+      reason: 'Selected by planner or verification agent.',
+    }));
   }
 
   _buildFailureReport(state, error) {

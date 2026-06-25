@@ -93,8 +93,14 @@ MONGO_URI=mongodb://127.0.0.1:27017/fake_news_db
 JWT_SECRET=super_secret_jwt_signing_key_change_me_in_production
 JWT_EXPIRES_IN=7d
 GOOGLE_FACT_CHECK_API_KEY=YOUR_GOOGLE_FACT_CHECK_API_KEY_HERE
+TAVILY_API_KEY=YOUR_TAVILY_API_KEY_HERE
+GNEWS_API_KEY=
+LLM_PROVIDER=groq
+GROQ_API_KEY=YOUR_GROQ_API_KEY_HERE
+REASONING_MAX_PROMPT_TOKENS=6000
 ```
 *Note: If `GOOGLE_FACT_CHECK_API_KEY` is not provided, the system falls back to keywords matching in local simulation mode.*
+*Note: If `GNEWS_API_KEY` is not provided, the agentic workflow skips GNews gracefully and continues with the remaining evidence tools.*
 
 ### Seeding the Admin
 Before running the app, create the first administrator account by running:

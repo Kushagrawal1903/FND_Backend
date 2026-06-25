@@ -8,8 +8,12 @@ class VerificationAgent {
     const confidence = Number(state.reasoning?.confidence || 0);
     const hasEvidence = state.evidence.some(item => !item.result?.error);
     const maxRoundsReached = state.metadata.evidenceRound >= state.metadata.maxEvidenceRounds;
-    const availableProviders = state.plan?.evidenceProviders || [];
+    const availableExecutionPlan = Array.isArray(state.plan?.executionPlan)
+      ? state.plan.executionPlan
+      : (state.plan?.evidenceProviders || []).map((provider, index) => ({ order: index + 1, provider }));
+    const availableProviders = availableExecutionPlan.map(step => step.provider);
     const unusedProviders = availableProviders.filter(provider => !state.visitedTools.includes(provider));
+    const unusedExecutionPlan = availableExecutionPlan.filter(step => unusedProviders.includes(step.provider));
     const sufficient = hasEvidence && confidence >= state.metadata.confidenceThreshold;
 
     if (sufficient || maxRoundsReached || unusedProviders.length === 0) {
@@ -19,6 +23,7 @@ class VerificationAgent {
         sufficient,
         requestAdditionalEvidence: false,
         requestedProviders: [],
+        requestedExecutionPlan: [],
         reason: sufficient
           ? 'Confidence threshold reached.'
           : 'No additional configured evidence providers remain or max evidence rounds were reached.',
@@ -31,6 +36,7 @@ class VerificationAgent {
       sufficient: false,
       requestAdditionalEvidence: true,
       requestedProviders: unusedProviders,
+      requestedExecutionPlan: unusedExecutionPlan,
       reason: 'Confidence is below threshold; additional evidence is required.',
     };
   }

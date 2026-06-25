@@ -25,17 +25,24 @@ class ReasoningAgent {
   }
 
   _buildPrompt(state, fallback) {
+    const preparedEvidence = state.preparedEvidence?.items || [];
+    const sourceCredibility = state.preparedEvidence?.sourceCredibility || [];
+    const preparationStats = state.preparedEvidence?.stats || {};
+
     return `You are the Reasoning Agent in a fake-news verification workflow.
 Analyze only the provided evidence. Do not invent facts.
 
 Claim:
 ${state.content?.mainClaim || state.extractedClaim}
 
-Evidence:
-${JSON.stringify(state.evidence, null, 2)}
+Compact ranked evidence:
+${JSON.stringify(preparedEvidence, null, 2)}
 
-Source credibility:
-${JSON.stringify(state.credibility, null, 2)}
+Compact source credibility:
+${JSON.stringify(sourceCredibility, null, 2)}
+
+Evidence preparation stats:
+${JSON.stringify(preparationStats, null, 2)}
 
 Return strict JSON:
 {
@@ -49,7 +56,7 @@ Return strict JSON:
 }
 
 If evidence is thin, prefer this conservative baseline:
-${JSON.stringify(fallback, null, 2)}`;
+${JSON.stringify(this._compactFallback(fallback), null, 2)}`;
   }
 
   _reasonDeterministically(state) {
@@ -112,6 +119,15 @@ ${JSON.stringify(fallback, null, 2)}`;
     const numeric = Number(value);
     if (Number.isNaN(numeric)) return 0;
     return Math.max(0, Math.min(100, Math.round(numeric)));
+  }
+
+  _compactFallback(fallback) {
+    return {
+      verdict: fallback.verdict,
+      confidence: fallback.confidence,
+      summary: fallback.summary,
+      reasoning: Array.isArray(fallback.reasoning) ? fallback.reasoning.slice(0, 3) : [],
+    };
   }
 }
 

@@ -21,7 +21,7 @@ class SourceCredibilityAgent {
         const result = await tool.execute(url);
         const durationMs = stopTimer(timer);
         state.addToolTiming('domainCredibility', durationMs);
-        scores.push({
+        const score = {
           domain: result.domain,
           url,
           trustScore: result.trustScore ?? result.score ?? 0,
@@ -29,7 +29,9 @@ class SourceCredibilityAgent {
           reliability: result.reliability || 'unknown',
           officialSource: Boolean(result.officialSource),
           historicalConfidence: result.historicalConfidence ?? result.score ?? 0,
-        });
+        };
+        scores.push(score);
+        this._applyCredibilityScore(state.evidence, url, score.trustScore);
       } catch (error) {
         const durationMs = stopTimer(timer);
         state.addToolTiming('domainCredibility', durationMs);
@@ -64,6 +66,32 @@ class SourceCredibilityAgent {
 
     if (value && typeof value === 'object') {
       Object.values(value).forEach(item => this._walk(item, visitor));
+    }
+  }
+
+  _applyCredibilityScore(evidenceList, url, trustScore) {
+    const normalizedUrl = this._normalizeUrl(url);
+
+    evidenceList.forEach(item => {
+      this._walk(item.result, value => {
+        if (!value || typeof value !== 'object' || typeof value.url !== 'string') {
+          return;
+        }
+
+        if (this._normalizeUrl(value.url) === normalizedUrl) {
+          value.credibilityScore = trustScore;
+        }
+      });
+    });
+  }
+
+  _normalizeUrl(url) {
+    try {
+      const parsed = new URL(url);
+      parsed.hash = '';
+      return parsed.toString().replace(/\/$/, '').toLowerCase();
+    } catch (error) {
+      return String(url || '').trim().replace(/\/$/, '').toLowerCase();
     }
   }
 }

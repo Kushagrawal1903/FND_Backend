@@ -19,6 +19,7 @@ const envVarsSchema = joi.object()
     GOOGLE_FACT_CHECK_API_KEY: joi.string().required().description('Google Fact Check Tools API Key'),
     DNS_SERVERS: joi.string().default('1.1.1.1,1.0.0.1,8.8.8.8,8.8.4.4').description('Custom DNS servers list'),
     TAVILY_API_KEY: joi.string().required().description('Tavily Search API Key'),
+    GNEWS_API_KEY: joi.string().allow('').optional().description('GNews API Key'),
     
     // LLM Config
     LLM_PROVIDER: joi.string().valid('gemini', 'groq').default('gemini').description('Primary LLM provider'),
@@ -28,6 +29,7 @@ const envVarsSchema = joi.object()
     LLM_TIMEOUT: joi.number().default(30000).description('LLM timeout in ms'),
     LLM_MAX_RETRIES: joi.number().default(2).description('Max LLM retries'),
     ENABLE_AGENT_MODE: joi.boolean().default(true).description('Enable agentic verification mode'),
+    REASONING_MAX_PROMPT_TOKENS: joi.number().default(6000).description('Maximum estimated prompt tokens sent to the reasoning LLM'),
   })
   .unknown();
 
@@ -53,6 +55,9 @@ export const config = {
   tavily: {
     apiKey: envVars.TAVILY_API_KEY,
   },
+  gnews: {
+    apiKey: envVars.GNEWS_API_KEY,
+  },
   dnsServers: envVars.DNS_SERVERS ? envVars.DNS_SERVERS.split(',').map(ip => ip.trim()) : ['1.1.1.1', '1.0.0.1', '8.8.8.8', '8.8.4.4'],
   llm: {
     provider: envVars.LLM_PROVIDER,
@@ -64,5 +69,6 @@ export const config = {
   },
   agent: {
     enabled: envVars.ENABLE_AGENT_MODE,
+    reasoningMaxPromptTokens: envVars.REASONING_MAX_PROMPT_TOKENS,
   }
 };
