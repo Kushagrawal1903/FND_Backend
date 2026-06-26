@@ -34,14 +34,19 @@ class NewsService {
       console.log('[NEWS SERVICE] Agent mode enabled. Delegating to VerificationService...');
       const result = await verificationService.verifyClaimWithAgent(rawClaim, userId);
       const totalMs = stopTimer(totalStart);
-      result.performance = {
-        factCheckMs: Number((result.timings?.factCheckMs || 0).toFixed(2)),
-        newsSearchMs: Number((result.timings?.newsSearchMs || 0).toFixed(2)),
-        webSearchMs: Number((result.timings?.webSearchMs || 0).toFixed(2)),
-        credibilityMs: Number((result.timings?.credibilityMs || 0).toFixed(2)),
-        llmAnalysisMs: Number((result.timings?.llmAnalysisMs || 0).toFixed(2)),
-        totalMs: totalMs
-      };
+      // Update totalMs in the already-built performance object
+      if (result.performance) {
+        result.performance.totalMs = Number(totalMs.toFixed(2));
+      } else {
+        result.performance = {
+          factCheckMs: Number((result.timings?.factCheckMs || 0).toFixed(2)),
+          newsSearchMs: Number((result.timings?.newsSearchMs || 0).toFixed(2)),
+          webSearchMs: Number((result.timings?.webSearchMs || 0).toFixed(2)),
+          credibilityMs: Number((result.timings?.credibilityMs || 0).toFixed(2)),
+          llmAnalysisMs: Number((result.timings?.llmAnalysisMs || 0).toFixed(2)),
+          totalMs: Number(totalMs.toFixed(2))
+        };
+      }
       delete result.timings;
       return result;
     }

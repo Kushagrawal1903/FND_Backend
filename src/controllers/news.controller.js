@@ -47,10 +47,19 @@ class NewsController {
     try {
       const { id } = req.params;
       const factCheck = await newsService.getFactCheckById(id);
+      const factCheckObj = factCheck.toObject ? factCheck.toObject() : factCheck;
 
       res.status(200).json({
         status: 'success',
-        data: factCheck,
+        data: factCheckObj,
+        performance: factCheckObj.performance || {
+          factCheckMs: 0.00,
+          newsSearchMs: 0.00,
+          webSearchMs: 0.00,
+          credibilityMs: 0.00,
+          llmAnalysisMs: 0.00,
+          totalMs: 0.00,
+        },
       });
     } catch (error) {
       next(error);

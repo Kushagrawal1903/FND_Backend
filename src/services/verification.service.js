@@ -71,19 +71,25 @@ class VerificationService {
       confidence: agentResult.confidence,
       explanation: agentResult.summary,
       sources: mappedSources,
+      agentDetails: {
+        rawVerdict: agentResult.verdict,
+        reasoning: agentResult.reasoning,
+        evidence: agentResult.evidence,
+        credibility: agentResult.credibility,
+        executionMetadata: agentResult.executionMetadata,
+        workflowState: agentResult.workflowState,
+      },
+      performance: agentResult.timings ? {
+        factCheckMs: Number((agentResult.timings.factCheckMs || 0).toFixed(2)),
+        newsSearchMs: Number((agentResult.timings.newsSearchMs || 0).toFixed(2)),
+        webSearchMs: Number((agentResult.timings.webSearchMs || 0).toFixed(2)),
+        credibilityMs: Number((agentResult.timings.credibilityMs || 0).toFixed(2)),
+        llmAnalysisMs: Number((agentResult.timings.llmAnalysisMs || 0).toFixed(2)),
+        totalMs: 0.00,
+      } : null,
     });
 
-    // Attach agent reasoning context to the returned object so that it could be returned
-    // by the controller or logged without database schema changes
     const resultObject = factCheck.toObject();
-    resultObject.agentDetails = {
-      rawVerdict: agentResult.verdict,
-      reasoning: agentResult.reasoning,
-      evidence: agentResult.evidence,
-      credibility: agentResult.credibility,
-      executionMetadata: agentResult.executionMetadata,
-      workflowState: agentResult.workflowState,
-    };
     resultObject.timings = agentResult.timings;
 
     this._assertSerializable(resultObject, 'VerificationService result');

@@ -44,6 +44,14 @@ const factCheckSchema = new mongoose.Schema(
       required: [true, 'Explanation is required'],
     },
     sources: [sourceSchema],
+    agentDetails: {
+      type: mongoose.Schema.Types.Mixed,
+      default: null,
+    },
+    performance: {
+      type: mongoose.Schema.Types.Mixed,
+      default: null,
+    },
   },
   {
     timestamps: true,
