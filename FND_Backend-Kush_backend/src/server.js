@@ -27,7 +27,6 @@ const port = config.port || 5000;
 const server = app.listen(port, () => {
   console.log(`Application running in ${config.env} mode on port ${port}`);
 });
-
 // Handle unhandled promise rejections globally
 process.on('unhandledRejection', (err) => {
   console.error('UNHANDLED REJECTION! 💥 Shutting down gracefully...');

@@ -38,6 +38,12 @@ const envVarsSchema = joi
 
     GROQ_MODEL: joi.string().default('llama-3.3-70b-versatile'),
 
+    TELEGRAM_BOT_TOKEN: joi.string().allow('').optional().default(''),
+
+    TELEGRAM_CHAT_ID: joi.string().allow('').optional().default(''),
+
+    TELEGRAM_ENABLED: joi.boolean().default(false),
+
     DNS_SERVERS: joi.string().default('1.1.1.1,1.0.0.1,8.8.8.8,8.8.4.4'),
   })
   .unknown();
@@ -85,5 +91,13 @@ export const config = {
     model: envVars.GROQ_MODEL,
   },
 
-  dnsServers: envVars.DNS_SERVERS ? envVars.DNS_SERVERS.split(',').map(ip => ip.trim()) : ['1.1.1.1', '1.0.0.1', '8.8.8.8', '8.8.4.4'],
+  telegram: {
+    enabled: envVars.TELEGRAM_ENABLED,
+    botToken: envVars.TELEGRAM_BOT_TOKEN,
+    chatId: envVars.TELEGRAM_CHAT_ID,
+  },
+
+  dnsServers: envVars.DNS_SERVERS
+    ? envVars.DNS_SERVERS.split(',').map(ip => ip.trim())
+    : ['1.1.1.1', '1.0.0.1', '8.8.8.8', '8.8.4.4'],
 };

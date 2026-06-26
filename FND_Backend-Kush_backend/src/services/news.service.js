@@ -7,6 +7,7 @@ import explanationService from './explanation.service.js';
 import FactCheck from '../models/factCheck.model.js';
 import { VERDICTS } from '../config/constants.js';
 import aiOrchestrator from '../ai/orchestrator.js';
+import { sendTelegramMessage } from './telegram.service.js';
 
 /**
  * Service to orchestrate the Fake News Verification Flow
@@ -111,6 +112,43 @@ class NewsService {
     console.log(`LLM Reasoning: ${timings.llmReasoning || 0} ms`);
     console.log(`Database Save: ${timings.databaseSave || 0} ms`);
     console.log(`Total Verification Time: ${timings.totalVerification || 0} ms\n`);
+
+    // Automatically send verification report to Telegram
+    try {
+      const claim = factCheck.claim;
+      const verdict = factCheck.verdict;
+      const confidence = factCheck.confidence;
+      const modelUsed = factCheck.metadata?.modelUsed || 'N/A';
+      const totalTime = factCheck.metadata?.timings?.totalVerification || totalVerification;
+
+      const emojiMap = {
+        true: '✅',
+        false: '❌',
+        mixture: '⚠️',
+        unverified: '🔍'
+      };
+      const emoji = emojiMap[verdict?.toLowerCase()] || '❓';
+
+      let sourcesText = 'No sources cited.';
+      if (factCheck.sources && factCheck.sources.length > 0) {
+        sourcesText = factCheck.sources
+          .slice(0, 3)
+          .map((src, index) => `${index + 1}. ${src.publisher}: ${src.url}`)
+          .join('\n');
+      }
+
+      const telegramMsg = `📢 New Claim Verification Report\n\n` +
+        `📝 Claim: ${claim}\n` +
+        `⚖️ Verdict: ${emoji} ${verdict.toUpperCase()}\n` +
+        `🎯 Confidence: ${confidence}%\n` +
+        `🤖 AI Model Used: ${modelUsed}\n` +
+        `⏱️ Total Verification Time: ${totalTime} ms\n\n` +
+        `📚 Top Sources:\n${sourcesText}`;
+
+      await sendTelegramMessage(telegramMsg);
+    } catch (telegramErr) {
+      console.error('[Telegram Notification] Error sending verification report:', telegramErr.message);
+    }
 
     return factCheck;
   }
